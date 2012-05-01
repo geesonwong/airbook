@@ -13,11 +13,11 @@ var app = module.exports = express.createServer();
 
 app.configure(function () {
 
-  var viewsRoot = path.join(__dirname,'views');
+  var viewsRoot = path.join(__dirname, 'views');
 
-  app.set('views',viewsRoot);
+  app.set('views', viewsRoot);
   app.set('view engine', 'html');
-  app.register('.html',require('ejs'));
+  app.register('.html', require('ejs'));
   app.use(express.bodyParser());
   app.use(express.cookieParser());
   app.use(express.session({
@@ -37,7 +37,7 @@ app.configure('development', function () {
 
 app.configure('production', function () {
   var maxAge = 3600000 * 24 * 30;
-  app.use(express.static(static_dir, { maxAge: maxAge }));
+  app.use(express.static(static_dir, { maxAge : maxAge }));
   app.use(express.errorHandler());
   app.set('view cache', true);
 });

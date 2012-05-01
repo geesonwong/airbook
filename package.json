@@ -1,12 +1,13 @@
 {
-    "name" : "airbook",
-    "version" : "0.0.1",
-    "main" : "./app.js",
-    "private" : true,
-    "dependencies" : {
-        "express" : ">=2.5.9",
-        "mongoose" : ">=2.5.13",
-        "validator" : ">=0.3.7",
-        "ejs" : ">=0.5.0"
-    }
+  "name" : "airbook",
+  "version" : "0.0.1",
+  "main" : "./app.js",
+  "private" : true,
+  "dependencies" : {
+    "express" : ">=2.5.9",
+    "mongoose" : ">=2.5.13",
+    "validator" : ">=0.3.7",
+    "ejs" : ">=0.5.0",
+    "eventproxy" : ">=0.1.0"
+  }
 }
