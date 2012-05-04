@@ -91,6 +91,22 @@ a {
     background-position: 0 -649px;
 }
 
+#control-register {
+    background-position: -132px -585px;
+}
+
+#control-register:hover {
+    background-position: -132px -649px;
+}
+
+#control-login {
+    background-position: -33px -585px;
+}
+
+#control-login:hover {
+    background-position: -33px -650px;
+}
+
 #control-face {
     border: 1px solid white;
     box-shadow: 0 0 2px #000;
@@ -287,4 +303,62 @@ a {
     border: 1px solid #DDEEF6;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
+}
+
+.form-box {
+    width: 300px;
+    border: 2px solid #C7D3DB;
+    background: #F3F8FB;
+    margin: auto;
+    margin-top: 8%;
+    padding: 25px 60px;
+    text-align: left;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.input_box {
+    position: relative;
+    height: 60px;
+    /*float: left;*/
+}
+
+.form-input {
+    width: 278px;
+    font-size: 14px;
+    color: #456D88;
+    line-height: 14px;
+    padding: 10px;
+    border: 1px solid #BECDD5;
+    margin: 10px auto;
+    /*float: left;*/
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) inset;
+}
+
+.submit_btn {
+    text-align: center;
+    border: none;
+    width: 204px;
+    height: 42px;
+    line-height: 42px;
+    color: white;
+    display: inline-block;
+    text-decoration: none;
+    margin: 10px;
+    font-size: 20px;
+    text-shadow: 1px -1px 1px rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #323232), color-stop(100%, #888888));
+    background-image: -webkit-linear-gradient(#888888, #323232);
+    background-image: -moz-linear-gradient(#888888, #323232);
+    background-image: -o-linear-gradient(#888888, #323232);
+    background-image: -ms-linear-gradient(#888888, #323232);
+    background-image: linear-gradient(#888888, #323232);
+    filter: progid:DXImageTransform.Microsoft.gradient(gradientType = 0, startColorstr = '#888888', endColorstr = '#FF888888');
 }

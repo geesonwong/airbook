@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
+//var ObjectId = Schema.ObjectId;
 
 var _accountType = {
   user : 0,

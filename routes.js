@@ -15,4 +15,6 @@ exports = module.exports = function (app) {
   // home page
   app.get('/', site.index);
 
+  app.get('/login',site.login);
+
 };

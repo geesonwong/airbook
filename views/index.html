@@ -1,158 +1,142 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta charset="utf-8">
-    <title>空中电话本</title>
-    <link rel="Shortcut Icon" href="https://i.doit.im/public/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
-
-<body>
-    <!-- header:start -->
-    <div id="header">
-        <div id="header-wrap">
-            <div id="header-left">
-                <div id="control-addContacts" class="btn homeImg" title="添加联系人"></div>
-            </div>
-            <div id="header-right">
-                <div id="control-search" class="btn">
-                    <input type="text" placeholder="搜索联系人"/>
-                </div>
-                <div id="control-message" class="btn homeImg" title="新消息">
-                </div>
-                <div id="control-face" class="btn homeImg" title="用户名字">
-                    <img src="imgs/0f7d38fafe9b3ad12797be84d2c8e943">
-                </div>
-            </div>
-        </div>
+<!-- header:start -->
+<div id="header">
+  <div id="header-wrap">
+    <div id="header-left">
+      <div id="control-addContacts" class="btn homeImg" title="添加联系人"></div>
     </div>
-    <!-- header:end -->
-
-    <!-- wrapper:start -->
-    <div id="wrapper">
-        <div id="sidebar">
-            <div id="sidebar-in">
-                <div class="group">
-                    <h3>爱友</h3>
-                    <ul>
-                        <li class="item active" id="account-edit" title="新增加的联系人，添加标签以后归档">
-                            <i class="item-icon"></i>
-                            <span class="">未归档爱友</span>
-                        </li>
-                        <li class="item" id="account-edit" title="我的通讯录中的联系人">
-                            <i class="item-icon"></i>
-                            <span class="">所有爱友</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="sep"></div>
-                <div class="group">
-                    <h3>爱集体</h3>
-                    <ul>
-                        <li class="item" id="account-edit" title="新增加的联系人，添加标签以后归档">
-                            <i class="item-icon"></i>
-                            <span class="">我的集体</span>
-                        </li>
-                        <li class="item" id="account-edit" title="我的通讯录中的联系人">
-                            <i class="item-icon"></i>
-                            <span class="">所有爱友</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="sep"></div>
-                <div class="group">
-                    <h3>联系人分组</h3>
-                    <ul>
-                        <li class="item" id="account-edit">
-                            <i class="item-icon"></i>
-                            <span class="">家人</span>
-                        </li>
-                        <li class="item" id="account-edit">
-                            <i class="item-icon"></i>
-                            <span class="">同事</span>
-                        </li>
-                        <li class="item" id="account-edit">
-                            <i class="item-icon"></i>
-                            <span class="">同学</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="sep"></div>
-                <div class="group">
-                    <h3>备份还原</h3>
-                    <ul>
-                        <li class="item" id="account-edit">
-                            <i class="item-icon"></i>
-                            <span class="">备份</span>
-                        </li>
-                        <li class="item" id="account-edit">
-                            <i class="item-icon"></i>
-                            <span class="">还原</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="sep"></div>
-                <div class="group">
-                    <h3>过滤</h3>
-                    <ul>
-                        <li class="item" id="account-edit" title="我的通讯录上没有的，但是我存在他们的通讯录中">
-                            <i class="item-icon"></i>
-                            <span class="">陌生人</span>
-                        </li>
-                        <li class="item" id="account-edit">
-                            <i class="item-icon"></i>
-                            <span class="">黑名单</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="sep"></div>
-                <div class="group">
-                    <h3>设置</h3>
-                    <ul>
-                        <li class="item" id="account-edit">
-                            <i class="item-icon"></i>
-                            <span class="">备份策略</span>
-                        </li>
-                        <li class="item" id="account-edit">
-                            <i class="item-icon"></i>
-                            <span class="">同步策略</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!--<div id="sidebar-fix">-->
-
-            <!--</div>-->
-        </div>
-
-        <div id="resizable-handler"></div>
-
-        <div id="main">
-            <div id="contact-men" class="tab">
-                <div class="toolbar">
-                </div>
-                <div class="contact-panel">
-                    <div class="contact-box">
-                        <h2>dfasdfa</h2>
-                    </div>
-                    <div class="contact-box">
-                        <h2>dfasdfa</h2>
-                    </div>
-                    <div class="contact-box">
-                        <h2>dfasdfa</h2>
-                    </div>
-                    <div class="contact-box">
-                        <h2>dfasdfa</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div id="header-right">
+      <div id="control-search" class="btn">
+        <input type="text" placeholder="搜索联系人"/>
+      </div>
+      <div id="control-message" class="btn homeImg" title="新消息">
+      </div>
+      <div id="control-face" class="btn homeImg" title="用户名字">
+        <img src="/images/0f7d38fafe9b3ad12797be84d2c8e943">
+      </div>
     </div>
-    <!-- wrapper:end -->
-    <script src="js/jquery-1.7.1.min.js"></script>
-    <script src="js/airbook.js"></script>
-</body>
+  </div>
+</div>
+<!-- header:end -->
 
-</html>
+<!-- wrapper:start -->
+<div id="wrapper">
+  <div id="sidebar">
+    <div id="sidebar-in">
+      <div class="group">
+        <h3>爱友</h3>
+        <ul>
+          <li class="item active" id="account-edit" title="新增加的联系人，添加标签以后归档">
+            <i class="item-icon"></i>
+            <span class="">未归档爱友</span>
+          </li>
+          <li class="item" id="account-edit" title="我的通讯录中的联系人">
+            <i class="item-icon"></i>
+            <span class="">所有爱友</span>
+          </li>
+        </ul>
+      </div>
+      <div class="sep"></div>
+      <div class="group">
+        <h3>爱集体</h3>
+        <ul>
+          <li class="item" id="account-edit" title="新增加的联系人，添加标签以后归档">
+            <i class="item-icon"></i>
+            <span class="">我的集体</span>
+          </li>
+          <li class="item" id="account-edit" title="我的通讯录中的联系人">
+            <i class="item-icon"></i>
+            <span class="">所有爱友</span>
+          </li>
+        </ul>
+      </div>
+      <div class="sep"></div>
+      <div class="group">
+        <h3>联系人分组</h3>
+        <ul>
+          <li class="item" id="account-edit">
+            <i class="item-icon"></i>
+            <span class="">家人</span>
+          </li>
+          <li class="item" id="account-edit">
+            <i class="item-icon"></i>
+            <span class="">同事</span>
+          </li>
+          <li class="item" id="account-edit">
+            <i class="item-icon"></i>
+            <span class="">同学</span>
+          </li>
+        </ul>
+      </div>
+      <div class="sep"></div>
+      <div class="group">
+        <h3>备份还原</h3>
+        <ul>
+          <li class="item" id="account-edit">
+            <i class="item-icon"></i>
+            <span class="">备份</span>
+          </li>
+          <li class="item" id="account-edit">
+            <i class="item-icon"></i>
+            <span class="">还原</span>
+          </li>
+        </ul>
+      </div>
+      <div class="sep"></div>
+      <div class="group">
+        <h3>过滤</h3>
+        <ul>
+          <li class="item" id="account-edit" title="我的通讯录上没有的，但是我存在他们的通讯录中">
+            <i class="item-icon"></i>
+            <span class="">陌生人</span>
+          </li>
+          <li class="item" id="account-edit">
+            <i class="item-icon"></i>
+            <span class="">黑名单</span>
+          </li>
+        </ul>
+      </div>
+      <div class="sep"></div>
+      <div class="group">
+        <h3>设置</h3>
+        <ul>
+          <li class="item" id="account-edit">
+            <i class="item-icon"></i>
+            <span class="">备份策略</span>
+          </li>
+          <li class="item" id="account-edit">
+            <i class="item-icon"></i>
+            <span class="">同步策略</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--<div id="sidebar-fix">-->
+
+    <!--</div>-->
+  </div>
+
+  <div id="resizable-handler"></div>
+
+  <div id="main">
+    <div id="contact-men" class="tab">
+      <div class="toolbar">
+      </div>
+      <div class="contact-panel">
+        <div class="contact-box">
+          <h2>dfasdfa</h2>
+        </div>
+        <div class="contact-box">
+          <h2>dfasdfa</h2>
+        </div>
+        <div class="contact-box">
+          <h2>dfasdfa</h2>
+        </div>
+        <div class="contact-box">
+          <h2>dfasdfa</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- wrapper:end -->

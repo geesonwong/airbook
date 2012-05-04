@@ -42,6 +42,10 @@ app.configure('production', function () {
   app.set('view cache', true);
 });
 
+app.helpers({
+  config : config
+});
+
 // routes
 routes(app);
 
