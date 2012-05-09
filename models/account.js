@@ -11,6 +11,7 @@ var _accountType = {
  */
 var AccountSchema = new Schema({
   name : {type : String}, // 账户名字
+  password : {type : String}, //账户密码
   base_email : {type : String}, // 基本邮箱
   base_phone : {type : String}, // 基本电话
   lats_name : {type : String}, // 姓

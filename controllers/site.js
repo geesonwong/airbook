@@ -4,13 +4,19 @@
 //var EventProxy = require('eventproxy').EventProxy;
 
 var config = require('../config').config;
-exports.index = function (req, res, next) {
+exports.index = function(req, res, next) {
 
-  console.log('here');
   res.render('index', {});
 
 };
 
-exports.login = function (req, res, next) {
-  res.render('reg-login', {});
+exports.login = function(req, res, next) {
+  if (req.session.account){
+    return res.render('index');
+  }
+  res.render('reg-login', {login : true});
+};
+
+exports.register = function(req, res, next) {
+  res.render('reg-login', {login : false});
 }

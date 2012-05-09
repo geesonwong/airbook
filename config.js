@@ -11,6 +11,7 @@ exports.config = {
   },
 
   db : 'mongodb://127.0.0.1/airbook',
-  session_secret : 'airbook'
+  session_secret : 'airbook',
+  auth_cookie_name : 'airbook'
 
 };
