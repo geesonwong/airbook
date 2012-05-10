@@ -90,20 +90,19 @@ exports.login = function(req, res, next) {
 
     // store session cookie
     _gen_session(account, res);
-
-    res.render('index');
+    res.redirect('index');
   });
 
 };
 
 
 exports.auth_user = function(req, res, next) {
-  if (req.session.user) {
+  console.log(req.url);
+  if (req.session.account) {
     // 如果已经登录的情况
+    res.local('00:' + 'current_account', req.session.account);
+    return next();
   } else {
-
-    console.log('auth_user');
-
     var cookie = req.cookies[config.auth_cookie_name];
     if (!cookie) return next();
 
@@ -114,11 +113,11 @@ exports.auth_user = function(req, res, next) {
       if (error) return next(error);
       if (account) {
         req.session.account = account;
-        res.local('account', account);
+        res.local('current_account', account);
+        console.log(res.locals['current_account']);
       }
       return next();
     });
-
   }
 };
 

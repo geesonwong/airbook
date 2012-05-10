@@ -5,13 +5,15 @@
 
 var config = require('../config').config;
 exports.index = function(req, res, next) {
-
-  res.render('index', {});
-
+  if (req.session.account) {
+    return res.render('index');
+  } else {
+    return res.render('reg-login', {login : true});
+  }
 };
 
 exports.login = function(req, res, next) {
-  if (req.session.account){
+  if (req.session.account) {
     return res.render('index');
   }
   res.render('reg-login', {login : true});
