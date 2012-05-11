@@ -2,6 +2,7 @@ var models = require('../models');
 var Account = models.Account;
 var item = models.Item;
 
+var EventProxy = require('eventproxy').EventProxy;
 
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
@@ -90,17 +91,16 @@ exports.login = function(req, res, next) {
 
     // store session cookie
     _gen_session(account, res);
-    res.redirect('index');
+    res.redirect('/');
   });
 
 };
 
-
 exports.auth_user = function(req, res, next) {
-  console.log(req.url);
+  console.log(req.url + '__');
   if (req.session.account) {
     // 如果已经登录的情况
-    res.local('00:' + 'current_account', req.session.account);
+    console.log('00:已登录');
     return next();
   } else {
     var cookie = req.cookies[config.auth_cookie_name];
@@ -109,12 +109,15 @@ exports.auth_user = function(req, res, next) {
     var auth_token = _decrypt(cookie, config.session_secret);
     var auth = auth_token.split('\t');
     var account_id = auth[0];
+    console.log('00:未登录:' + account_id);
     Account.findOne({_id : account_id}, function(error, account) {
-      if (error) return next(error);
+      if (error) {
+        return next(error);
+      }
+      console.log('00:——————');
       if (account) {
         req.session.account = account;
         res.local('current_account', account);
-        console.log(res.locals['current_account']);
       }
       return next();
     });
