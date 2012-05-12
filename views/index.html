@@ -105,7 +105,11 @@
           </li>
           <li class="item">
             <i class="item-icon"></i>
-            <span class="">同步策略</span>
+            <span class="">添加资料</span>
+          </li>
+          <li class="item" id="password-change">
+            <i class="item-icon"></i>
+            <span class="">修改密码</span>
           </li>
           <li class="item">
             <i class="item-icon"></i>
@@ -143,10 +147,32 @@
   </div>
 </div>
 
-
-<div>
-
+<!-- 对话框：修改个人信息 -->
+<div id="account-edit-dialog" title="<%=account.name%>的个人信息" style="display: none;">
+  <label style="display: block;">
+    邮箱：<input type="text" placeholder="邮箱" class="form-input" id="" name="base_email"
+              value="<%=account.base_email || ''%>"/></label>
+  <label style="display: block;">
+    电话：<input type="text" placeholder="联系电话" class="form-input" id="" name="base_phone"
+              value="<%=account.base_phone || ''%>"/></label>
+  姓名：<input type="text" placeholder="姓" class="form-input" style="width: 125px;" name="lats_name"
+            value="<%=account.last_name || ''%>"/>
+  <input type="text" placeholder="名" class="form-input" style="width: 125px;" name="first_name"
+         value="<%=account.first_name || ''%>"/>
 </div>
+
+<!-- 对话框：修改密码 -->
+<div id="password-change-dialog" title="密码修改" style="display: none">
+  <label style="display: block;">
+    当前密码：<input type="password" placeholder="当前密码" class="form-input" id="" name="old_password"/></label>
+  <label style="display: block;">
+    新的密码：<input type="password" placeholder="输入你要修改的新密码" class="form-input" id="" name="old_password"/></label>
+  <label style="display: block;">
+    再次输入：<input type="password" placeholder="请再次输入新密码" class="form-input" id="" name="old_password"/></label>
+</div>
+
+<!-- 对话框：备份策略 -->
+
 <!-- wrapper:end -->
 
 <script src="/javascripts/jquery-1.7.2.min.js"></script>

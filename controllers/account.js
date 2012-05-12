@@ -100,7 +100,6 @@ exports.login = function(req, res, next) {
 };
 
 exports.auth_user = function(req, res, next) {
-  console.log(req.url + '__');
   if (req.session.account) {
     res.local('account', req.session.account);
     // 如果已经登录的情况
