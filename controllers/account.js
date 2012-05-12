@@ -91,7 +91,13 @@ exports.login = function(req, res, next) {
 
     // store session cookie
     _gen_session(account, res);
-    res.redirect('/');
+
+    res.local('account_id', 'sssssss');
+    res.local('login', true);
+
+//    res.redirect('/');
+
+    res.render('index');
   });
 
 };
@@ -99,8 +105,8 @@ exports.login = function(req, res, next) {
 exports.auth_user = function(req, res, next) {
   console.log(req.url + '__');
   if (req.session.account) {
+    res.local('account', req.session.account);
     // 如果已经登录的情况
-    console.log('00:已登录');
     return next();
   } else {
     var cookie = req.cookies[config.auth_cookie_name];
@@ -109,15 +115,13 @@ exports.auth_user = function(req, res, next) {
     var auth_token = _decrypt(cookie, config.session_secret);
     var auth = auth_token.split('\t');
     var account_id = auth[0];
-    console.log('00:未登录:' + account_id);
     Account.findOne({_id : account_id}, function(error, account) {
       if (error) {
         return next(error);
       }
-      console.log('00:——————');
       if (account) {
         req.session.account = account;
-        res.local('current_account', account);
+        res.local('account_id', account_id);
       }
       return next();
     });

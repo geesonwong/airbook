@@ -26,6 +26,7 @@ app.configure(function() {
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(require('./controllers/account').auth_user);
+  app.use(express.csrf());
 });
 
 var static_dir = path.join(__dirname, 'public');
@@ -44,6 +45,12 @@ app.configure('production', function() {
 
 app.helpers({
   config : config
+});
+
+app.dynamicHelpers({
+  csrf : function(req, res) {
+    return req.session ? req.session._csrf : '';
+  },
 });
 
 // routes
