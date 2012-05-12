@@ -52,7 +52,7 @@ exports.register = function(req, res, next) {
     // 对密码进行加密
     password = _md5(password);
     // 获取邮箱对应的Gvatar头像地址
-    var gvatar_url = 'http://www.gravatar.com/avatar/' + _md5(email) + '?size=48';
+    var gvatar_url = 'http://www.gravatar.com/avatar/' + _md5(email);
 
     var account = new Account();
     account.name = name;
@@ -62,7 +62,8 @@ exports.register = function(req, res, next) {
 
     account.save(function(error) {
       if (error) return next(error);
-      res.render('reg-login', {login : true, errMsg : '注册成功，请登录'});
+      res.local('errMsg', '注册成功，请登录');
+      return next();
     })
 
   });
@@ -92,12 +93,8 @@ exports.login = function(req, res, next) {
     // store session cookie
     _gen_session(account, res);
 
-    res.local('account_id', 'sssssss');
-    res.local('login', true);
+    res.redirect('/');
 
-//    res.redirect('/');
-
-    res.render('index');
   });
 
 };

@@ -8,10 +8,10 @@
       <div id="control-search" class="btn">
         <label><input type="text" placeholder="搜索联系人"/></label>
       </div>
-      <div id="control-message" class="btn homeImg" title="<%=locals.account_id%>">
+      <div id="control-message" class="btn homeImg" title="<%=account.name%>">
       </div>
-      <div id="control-face" class="btn homeImg" title="<=locals.account.name%>">
-        <!--<img src="<= locals.current_account.photo_path%>">-->
+      <div id="control-face" class="btn homeImg" title="<%=account.name%>">
+        <img src="<%=account.photo_path%>?size=32"/>
       </div>
     </div>
   </div>
@@ -25,11 +25,11 @@
       <div class="group">
         <h3>爱友</h3>
         <ul>
-          <li class="item active" id="account-edit" title="新增加的联系人，添加标签以后归档">
+          <li class="item active" title="新增加的联系人，添加标签以后归档">
             <i class="item-icon"></i>
             <span class="">未归档爱友</span>
           </li>
-          <li class="item" id="account-edit" title="我的通讯录中的联系人">
+          <li class="item" title="我的通讯录中的联系人">
             <i class="item-icon"></i>
             <span class="">所有爱友</span>
           </li>
@@ -39,11 +39,11 @@
       <div class="group">
         <h3>爱集体</h3>
         <ul>
-          <li class="item" id="account-edit" title="新增加的联系人，添加标签以后归档">
+          <li class="item" title="新增加的联系人，添加标签以后归档">
             <i class="item-icon"></i>
             <span class="">我的集体</span>
           </li>
-          <li class="item" id="account-edit" title="我的通讯录中的联系人">
+          <li class="item" title="我的通讯录中的联系人">
             <i class="item-icon"></i>
             <span class="">所有爱友</span>
           </li>
@@ -53,15 +53,15 @@
       <div class="group">
         <h3>联系人分组</h3>
         <ul>
-          <li class="item" id="account-edit">
+          <li class="item">
             <i class="item-icon"></i>
             <span class="">家人</span>
           </li>
-          <li class="item" id="account-edit">
+          <li class="item">
             <i class="item-icon"></i>
             <span class="">同事</span>
           </li>
-          <li class="item" id="account-edit">
+          <li class="item">
             <i class="item-icon"></i>
             <span class="">同学</span>
           </li>
@@ -71,11 +71,11 @@
       <div class="group">
         <h3>备份还原</h3>
         <ul>
-          <li class="item" id="account-edit">
+          <li class="item">
             <i class="item-icon"></i>
             <span class="">备份</span>
           </li>
-          <li class="item" id="account-edit">
+          <li class="item">
             <i class="item-icon"></i>
             <span class="">还原</span>
           </li>
@@ -85,11 +85,11 @@
       <div class="group">
         <h3>过滤</h3>
         <ul>
-          <li class="item" id="account-edit" title="我的通讯录上没有的，但是我存在他们的通讯录中">
+          <li class="item" title="我的通讯录上没有的，但是我存在他们的通讯录中">
             <i class="item-icon"></i>
             <span class="">陌生人</span>
           </li>
-          <li class="item" id="account-edit">
+          <li class="item">
             <i class="item-icon"></i>
             <span class="">黑名单</span>
           </li>
@@ -101,9 +101,13 @@
         <ul>
           <li class="item" id="account-edit">
             <i class="item-icon"></i>
-            <span class="">备份策略</span>
+            <span class="">个人信息</span>
           </li>
-          <li class="item" id="account-edit">
+          <li class="item">
+            <i class="item-icon"></i>
+            <span class="">同步策略</span>
+          </li>
+          <li class="item">
             <i class="item-icon"></i>
             <span class="">同步策略</span>
           </li>
@@ -138,7 +142,15 @@
     </div>
   </div>
 </div>
+
+
+<div>
+
+</div>
 <!-- wrapper:end -->
 
-<script src="/javascripts/jquery-1.7.1.min.js"></script>
+<script src="/javascripts/jquery-1.7.2.min.js"></script>
+<script src="/javascripts/jquery-ui-1.8.20.custom.min.js"></script>
 <script src="/javascripts/main.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/smoothness/jquery-ui-1.8.20.custom.css">

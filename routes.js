@@ -1,9 +1,3 @@
-/*!
- * nodeclub - route.js
- * Copyright(c) 2012 fengmk2 <fengmk2@gmail.com>
- * MIT Licensed
- */
-
 /**
  * Module dependencies.
  */
@@ -16,8 +10,8 @@ exports = module.exports = function(app) {
   // home page
   app.get('/', site.index);
 
-  app.get('/login', site.login);
   app.get('/register', site.register);
+  app.get('/login', site.login, site.index);
 
   app.post('/register', account.register);
   app.post('/login', account.login);

@@ -2,9 +2,9 @@
  * Module dependencies.
  */
 
+var path = require('path');
 var express = require('express');
 var routes = require('./routes');
-var path = require('path');
 var config = require('./config').config;
 
 var app = module.exports = express.createServer();

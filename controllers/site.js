@@ -4,17 +4,11 @@
 //var EventProxy = require('eventproxy').EventProxy;
 
 var config = require('../config').config;
-exports.index = function(req, res, next) {
-  if (req.session.account) {
-    return res.render('index');
-  } else {
-    return res.render('reg-login', {login : true});
-  }
-};
 
 exports.login = function(req, res, next) {
   if (req.session.account) {
-    return res.render('index');
+    res.local('msg', '你已经登录。');
+    return next();
   }
   res.render('reg-login', {login : true});
 };
@@ -22,3 +16,13 @@ exports.login = function(req, res, next) {
 exports.register = function(req, res, next) {
   res.render('reg-login', {login : false});
 }
+
+
+exports.index = function(req, res, next) {
+  if (!req.session.account) {
+    return res.render('reg-login', {login : true});
+  }
+  var account = req.session.account;
+  res.local('account', account);
+  return res.render('index');
+};
