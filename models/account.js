@@ -14,7 +14,7 @@ var AccountSchema = new Schema({
   password : {type : String}, //账户密码
   base_email : {type : String}, // 基本邮箱
   base_phone : {type : String}, // 基本电话
-  lats_name : {type : String}, // 姓
+  last_name : {type : String}, // 姓
   first_name : {type : String}, // 名
   photo_path : {type : String}, // 头像地址
   create_time : {type : Date, 'default' : Date.now}, // 创建时间

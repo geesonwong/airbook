@@ -13,6 +13,9 @@
       <div id="control-face" class="btn homeImg" title="<%=account.name%>">
         <img src="<%=account.photo_path%>?size=32"/>
       </div>
+      <div id="control-logo" class="btn" title="<%= config.app.name %>">
+        <img height="32px" width="32px" src="/favicon.png"/>
+      </div>
     </div>
   </div>
 </div>
@@ -97,15 +100,15 @@
       </div>
       <div class="sep"></div>
       <div class="group">
-        <h3>设置</h3>
+        <h3>个人设置</h3>
         <ul>
           <li class="item" id="account-edit">
             <i class="item-icon"></i>
-            <span class="">个人信息</span>
+            <span class="">信息编辑</span>
           </li>
-          <li class="item">
+          <li class="item" id="message-manager">
             <i class="item-icon"></i>
-            <span class="">添加资料</span>
+            <span class="">资料管理</span>
           </li>
           <li class="item" id="password-change">
             <i class="item-icon"></i>
@@ -149,34 +152,58 @@
 
 <!-- 对话框：修改个人信息 -->
 <div id="account-edit-dialog" title="<%=account.name%>的个人信息" style="display: none;">
-  <label style="display: block;">
-    邮箱：<input type="text" placeholder="邮箱" class="form-input" id="" name="base_email"
-              value="<%=account.base_email || ''%>"/></label>
-  <label style="display: block;">
-    电话：<input type="text" placeholder="联系电话" class="form-input" id="" name="base_phone"
-              value="<%=account.base_phone || ''%>"/></label>
-  姓名：<input type="text" placeholder="姓" class="form-input" style="width: 125px;" name="lats_name"
-            value="<%=account.last_name || ''%>"/>
-  <input type="text" placeholder="名" class="form-input" style="width: 125px;" name="first_name"
-         value="<%=account.first_name || ''%>"/>
+  <form id="account-edit-form" action="/editAccount" method="post">
+    <label style="display: block;">
+      邮箱：<input type="text" placeholder="邮箱" class="form-input account-edit-input" id="baseEmail" name="baseEmail"
+                origin="<%=account.base_email || ''%>"
+                value="<%=account.base_email || ''%>"/></label>
+    <label style="display: block;">
+      电话：<input type="text" placeholder="联系电话" class="form-input account-edit-input" id="basePhone" name="basePhone"
+                origin="<%=account.base_phone || ''%>"
+                value="<%=account.base_phone || ''%>"/></label>
+    姓名：<input type="text" placeholder="姓" class="form-input account-edit-input" style="width: 125px;" id="lastName"
+              name="lastName"
+              origin="<%=account.lats_name || ''%>"
+              value="<%=account.last_name || ''%>"/>
+    <input type="text" placeholder="名" class="form-input account-edit-input" style="width: 125px;" id="firstName"
+           name="firstName"
+           origin="<%=account.first_name || ''%>"
+           value="<%=account.first_name || ''%>"/>
+  </form>
 </div>
 
 <!-- 对话框：修改密码 -->
 <div id="password-change-dialog" title="密码修改" style="display: none">
-  <label style="display: block;">
-    当前密码：<input type="password" placeholder="当前密码" class="form-input" id="" name="old_password"/></label>
-  <label style="display: block;">
-    新的密码：<input type="password" placeholder="输入你要修改的新密码" class="form-input" id="" name="old_password"/></label>
-  <label style="display: block;">
-    再次输入：<input type="password" placeholder="请再次输入新密码" class="form-input" id="" name="old_password"/></label>
+  <form id="password-change-form" action="/changePassword" method="post">
+    <label style="display: block;">
+      当前密码：<input type="password" placeholder="当前密码" class="form-input password-change-input" id=""
+                  name="old_password"/></label>
+    <label style="display: block;">
+      新的密码：<input type="password" placeholder="输入你要修改的新密码" class="form-input password-change-input"
+                  name="new_password"/></label>
+    <label style="display: block;">
+      再次输入：<input type="password" placeholder="请再次输入新密码" class="form-input password-change-input" name="_new_password"/></label>
+  </form>
 </div>
 
-<!-- 对话框：备份策略 -->
+<!-- 对话框：关于空中电话本 -->
+<div id="about-airbook-dialog" title="关于空中电话本" style="display: none">
+  <p>空中电话本是一款免费的通讯录同步软件，支持多终端和WEB端管理，同时可以做人脉标签搜索和标记。希望你用的开心。</p>
+</div>
+
+<!-- DIV：提示消息 -->
+<div id="message" style="display: none;">
+  <h3></h3>
+  <hr>
+  <p></p>
+</div>
 
 <!-- wrapper:end -->
 
-<script src="/javascripts/jquery-1.7.2.min.js"></script>
-<script src="/javascripts/jquery-ui-1.8.20.custom.min.js"></script>
+<script src="/javascripts/jquery/jquery-1.7.2.min.js"></script>
+<script src="/javascripts/jquery/jquery-ui-1.8.20.custom.min.js"></script>
+<script src="/javascripts/flexigrid/flexigrid.pack.js"></script>
 <script src="/javascripts/main.js"></script>
 
-<link rel="stylesheet" type="text/css" href="/stylesheets/smoothness/jquery-ui-1.8.20.custom.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/jquery/jquery-ui-1.8.20.custom.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/flexigrid/flexigrid.pack.css">

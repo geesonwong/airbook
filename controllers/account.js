@@ -10,6 +10,7 @@ var crypto = require('crypto');
 
 var config = require('../config').config;
 
+// 注册
 exports.register = function(req, res, next) {
 
   var email = sanitize(req.body.email).trim();
@@ -70,6 +71,7 @@ exports.register = function(req, res, next) {
 
 };
 
+// 登录
 exports.login = function(req, res, next) {
 
   var name = sanitize(req.body.name).trim().toLowerCase();
@@ -99,6 +101,7 @@ exports.login = function(req, res, next) {
 
 };
 
+// 中间件，从cookie中找到会话信息
 exports.auth_user = function(req, res, next) {
   if (req.session.account) {
     res.local('account', req.session.account);
@@ -124,6 +127,75 @@ exports.auth_user = function(req, res, next) {
   }
 };
 
+// 修改密码
+exports.changePassword = function(req, res, next) {
+  var oldPassword = _md5(sanitize(req.body.old_password).trim());
+  var newPassword = _md5(sanitize(req.body.new_password).trim());
+  var reNewPassword = _md5(sanitize(req.body._new_password).trim());
+  try {
+    if (oldPassword != req.session.account.password) {
+      res.json({success : false, message : '现有密码错误'});
+    } else {
+      if (newPassword == reNewPassword) {
+        Account.findById(req.session.account._id, function(err, account) {
+          if (err) return res.json({success : false, message : '发生系统错误'});
+          account.password = newPassword;
+          account.save(function(err) {
+            if (err) return res.json({success : false, message : '发生系统错误'});
+            return res.json({success : true, message : '修改密码成功'});
+          });
+        });
+      } else {
+        res.json({success : false, message : '新密码不一致'});
+      }
+    }
+  } catch (e) {
+    console.log(e);
+    return res.json({success : false, message : '发生系统错误'});
+  }
+}
+
+// 修改个人信息
+exports.updateAccount = function(req, res, next) {
+
+  var baseEmail = sanitize(req.body.baseEmail).trim();
+  baseEmail = sanitize(baseEmail).xss();
+  var basePhone = sanitize(req.body.basePhone).trim();
+  basePhone = sanitize(basePhone).xss();
+  var firstName = sanitize(req.body.firstName).trim();
+  firstName = sanitize(firstName).xss();
+  var lastName = sanitize(req.body.lastName).trim();
+  lastName = sanitize(lastName).xss();
+
+  try {
+    check(baseEmail, '不正确的电子邮箱').isEmail();
+  } catch (e) {
+    console.log(e);
+    return res.json({success : false, message : '不正确的电子邮箱'});
+  }
+
+  try {
+    if (basePhone && basePhone != '')
+      check(basePhone, '不正确的电话号码').isNumeric();
+  } catch (e) {
+    console.log(e);
+    return res.json({success : false, message : '不正确的电话号码'});
+  }
+
+  Account.findById(req.session.account._id, function(err, account) {
+    if (err) return res.json({success : false, message : '发生系统错误'});
+    account.base_email = baseEmail;
+    account.base_phone = basePhone;
+    account.last_name = lastName;
+    account.first_name = firstName;
+    account.save(function(err) {
+      if (err) return res.json({success : false, message : '发生系统错误'});
+      return res.json({success : true, message : '修改个人信息成功'});
+    });
+  })
+
+};
+
 var _errorReturn = function(res, isLogin, errMsg, name, email) {
   console.log(errMsg);
   res.render('reg-login', {login : isLogin, errMsg : errMsg, email : email, name : name});
@@ -135,7 +207,6 @@ var _md5 = function(str) {
   str = md5sum.digest('hex');
   return str;
 }
-
 var _gen_session = function(account, res) {
   var auth_token = _encrypt(account._id + '\t' + account.name + '\t' + account.password + '\t' + account.base_email, config.session_secret);
   res.cookie(config.auth_cookie_name, auth_token, {path : '/', maxAge : 1000 * 60 * 60 * 24 * 7}); //cookie 有效期1周
@@ -151,4 +222,4 @@ var _decrypt = function(str, secret) {
   var dec = decipher.update(str, 'hex', 'utf8');
   dec += decipher.final('utf8');
   return dec;
-}
+};

@@ -16,4 +16,7 @@ exports = module.exports = function(app) {
   app.post('/register', account.register);
   app.post('/login', account.login);
 
+  app.post('/changePassword', account.changePassword);
+  app.post('/editAccount', account.updateAccount);
+
 };
