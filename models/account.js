@@ -38,8 +38,8 @@ var AccountSchema = new Schema({
 });
 
 // 中间件
-AccountSchema.pre('save',function(next){
-//  this.
-});
+//AccountSchema.pre('save',function(next){
+////  this.
+//});
 
 mongoose.model('Account', AccountSchema);

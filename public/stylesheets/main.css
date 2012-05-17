@@ -28,7 +28,7 @@ a {
     cursor: pointer;
     width: 33px;
     height: 33px;
-    margin: 6px 20px 0 20px;
+    margin: 6px 10px 0 10px;
 }
 
 /* home.png 图片背景 */
@@ -184,7 +184,7 @@ a {
 }
 
 #message {
-    border:#ff0000 solid 2px;
+    border: #ff0000 solid 2px;
     position: absolute;
     font-size: 16px;
     right: 20px;
@@ -398,4 +398,20 @@ a {
     background-image: -ms-linear-gradient(#888888, #323232);
     background-image: linear-gradient(#888888, #323232);
     filter: progid:DXImageTransform.Microsoft.gradient(gradientType = 0, startColorstr = '#888888', endColorstr = '#FF888888');
+}
+
+#add-contact {
+    background-position: -165px -649px;
+}
+
+#add-contact:hover {
+    background-position: -165px -681px;
+}
+
+#remove-contact {
+    background-position: -99px -649px;
+}
+
+#remove-contact:hover {
+    background-position: -99px -681px;
 }
