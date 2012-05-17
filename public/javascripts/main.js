@@ -19,7 +19,6 @@ app.header.height = 48;
 app.sidebar.width = 200;
 
 function resizeAllInOne() {
-  console.info('resizeAllInOne');
   $('#wrapper')[0].style.height = (window.innerHeight - app.header.height).toString() + 'px';
   $(".bDiv")[0].style.height = (window.innerHeight - app.header.height - 85).toString() + 'px';
 //  if ($('#main').size > 0)
@@ -32,11 +31,35 @@ $(window).resize(function() {
   resizeAllInOne();
 });
 
-window.onload = function() {
-  resizeAllInOne();
-//  if ($('#main').size > 0)
-//    $('#main')[0].style.marginLeft = $('#sidebar')[0].style.width = app.sidebar.width + 'px';
+// 事件：卡片的双击事件
+var contactBoxDblclick = function(e) {
 };
+
+// 事件：卡片的单击
+var contactBoxClick = function(e) {
+  if (e.ctrlKey == true) {//按住ctrl的情况
+    if ($(e.currentTarget).hasClass('contact-box-checked'))
+      $(e.currentTarget).removeClass('contact-box-checked');
+    else
+      $(e.currentTarget).addClass('contact-box-checked');
+  } else {
+    $('.contact-box').removeClass('contact-box-checked');
+    e.currentTarget.className += ' contact-box-checked';
+  }
+};
+
+$(function() {
+  resizeAllInOne();
+});
+
+$('.contact-box').dblclick(function(e) {
+  contactBoxDblclick(e)
+});
+
+$('.contact-box').click(function(e) {
+  contactBoxClick(e);
+});
+
 
 // 提示消息
 var messageDisplay = function(msg, title) {
@@ -105,7 +128,7 @@ var passwordChangeDialog = function() {
 
 
 // 对话框：LOGO，关于空中电话本
-$('#control-logo')[0].onclick = function() {
+$('#header-left img')[0].onclick = function(e) {
   $('#about-airbook-dialog').dialog({ buttons : {
     '好的' : function() {
       $('#about-airbook-dialog').dialog('close');
@@ -113,6 +136,29 @@ $('#control-logo')[0].onclick = function() {
   }, show : { effect : 'drop', direction : "up" },
     hide : {effect : "drop", direction : "up"}, modal : true,
     resizable : false});
+};
+
+// 条目：随便看看
+$('#random-results')[0].onclick = function() {
+  $.post('/randomResults', function(data) {
+    if (data.success) {
+      var results = eval('(' + data.results + ')');
+      $('#contact-panel')[0].innerHTML = '';
+      for (var i in results) {
+        var div = $('<div class="contact-box"></div>');
+        div.html(results[i].card);
+        div.attr('accountid', results[i]._id);
+        div.bind('dblclick', function(e) {
+          contactBoxDblclick(e);
+        });
+        div.bind('click', function(e) {
+          contactBoxClick(e);
+        });
+        $('#contact-panel')[0].appendChild(div[0]);
+      }
+    } else
+      messageDisplay(data.message);
+  }, "json");
 };
 
 // 条目：编辑信息

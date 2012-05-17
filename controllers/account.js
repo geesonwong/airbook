@@ -150,8 +150,7 @@ exports.changePassword = function(req, res, next) {
       }
     }
   } catch (e) {
-    console.log(e);
-    return res.json({success : false, message : '发生系统错误'});
+    return res.json({success : false, message : e.message});
   }
 }
 
@@ -170,26 +169,31 @@ exports.updateAccount = function(req, res, next) {
   try {
     check(baseEmail, '不正确的电子邮箱').isEmail();
   } catch (e) {
-    console.log(e);
-    return res.json({success : false, message : '不正确的电子邮箱'});
+    return res.json({success : false, message : e.message});
   }
 
   try {
     if (basePhone && basePhone != '')
       check(basePhone, '不正确的电话号码').isNumeric();
   } catch (e) {
-    console.log(e);
-    return res.json({success : false, message : '不正确的电话号码'});
+    return res.json({success : false, message : e.message});
   }
 
   Account.findById(req.session.account._id, function(err, account) {
     if (err) return res.json({success : false, message : '发生系统错误'});
-    account.base_email = baseEmail;
+    account.base_email = baseEmail;// TODO 判断是否已经存在
     account.base_phone = basePhone;
     account.last_name = lastName;
     account.first_name = firstName;
+    account.photo_path = 'http://www.gravatar.com/avatar/' + _md5(baseEmail);
+    if (!account.card || account.card == '') { // 生成默认名片样式
+      account.card = '<img src="' + account.photo_path + '?size=32" alt="">';
+      account.card += "<h2>" + account.last_name + ' ' + account.first_name + "</h2>";
+      account.card += "<h3>邮箱:" + account.base_email + "</h3>";
+      account.card += "<h3>电话：" + account.base_phone + "</h3>";
+    }
     account.save(function(err) {
-      if (err) return res.json({success : false, message : '发生系统错误'});
+      if (err) return res.json({success : false, message : err.message});
       return res.json({success : true, message : '修改个人信息成功'});
     });
   })

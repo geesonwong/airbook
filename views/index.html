@@ -1,20 +1,20 @@
 <!-- header:start -->
 <div id="header">
   <div id="header-wrap">
-    <div id="header-left">
-      <div id="control-addContacts" class="btn homeImg" title="添加联系人"></div>
+    <div id="header-left" title="<%= config.app.name %>">
+      <img height="32px" width="32px" class="btn" src="/favicon.png"/>
+      <h1 style="color: #ffffff;width:300px;margin-top: 10px">空中电话本</h1>
     </div>
     <div id="header-right">
       <div id="control-search" class="btn">
         <label><input type="text" placeholder="搜索联系人"/></label>
       </div>
+      <div id="control-addContacts" class="btn homeImg" title="添加联系人">
+      </div>
       <div id="control-message" class="btn homeImg" title="<%=account.name%>">
       </div>
       <div id="control-face" class="btn homeImg" title="<%=account.name%>">
         <img src="<%=account.photo_path%>?size=32"/>
-      </div>
-      <div id="control-logo" class="btn" title="<%= config.app.name %>">
-        <img height="32px" width="32px" src="/favicon.png"/>
       </div>
     </div>
   </div>
@@ -36,6 +36,10 @@
             <i class="item-icon"></i>
             <span class="">所有爱友</span>
           </li>
+          <li class="item" title="我的通讯录中的联系人" id="random-results">
+            <i class="item-icon"></i>
+            <span class="">随便看看</span>
+          </li>
         </ul>
       </div>
       <div class="sep"></div>
@@ -48,42 +52,42 @@
           </li>
           <li class="item" title="我的通讯录中的联系人">
             <i class="item-icon"></i>
-            <span class="">所有爱友</span>
+            <span class="">所有集体</span>
           </li>
         </ul>
       </div>
-      <div class="sep"></div>
-      <div class="group">
-        <h3>联系人分组</h3>
-        <ul>
-          <li class="item">
-            <i class="item-icon"></i>
-            <span class="">家人</span>
-          </li>
-          <li class="item">
-            <i class="item-icon"></i>
-            <span class="">同事</span>
-          </li>
-          <li class="item">
-            <i class="item-icon"></i>
-            <span class="">同学</span>
-          </li>
-        </ul>
-      </div>
-      <div class="sep"></div>
-      <div class="group">
-        <h3>备份还原</h3>
-        <ul>
-          <li class="item">
-            <i class="item-icon"></i>
-            <span class="">备份</span>
-          </li>
-          <li class="item">
-            <i class="item-icon"></i>
-            <span class="">还原</span>
-          </li>
-        </ul>
-      </div>
+      <!--<div class="sep"></div>-->
+      <!--<div class="group">-->
+        <!--<h3>联系人分组</h3>-->
+        <!--<ul>-->
+          <!--<li class="item">-->
+            <!--<i class="item-icon"></i>-->
+            <!--<span class="">家人</span>-->
+          <!--</li>-->
+          <!--<li class="item">-->
+            <!--<i class="item-icon"></i>-->
+            <!--<span class="">同事</span>-->
+          <!--</li>-->
+          <!--<li class="item">-->
+            <!--<i class="item-icon"></i>-->
+            <!--<span class="">同学</span>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</div>-->
+      <!--<div class="sep"></div>-->
+      <!--<div class="group">-->
+        <!--<h3>备份还原</h3>-->
+        <!--<ul>-->
+          <!--<li class="item">-->
+            <!--<i class="item-icon"></i>-->
+            <!--<span class="">备份</span>-->
+          <!--</li>-->
+          <!--<li class="item">-->
+            <!--<i class="item-icon"></i>-->
+            <!--<span class="">还原</span>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</div>-->
       <div class="sep"></div>
       <div class="group">
         <h3>过滤</h3>
@@ -110,6 +114,10 @@
             <i class="item-icon"></i>
             <span class="">资料管理</span>
           </li>
+          <li class="item" id="card-edit">
+            <i class="item-icon"></i>
+            <span class="">制作名片</span>
+          </li>
           <li class="item" id="password-change">
             <i class="item-icon"></i>
             <span class="">修改密码</span>
@@ -131,8 +139,12 @@
   <div id="main">
     <div id="contact-men" class="tab">
       <div class="toolbar">
+        <div id="add-contact" class="btn homeImg" title="添加选中的联系人">
+        </div>
+        <div id="remove-contact" class="btn homeImg" title="删除选中的联系人">
+        </div>
       </div>
-      <div class="contact-panel">
+      <div id="contact-panel">
         <div class="contact-box">
           <h2>dfasdfa</h2>
         </div>
@@ -163,7 +175,7 @@
                 value="<%=account.base_phone || ''%>"/></label>
     姓名：<input type="text" placeholder="姓" class="form-input account-edit-input" style="width: 125px;" id="lastName"
               name="lastName"
-              origin="<%=account.lats_name || ''%>"
+              origin="<%=account.last_name || ''%>"
               value="<%=account.last_name || ''%>"/>
     <input type="text" placeholder="名" class="form-input account-edit-input" style="width: 125px;" id="firstName"
            name="firstName"

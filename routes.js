@@ -4,7 +4,7 @@
 
 var site = require('./controllers/site');
 var account = require('./controllers/account');
-
+var contact = require('./controllers/contact');
 exports = module.exports = function(app) {
 
   // home page
@@ -18,5 +18,6 @@ exports = module.exports = function(app) {
 
   app.post('/changePassword', account.changePassword);
   app.post('/editAccount', account.updateAccount);
+  app.post('/randomResults', contact.randomResults);
 
 };

@@ -319,16 +319,27 @@ a {
     width: 250px;
     height: 100px;
     float: left;
-    margin: 4px;
+    margin: 6px;
     padding: 10px;
     background: -moz-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FEFEFE), color-stop(200%, #aaaaaa));
     background: -webkit-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
     background: -o-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
     background: -ms-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
-    border: 1px solid #DDEEF6;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
+    border: solid 1px #000000;
+}
+
+.contact-box:hover {
+    border: solid 3px blue;
+    cursor: pointer;
+    margin: 4px;
+}
+
+.contact-box-checked {
+    border: 3px green solid;
+    margin: 4px;
 }
 
 .form-box {
