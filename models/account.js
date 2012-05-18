@@ -37,9 +37,5 @@ var AccountSchema = new Schema({
   card : {type : String}
 });
 
-// 中间件
-//AccountSchema.pre('save',function(next){
-////  this.
-//});
 
 mongoose.model('Account', AccountSchema);

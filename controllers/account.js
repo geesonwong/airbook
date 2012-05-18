@@ -61,6 +61,11 @@ exports.register = function(req, res, next) {
     account.base_email = email;
     account.photo_path = gvatar_url;
 
+    account.card = '<img src="' + account.photo_path + '?size=32" alt="">';
+    account.card += "<h2>" + account.last_name + ' ' + account.first_name + "</h2>";
+    account.card += "<h3>邮箱:" + account.base_email + "</h3>";
+    account.card += "<h3>电话：" + account.base_phone + "</h3>";
+
     account.save(function(error) {
       if (error) return next(error);
       res.local('errMsg', '注册成功，请登录');
@@ -186,12 +191,12 @@ exports.updateAccount = function(req, res, next) {
     account.last_name = lastName;
     account.first_name = firstName;
     account.photo_path = 'http://www.gravatar.com/avatar/' + _md5(baseEmail);
-    if (!account.card || account.card == '') { // 生成默认名片样式
-      account.card = '<img src="' + account.photo_path + '?size=32" alt="">';
-      account.card += "<h2>" + account.last_name + ' ' + account.first_name + "</h2>";
-      account.card += "<h3>邮箱:" + account.base_email + "</h3>";
-      account.card += "<h3>电话：" + account.base_phone + "</h3>";
-    }
+//    if (!account.card || account.card == '') { // 生成默认名片样式
+    account.card = '<img src="' + account.photo_path + '?size=32" alt="">';
+    account.card += "<h2>" + account.last_name + ' ' + account.first_name + "</h2>";
+    account.card += "<h3>邮箱:" + account.base_email + "</h3>";
+    account.card += "<h3>电话：" + account.base_phone + "</h3>";
+//    }
     account.save(function(err) {
       if (err) return res.json({success : false, message : err.message});
       return res.json({success : true, message : '修改个人信息成功'});

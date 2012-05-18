@@ -1,3 +1,6 @@
+<link rel="stylesheet" type="text/css" href="/stylesheets/jquery/jquery-ui-1.8.20.custom.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/flexigrid/flexigrid.pack.css">
+
 <!-- header:start -->
 <div id="header">
   <div id="header-wrap">
@@ -24,20 +27,20 @@
 
 <!-- wrapper:start -->
 <div id="wrapper">
-  <div id="sidebar">
-    <div id="sidebar-in">
+  <div id="siderbar">
+    <div id="siderbar-in">
       <div class="group">
         <h3>爱友</h3>
         <ul>
-          <li class="item active" title="新增加的联系人，添加标签以后归档">
+          <li class="item forward active" title="新增加的联系人，添加标签以后归档">
             <i class="item-icon"></i>
             <span class="">未归档爱友</span>
           </li>
-          <li class="item" title="我的通讯录中的联系人">
+          <li class="item forward" title="我的通讯录中的联系人">
             <i class="item-icon"></i>
             <span class="">所有爱友</span>
           </li>
-          <li class="item" title="我的通讯录中的联系人" id="random-results">
+          <li class="item forward" title="我的通讯录中的联系人" id="random-results">
             <i class="item-icon"></i>
             <span class="">随便看看</span>
           </li>
@@ -47,11 +50,11 @@
       <div class="group">
         <h3>爱集体</h3>
         <ul>
-          <li class="item" title="新增加的联系人，添加标签以后归档">
+          <li class="item forward" title="新增加的联系人，添加标签以后归档">
             <i class="item-icon"></i>
             <span class="">我的集体</span>
           </li>
-          <li class="item" title="我的通讯录中的联系人">
+          <li class="item forward" title="我的通讯录中的联系人">
             <i class="item-icon"></i>
             <span class="">所有集体</span>
           </li>
@@ -93,11 +96,11 @@
       <div class="group">
         <h3>过滤</h3>
         <ul>
-          <li class="item" title="我的通讯录上没有的，但是我存在他们的通讯录中">
+          <li class="item forward" title="我的通讯录上没有的，但是我存在他们的通讯录中">
             <i class="item-icon"></i>
             <span class="">陌生人</span>
           </li>
-          <li class="item">
+          <li class="item forward">
             <i class="item-icon"></i>
             <span class="">黑名单</span>
           </li>
@@ -111,11 +114,11 @@
             <i class="item-icon"></i>
             <span class="">信息编辑</span>
           </li>
-          <li class="item" id="message-manager">
+          <li class="item forward" id="message-manager">
             <i class="item-icon"></i>
             <span class="">资料管理</span>
           </li>
-          <li class="item" id="card-edit">
+          <li class="item forward" id="card-edit">
             <i class="item-icon"></i>
             <span class="">制作名片</span>
           </li>
@@ -138,8 +141,7 @@
   <div id="resizable-handler"></div>
 
   <div id="main">
-    <div id="profile-manager" style="display: none;">
-
+    <div id="profile-manager">
     </div>
     <div id="contact-men" class="tab">
       <div class="toolbar">
@@ -167,7 +169,7 @@
 </div>
 
 <!-- 对话框：修改个人信息 -->
-<div id="account-edit-dialog" title="<%=account.name%>的个人信息" style="display: none;">
+<div id="account-edit-dialog" title="<%=account.name%>的个人信息" style="display: none">
   <form id="account-edit-form" action="/editAccount" method="post">
     <label style="display: block;">
       邮箱：<input type="text" placeholder="邮箱" class="form-input account-edit-input" id="baseEmail" name="baseEmail"
@@ -220,6 +222,3 @@
 <script src="/javascripts/jquery/jquery-ui-1.8.20.custom.min.js"></script>
 <script src="/javascripts/flexigrid/flexigrid.pack.js"></script>
 <script src="/javascripts/main.js"></script>
-
-<link rel="stylesheet" type="text/css" href="/stylesheets/jquery/jquery-ui-1.8.20.custom.css">
-<link rel="stylesheet" type="text/css" href="/stylesheets/flexigrid/flexigrid.pack.css">
