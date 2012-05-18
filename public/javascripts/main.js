@@ -38,13 +38,11 @@ var contactBoxDblclick = function(e) {
 // 事件：卡片的单击
 var contactBoxClick = function(e) {
   if (e.ctrlKey == true) {//按住ctrl的情况
-    if ($(e.currentTarget).hasClass('contact-box-checked'))
-      $(e.currentTarget).removeClass('contact-box-checked');
-    else
-      $(e.currentTarget).addClass('contact-box-checked');
+    $(e.currentTarget).toggleClass('contact-box-checked');
   } else {
     $('.contact-box').removeClass('contact-box-checked');
     e.currentTarget.className += ' contact-box-checked';
+
   }
 };
 
@@ -63,8 +61,12 @@ $('.contact-box').click(function(e) {
 
 // 提示消息
 var messageDisplay = function(msg, title) {
-  $('#message h3')[0].innerHTML = title || '提示信息';
-  $('#message p')[0].innerHTML = msg;
+  //$('#message h3')[0].innerHTML = title || '提示信息';
+  // $('#message p')[0].innerHTML = msg;
+  $('#message h3').html(function() {
+    return title || '提示信息'
+  });
+  $('#message p').html(msg);
   $('#message').show({effect : 'slide', direction : 'down'});
   // 待修改
   setTimeout(function() {
@@ -171,7 +173,8 @@ $('#account-edit')[0].onclick = $('#control-face')[0].onclick = function() {
 
 // 条目：资料管理
 $('#message-manager')[0].onclick = function() {
-  $("#main")[0].innerHTML = "";
+  // $("#main")[0].innerHTML = "";
+  $("#main").html();
   $("#main").flexigrid({
 //  url : 'post2.php',
     dataType : 'json',
@@ -209,3 +212,11 @@ $('#password-change')[0].onclick = function() {
   }
   passwordChangeDialog();
 };
+
+//导航背景变化
+$(function() {
+  $('#sidebar-in li').click(function() {
+    $('#sidebar-in').find('li.active').removeClass('active');
+    $(this).addClass("active");
+  });
+})
