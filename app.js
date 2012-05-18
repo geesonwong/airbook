@@ -10,7 +10,6 @@ var config = require('./config').config;
 var app = module.exports = express.createServer();
 
 // Configuration
-// linger's first commit
 app.configure(function() {
 
   var viewsRoot = path.join(__dirname, 'views');

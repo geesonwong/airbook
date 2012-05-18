@@ -61,8 +61,6 @@ $('.contact-box').click(function(e) {
 
 // 提示消息
 var messageDisplay = function(msg, title) {
-  //$('#message h3')[0].innerHTML = title || '提示信息';
-  // $('#message p')[0].innerHTML = msg;
   $('#message h3').html(function() {
     return title || '提示信息'
   });
@@ -76,6 +74,9 @@ var messageDisplay = function(msg, title) {
 
 // 对话框：修改个人信息
 var accountEditDialog = function() {
+  for (var i = 0 ; i < $('.account-edit-input').size() ; i++) {
+    $('.account-edit-input')[i].value = $('.account-edit-input')[i].getAttribute('origin');
+  }
   $('#account-edit-dialog').dialog({width : 'auto', buttons : {'保存' : function() {
     if ($('#baseEmail')[0].value == '')
       return messageDisplay('email是必须的');
@@ -130,7 +131,7 @@ var passwordChangeDialog = function() {
 
 
 // 对话框：LOGO，关于空中电话本
-$('#header-left img')[0].onclick = function(e) {
+$('#header-left img').click(function(e) {
   $('#about-airbook-dialog').dialog({ buttons : {
     '好的' : function() {
       $('#about-airbook-dialog').dialog('close');
@@ -138,10 +139,10 @@ $('#header-left img')[0].onclick = function(e) {
   }, show : { effect : 'drop', direction : "up" },
     hide : {effect : "drop", direction : "up"}, modal : true,
     resizable : false});
-};
+});
 
 // 条目：随便看看
-$('#random-results')[0].onclick = function() {
+$('#random-results').click(function() {
   $.post('/randomResults', function(data) {
     if (data.success) {
       var results = eval('(' + data.results + ')');
@@ -161,18 +162,19 @@ $('#random-results')[0].onclick = function() {
     } else
       messageDisplay(data.message);
   }, "json");
-};
+});
+
 
 // 条目：编辑信息
-$('#account-edit')[0].onclick = $('#control-face')[0].onclick = function() {
-  for (var i = 0 ; i < $('.account-edit-input').size() ; i++) {
-    $('.account-edit-input')[i].value = $('.account-edit-input')[i].getAttribute('origin');
-  }
-  accountEditDialog();
-};
+$('#account-edit').click(function() {
+  accountEditDialog()
+});
+$('#control-face').click(function() {
+  accountEditDialog()
+});
 
 // 条目：资料管理
-$('#message-manager')[0].onclick = function() {
+$('#message-manager').click(function() {
   // $("#main")[0].innerHTML = "";
   $("#main").html();
   $("#main").flexigrid({
@@ -203,20 +205,21 @@ $('#message-manager')[0].onclick = function() {
     width : '100%',
     height : window.innerHeight - app.header.height - 85
   });
-};
+});
 
 // 条目：触发修改密码对话框
-$('#password-change')[0].onclick = function() {
+$('#password-change').click(function() {
   for (var input in $('.password-change-input')) {
     $('.password-change-input')[input].value = '';
   }
   passwordChangeDialog();
-};
+});
 
 //导航背景变化
 $(function() {
   $('#sidebar-in li').click(function() {
+    console.log('ddd')
     $('#sidebar-in').find('li.active').removeClass('active');
     $(this).addClass("active");
   });
-})
+});
