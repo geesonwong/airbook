@@ -14,13 +14,14 @@ namespace.register = function(name) {
 namespace.register('app.sidebar');
 namespace.register('app.header');
 namespace.register('app.wrapper');
+namespace.register('app.time')
 
 app.header.height = 48;
 app.sidebar.width = 200;
 
 function resizeAllInOne() {
   $('#wrapper')[0].style.height = (window.innerHeight - app.header.height).toString() + 'px';
-  $(".bDiv")[0].style.height = (window.innerHeight - app.header.height - 85).toString() + 'px';
+//  $(".bDiv")[0].style.height = (window.innerHeight - app.header.height - 85).toString() + 'px';
 //  if ($('#main').size > 0)
 //    $('#main')[0].style.width = (window.innerWidth - 11 - app.sidebar.width).toString() + 'px';
 //  $("#main")[0].style.height = (window.innerHeight - app.header.height).toString() + 'px';
@@ -41,7 +42,8 @@ var contactBoxClick = function(e) {
     $(e.currentTarget).toggleClass('contact-box-checked');
   } else {
     $('.contact-box').removeClass('contact-box-checked');
-    e.currentTarget.className += ' contact-box-checked';
+    //e.currentTarget.className += ' contact-box-checked';
+    $(e.currentTarget).addClass('contact-box-checked');
 
   }
 };
@@ -58,22 +60,22 @@ $('.contact-box').click(function(e) {
   contactBoxClick(e);
 });
 
-
 // 提示消息
 var messageDisplay = function(msg, title) {
-  //$('#message h3')[0].innerHTML = title || '提示信息';
-  // $('#message p')[0].innerHTML = msg;
+  if ($('#message').css("display") != "none") {
+    clearTimeout(time);
+    $('#message').hide({effect : 'slide', direction : 'down'});
+  }
   $('#message h3').html(function() {
-    return title || '提示信息'
+    return title || '提示信息';
   });
   $('#message p').html(msg);
   $('#message').show({effect : 'slide', direction : 'down'});
   // 待修改
-  setTimeout(function() {
+  time = setTimeout(function() {
     $('#message').hide({effect : 'slide', direction : 'down'});
-  }, 3000)
+  }, 3000);
 };
-
 // 对话框：修改个人信息
 var accountEditDialog = function() {
   $('#account-edit-dialog').dialog({width : 'auto', buttons : {'保存' : function() {
@@ -172,8 +174,7 @@ $('#account-edit')[0].onclick = $('#control-face')[0].onclick = function() {
 };
 
 // 条目：资料管理
-$('#message-manager')[0].onclick = function() {
-  // $("#main")[0].innerHTML = "";
+$('#message-manager').click(function() {
   $("#main").html();
   $("#main").flexigrid({
 //  url : 'post2.php',
@@ -203,7 +204,7 @@ $('#message-manager')[0].onclick = function() {
     width : '100%',
     height : window.innerHeight - app.header.height - 85
   });
-};
+});
 
 // 条目：触发修改密码对话框
 $('#password-change')[0].onclick = function() {
