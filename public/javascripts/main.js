@@ -18,6 +18,7 @@ namespace.register('app.wrapper');
 app.header.height = 48;
 app.sidebar.width = 200;
 
+
 function resizeAllInOne() {
   $('#wrapper')[0].style.height = (window.innerHeight - app.header.height).toString() + 'px';
   $(".bDiv")[0].style.height = (window.innerHeight - app.header.height - 85).toString() + 'px';
@@ -42,13 +43,9 @@ var contactBoxClick = function(e) {
   } else {
     $('.contact-box').removeClass('contact-box-checked');
     e.currentTarget.className += ' contact-box-checked';
-
   }
 };
 
-$(function() {
-  resizeAllInOne();
-});
 
 $('.contact-box').dblclick(function(e) {
   contactBoxDblclick(e)
@@ -58,18 +55,21 @@ $('.contact-box').click(function(e) {
   contactBoxClick(e);
 });
 
-
 // 提示消息
 var messageDisplay = function(msg, title) {
+  if ($('#message').css("display") != "none") {
+    clearTimeout(time);
+    $('#message').hide({effect : 'slide', direction : 'down'});
+  }
   $('#message h3').html(function() {
-    return title || '提示信息'
+    return title || '提示信息';
   });
   $('#message p').html(msg);
   $('#message').show({effect : 'slide', direction : 'down'});
   // 待修改
-  setTimeout(function() {
+  time = setTimeout(function() {
     $('#message').hide({effect : 'slide', direction : 'down'});
-  }, 3000)
+  }, 3000);
 };
 
 // 对话框：修改个人信息
@@ -164,7 +164,6 @@ $('#random-results').click(function() {
   }, "json");
 });
 
-
 // 条目：编辑信息
 $('#account-edit').click(function() {
   accountEditDialog()
@@ -175,7 +174,6 @@ $('#control-face').click(function() {
 
 // 条目：资料管理
 $('#message-manager').click(function() {
-  // $("#main")[0].innerHTML = "";
   $("#main").html();
   $("#main").flexigrid({
 //  url : 'post2.php',
@@ -215,11 +213,14 @@ $('#password-change').click(function() {
   passwordChangeDialog();
 });
 
-//导航背景变化
 $(function() {
+  resizeAllInOne();
+
+  //导航背景反黑
   $('#sidebar-in li').click(function() {
-    console.log('ddd')
+    console.log('dd');
     $('#sidebar-in').find('li.active').removeClass('active');
     $(this).addClass("active");
   });
+
 });
