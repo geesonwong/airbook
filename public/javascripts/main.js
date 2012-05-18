@@ -47,6 +47,7 @@ var contactBoxClick = function(e) {
 };
 
 
+
 $('.contact-box').dblclick(function(e) {
   contactBoxDblclick(e)
 });
@@ -215,7 +216,6 @@ $('#password-change').click(function() {
 
 $(function() {
   resizeAllInOne();
-
   //导航背景反黑
   $('#sidebar-in li').click(function() {
     console.log('dd');
