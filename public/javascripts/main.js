@@ -21,7 +21,7 @@ app.sidebar.width = 200;
 
 function resizeAllInOne() {
   $('#wrapper')[0].style.height = (window.innerHeight - app.header.height).toString() + 'px';
-  $(".bDiv")[0].style.height = (window.innerHeight - app.header.height - 85).toString() + 'px';
+//  $(".bDiv")[0].style.height = (window.innerHeight - app.header.height - 85).toString() + 'px';
 //  if ($('#main').size > 0)
 //    $('#main')[0].style.width = (window.innerWidth - 11 - app.sidebar.width).toString() + 'px';
 //  $("#main")[0].style.height = (window.innerHeight - app.header.height).toString() + 'px';
