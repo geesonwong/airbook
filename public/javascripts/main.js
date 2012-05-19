@@ -14,12 +14,13 @@ namespace.register = function(name) {
 namespace.register('siderbar');
 namespace.register('header');
 namespace.register('time');
+namespace.register('active');
 
 $(function() {
 
   header.height = 48;
   siderbar.width = 200;
-
+  active = $('#siderbar-in').find('li.active');
   // resize时重新布局
   var resizeAllInOne = function() {
     $('#wrapper')[0].style.height = (window.innerHeight - header.height).toString() + 'px';
@@ -129,15 +130,23 @@ $(function() {
   // ============导航栏的事件绑定============
 
   //导航背景反黑
-  $('#siderbar-in .forward').click(function() {
-    $('#siderbar-in').find('li.active').removeClass('active');
+  $('#siderbar-in li').click(function() {
+    if (this == active[0]) {
+      this.flag = 0;
+      return;
+    }
+    active.removeClass('active');
     $(this).addClass("active");
+    this.flag = 1;
+    active = $(this);
   });
 
   // 条目：随便看看
   $('#random-results').click(function() {
 //    $('').hide();
-
+    if (!this.flag) {
+      return;
+    }
     $.post('/randomResults', function(data) {
       if (data.success) {
         var results = eval('(' + data.results + ')');
