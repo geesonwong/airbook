@@ -17,3 +17,22 @@ exports.randomResults = function(req, res, next) {
     res.json({success : true, results : JSON.stringify(accounts)});
   });
 };
+
+exports.addContacts = function(req, res, next) {
+  var contacts = req.body.contacts;
+  for (var i in contacts) {
+    Account.findById(contacts[i], function(err, account) {
+      var contact = new Contact();
+      contact.owner_id = req.session.account._id;
+      contact.contacter_id = account._id;
+      contact.contacter_name = account.name;
+      contact.contacter_phone = account.base_phone;
+      contact.contacter_email = account.base_email;
+
+      contact.save(function(err) {
+        if (err) return res.json({success : false, message : '系统错误'});
+      });
+    });
+  }
+  res.json({success : true, message : '添加联系人成功'});
+};

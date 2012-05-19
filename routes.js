@@ -21,4 +21,6 @@ exports = module.exports = function(app) {
   app.post('/editAccount', account.updateAccount);
   app.post('/randomResults', contact.randomResults);
 
+  app.post('/addContacts',contact.addContacts);
+
 };
