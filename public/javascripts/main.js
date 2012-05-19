@@ -136,7 +136,8 @@ $(function() {
 
   // 条目：随便看看
   $('#random-results').click(function() {
-    $('').hide();
+//    $('').hide();
+
     $.post('/randomResults', function(data) {
       if (data.success) {
         var results = eval('(' + data.results + ')');
