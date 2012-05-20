@@ -20,7 +20,6 @@ var _getAccountType = function(typeNumber) {
 };
 
 
-
 /**
  * 账户表，有2种类型（用户和集体），之间用一张中间表联系起来，是多对多关系
  */
@@ -34,6 +33,9 @@ var AccountSchema = new Schema({
   photo_path : {type : String}, // 头像地址
   create_time : {type : Date, 'default' : Date.now}, // 创建时间
   type : {type : Number, 'default' : _accountType.user, set : _setAccountType, get : _getAccountType}, //0是个人，1是集体
+  qq : {type : Number},
+  homepage : {type : String},
+  addr : {type : String},
   card : {type : String}
 });
 

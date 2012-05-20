@@ -21,6 +21,7 @@ $(function() {
   header.height = 48;
   siderbar.width = 200;
   active = $('#siderbar-in').find('li.active');
+
   // resize时重新布局
   var resizeAllInOne = function() {
     $('#wrapper')[0].style.height = (window.innerHeight - header.height).toString() + 'px';
@@ -130,7 +131,7 @@ $(function() {
   // ============导航栏的事件绑定============
 
   //导航背景反黑
-  $('#siderbar-in li').click(function() {
+  $('#siderbar-in .forward').click(function() {
     if (this == active[0]) {
       this.flag = 0;
       return;
