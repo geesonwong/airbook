@@ -32,13 +32,13 @@
       <div class="group">
         <h3>联系人</h3>
         <ul>
-          <li id="homeless-Contacts" class="item forward active" title="新增加的联系人，添加标签以后归档">
+          <li id="homeless-contacts" class="item forward active" title="新增加的联系人，添加标签以后归档">
             <i class="item-icon"></i>
             <span class="">未归档联系人</span>
           </li>
-          <li id="my-Contacts" class="item forward" title="我的通讯录中的联系人">
+          <li id="my-contacts" class="item forward" title="我的通讯录中的联系人">
             <i class="item-icon"></i>
-            <span class="">我的联系人</span>
+            <span class="">已归档联系人</span>
           </li>
           <li class="item forward" title="我的通讯录中的联系人" id="random-results">
             <i class="item-icon"></i>
@@ -128,7 +128,7 @@
           </li>
           <li class="item">
             <i class="item-icon"></i>
-            <span class="">同步策略</span>
+            <span class="">备份</span>
           </li>
         </ul>
       </div>
@@ -189,8 +189,8 @@
            value="<%=account.first_name || ''%>"/>
     <label style="display: block;">
       Q Q：<input type="text" placeholder="QQ号码" class="form-input account-edit-input" id="qq" name="qq"
-                 origin="<%=account.qq || ''%>"
-                 value="<%=account.qq || ''%>"/></label>
+                origin="<%=account.qq || ''%>"
+                value="<%=account.qq || ''%>"/></label>
     <label style="display: block;">
       地址：<input type="text" placeholder="地址" class="form-input account-edit-input" id="addr" name="addr"
                 origin="<%=account.addr || ''%>"

@@ -47,7 +47,7 @@ $(function() {
     }
   };
 
-
+  $(".contact-box").live("click", contactBoxClick).live("dblclick", contactBoxDblclick);
 // 窗口的resize事件监听
   $(window).resize(function() {
     resizeAllInOne();
@@ -142,13 +142,13 @@ $(function() {
     active = $(this);
   });
 
-  // 条目：随便看看
-  $('#random-results').click(function() {
-//    $('').hide();
-    if (!this.flag) {
+  //  增删名片
+  var getCard = function(that,url) {
+    if (!that.flag) {
       return;
     }
-    $.post('/randomResults', function(data) {
+    $.post(url, function(data) {
+
       if (data.success) {
         var results = eval('(' + data.results + ')');
         $('#contact-panel').html('');
@@ -156,12 +156,6 @@ $(function() {
           var div = $('<div class="contact-box"></div>');
           div.html(results[i].card);
           div.attr('accountid', results[i]._id);
-          div.bind('dblclick', function(e) {
-            contactBoxDblclick(e);
-          });
-          div.bind('click', function(e) {
-            contactBoxClick(e);
-          });
           $('#contact-panel')[0].appendChild(div[0]);
         }
       } else
@@ -169,6 +163,12 @@ $(function() {
     }, "json");
     $('#main>div:first').hide();
     $("#contact-men").show();
+  }
+
+  // 条目：随便看看
+  $('#random-results').click(function(){
+    var that = this;
+    getCard(that,"/randomResults");
   });
 
   // 条目：信息编辑
@@ -242,9 +242,9 @@ $(function() {
   });
 
   // 图标：联系人卡片
-  $('.contact-box').click(function(e) {
-    contactBoxClick(e);
-  });
+//  $('.contact-box').click(function(e) {
+//    contactBoxClick(e);
+//  });
 
   // 图标：添加联系人
   $('#add-contact').click(function() {
@@ -269,62 +269,15 @@ $(function() {
 
 //未归档联系人
 //todo
-  $('#homeless-Contacts').click(function() {
-//    $('').hide();
-    if (!this.flag) {
-      return;
-    }
-    $.post('/homelessContacts', function(data) {
-      if (data.success) {
-        var results = eval('(' + data.results + ')');
-        $('#contact-panel').html('');
-        for (var i in results) {
-          var div = $('<div class="contact-box"></div>');
-          div.html(results[i].card);
-          div.attr('accountid', results[i]._id);
-          div.bind('dblclick', function(e) {
-            contactBoxDblclick(e);
-          });
-          div.bind('click', function(e) {
-            contactBoxClick(e);
-          });
-          $('#contact-panel')[0].appendChild(div[0]);
-        }
-      } else
-        messageDisplay(data.message);
-    }, "json");
-    $('#main>div:first').hide();
-    $("#contact-men").show();
+  $('#homeless-contacts').click(function(){
+    var that = this;
+    getCard(that,"/homelessContacts");
   });
 
 //我的联系人
 //todo
-  $('#my-Contacts').click(function() {
-//    $('').hide();
-    if (!this.flag) {
-      return;
-    }
-    $.post('/myContacts', function(data) {
-      if (data.success) {
-        var results = eval('(' + data.results + ')');
-        $('#contact-panel').html('');
-        for (var i in results) {
-          var div = $('<div class="contact-box"></div>');
-          div.html(results[i].card);
-          div.attr('accountid', results[i]._id);
-          div.bind('dblclick', function(e) {
-            contactBoxDblclick(e);
-          });
-          div.bind('click', function(e) {
-            contactBoxClick(e);
-          });
-          $('#contact-panel')[0].appendChild(div[0]);
-        }
-      } else
-        messageDisplay(data.message);
-    }, "json");
-    $('#main>div:first').hide();
-    $("#contact-men").show();
+  $('#my-contacts').click(function(){
+    var that = this;
+    getCard(that,"/myContacts");
   });
-
 }); //end

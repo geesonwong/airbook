@@ -5,6 +5,8 @@
 var site = require('./controllers/site');
 var account = require('./controllers/account');
 var contact = require('./controllers/contact');
+var mcontact = require('./controllers/mobile/contact');
+var maccount = require('./controllers/mobile/account');
 
 exports = module.exports = function(app) {
 
@@ -21,7 +23,13 @@ exports = module.exports = function(app) {
   app.post('/editAccount', account.updateAccount);
   app.post('/randomResults', contact.randomResults);
 
-  app.post('/addContacts',contact.addContacts);
+  app.post('/addContacts', contact.addContacts);
+
+  // mobile
+  app.post('/m/getContacts', mcontact.getContactsList);
+  app.post('/m/login', maccount.login);
+
+//  app.post('/a/getContactsList'.mcontact.getContactsList);
 
   app.post('/homelessContacts', contact.homelessContacts);
   app.post('/myContacts', contact.myContacts);
