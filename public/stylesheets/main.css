@@ -335,11 +335,21 @@ a {
     border: solid 3px blue;
     cursor: pointer;
     margin: 4px;
+    background: -moz-linear-gradient(top, #fff 0, #D3FFFA 120%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(120%, #D3FFFA));
+    background: -webkit-linear-gradient(top, #fff 0, #D3FFFA 120%);
+    background: -o-linear-gradient(top, #fff 0, #D3FFFA 120%);
+    background: -ms-linear-gradient(top, #fff 0, #D3FFFA 120%);
 }
 
 .contact-box-checked {
     border: 3px green solid;
     margin: 4px;
+    background: -moz-linear-gradient(top, #fff 0, #D6F9BD 120%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(120%, #D6F9BD));
+    background: -webkit-linear-gradient(top, #fff 0, #D6F9BD 120%);
+    background: -o-linear-gradient(top, #fff 0, #D6F9BD 120%);
+    background: -ms-linear-gradient(top, #fff 0, #D6F9BD 120%);
 }
 
 .form-box {
@@ -418,4 +428,22 @@ a {
 
 .display-none {
     display: none;
+}
+
+.card-photo {
+    float: right;
+    width: 48px;
+    height: 48px;
+}
+
+.card-name {
+    font: bold 22px/30px sans-serif;
+}
+
+.card-mail {
+    font: bold 14px sans-serif;
+}
+
+.card-phone {
+    font: bold 14px sans-serif;
 }

@@ -170,9 +170,16 @@ exports.updateAccount = function(req, res, next) {
   firstName = sanitize(firstName).xss();
   var lastName = sanitize(req.body.lastName).trim();
   lastName = sanitize(lastName).xss();
+  var qq = sanitize(req.body.qq).trim();
+  qq = sanitize(qq).xss();
+  var addr = sanitize(req.body.addr).trim();
+  addr = sanitize(addr).xss();
+  var homepage = sanitize(req.body.homepage).trim();
+  homepage = sanitize(homepage).xss();
 
   try {
-    check(baseEmail, '不正确的电子邮箱').isEmail();
+    if (baseEmail && baseEmail != '')
+      check(baseEmail, '不正确的电子邮箱').isEmail();
   } catch (e) {
     return res.json({success : false, message : e.message});
   }
@@ -184,18 +191,37 @@ exports.updateAccount = function(req, res, next) {
     return res.json({success : false, message : e.message});
   }
 
+  try {
+    if (qq && qq != '')
+      check(qq, '不正确的QQ号码').isNumeric();
+  } catch (e) {
+    return res.json({success : false, message : e.message});
+  }
+
+  try {
+    if (homepage && homepage != '')
+      check(homepage, '不正确的主页访问地址').isUrl();
+  } catch (e) {
+    return res.json({success : false, message : e.message});
+  }
+
   Account.findById(req.session.account._id, function(err, account) {
     if (err) return res.json({success : false, message : '发生系统错误'});
     account.base_email = baseEmail;// TODO 判断是否已经存在
     account.base_phone = basePhone;
     account.last_name = lastName;
     account.first_name = firstName;
+    account.homepage = homepage;
+    account.addr = addr;
+    account.qq = qq;
     account.photo_path = 'http://www.gravatar.com/avatar/' + _md5(baseEmail);
 //    if (!account.card || account.card == '') { // 生成默认名片样式
-    account.card = '<img src="' + account.photo_path + '?size=32" alt="">';
-    account.card += "<h2>" + account.last_name + ' ' + account.first_name + "</h2>";
-    account.card += "<h3>邮箱:" + account.base_email + "</h3>";
-    account.card += "<h3>电话：" + account.base_phone + "</h3>";
+    account.card = '<img class="card-photo" src="' + account.photo_path + '?size=32" alt="">';
+    account.card += "<div class='card-name'>" + account.last_name + ' ' + account.first_name + "</div>";
+    if (homepage && homepage != "")
+      account.card += "<div class='card-homepage'><a style='font-size: 12px' target='_blank' href='" + account.homepage + "'> 主页地址</a></div>";
+    account.card += "<div class='card-mail'>邮箱：" + account.base_email + "</div>";
+    account.card += "<div class='card-phone'>电话：" + account.base_phone + "</div>";
 //    }
     account.save(function(err) {
       if (err) return res.json({success : false, message : err.message});
@@ -203,7 +229,8 @@ exports.updateAccount = function(req, res, next) {
     });
   })
 
-};
+}
+;
 
 var _errorReturn = function(res, isLogin, errMsg, name, email) {
   console.log(errMsg);

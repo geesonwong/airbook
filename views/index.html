@@ -30,15 +30,15 @@
   <div id="siderbar">
     <div id="siderbar-in">
       <div class="group">
-        <h3>爱友</h3>
+        <h3>联系人</h3>
         <ul>
           <li class="item forward active" title="新增加的联系人，添加标签以后归档">
             <i class="item-icon"></i>
-            <span class="">未归档爱友</span>
+            <span class="">未归档联系人</span>
           </li>
           <li class="item forward" title="我的通讯录中的联系人">
             <i class="item-icon"></i>
-            <span class="">所有爱友</span>
+            <span class="">我的联系人</span>
           </li>
           <li class="item forward" title="我的通讯录中的联系人" id="random-results">
             <i class="item-icon"></i>
@@ -48,7 +48,7 @@
       </div>
       <div class="sep"></div>
       <div class="group">
-        <h3>爱集体</h3>
+        <h3>集体</h3>
         <ul>
           <li class="item forward" title="新增加的联系人，添加标签以后归档">
             <i class="item-icon"></i>
@@ -187,6 +187,18 @@
            name="firstName"
            origin="<%=account.first_name || ''%>"
            value="<%=account.first_name || ''%>"/>
+    <label style="display: block;">
+      Q Q：<input type="text" placeholder="QQ号码" class="form-input account-edit-input" id="qq" name="qq"
+                origin="<%=account.qq || ''%>"
+                value="<%=account.qq || ''%>"/></label>
+    <label style="display: block;">
+      地址：<input type="text" placeholder="地址" class="form-input account-edit-input" id="addr" name="addr"
+                origin="<%=account.addr || ''%>"
+                value="<%=account.addr || ''%>"/></label>
+    <label style="display: block;">
+      主页：<input type="text" placeholder="http://" class="form-input account-edit-input" id="homepage" name="homepage"
+                origin="<%=account.homepage || ''%>"
+                value="<%=account.homepage || ''%>"/></label>
   </form>
 </div>
 
