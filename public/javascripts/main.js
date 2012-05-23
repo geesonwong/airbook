@@ -266,4 +266,65 @@ $(function() {
   });
 
   resizeAllInOne();
-});
+
+//未归档联系人
+//todo
+  $('#homeless-Contacts').click(function() {
+//    $('').hide();
+    if (!this.flag) {
+      return;
+    }
+    $.post('/homelessContacts', function(data) {
+      if (data.success) {
+        var results = eval('(' + data.results + ')');
+        $('#contact-panel').html('');
+        for (var i in results) {
+          var div = $('<div class="contact-box"></div>');
+          div.html(results[i].card);
+          div.attr('accountid', results[i]._id);
+          div.bind('dblclick', function(e) {
+            contactBoxDblclick(e);
+          });
+          div.bind('click', function(e) {
+            contactBoxClick(e);
+          });
+          $('#contact-panel')[0].appendChild(div[0]);
+        }
+      } else
+        messageDisplay(data.message);
+    }, "json");
+    $('#main>div:first').hide();
+    $("#contact-men").show();
+  });
+
+//我的联系人
+//todo
+  $('#my-Contacts').click(function() {
+//    $('').hide();
+    if (!this.flag) {
+      return;
+    }
+    $.post('/myContacts', function(data) {
+      if (data.success) {
+        var results = eval('(' + data.results + ')');
+        $('#contact-panel').html('');
+        for (var i in results) {
+          var div = $('<div class="contact-box"></div>');
+          div.html(results[i].card);
+          div.attr('accountid', results[i]._id);
+          div.bind('dblclick', function(e) {
+            contactBoxDblclick(e);
+          });
+          div.bind('click', function(e) {
+            contactBoxClick(e);
+          });
+          $('#contact-panel')[0].appendChild(div[0]);
+        }
+      } else
+        messageDisplay(data.message);
+    }, "json");
+    $('#main>div:first').hide();
+    $("#contact-men").show();
+  });
+
+}); //end

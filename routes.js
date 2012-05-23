@@ -23,4 +23,6 @@ exports = module.exports = function(app) {
 
   app.post('/addContacts',contact.addContacts);
 
+  app.post('/homelessContacts', contact.homelessContacts);
+  app.post('/myContacts', contact.myContacts);
 };

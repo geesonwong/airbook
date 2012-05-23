@@ -447,3 +447,6 @@ a {
 .card-phone {
     font: bold 14px sans-serif;
 }
+
+/**** Clearfix ****/
+ .clearfix:after { content: ""; display: table;clear: both; }
