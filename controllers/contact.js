@@ -33,12 +33,12 @@ exports.addContacts = function(req, res, next) {
       contact.contacter_name = account.name;
       contact.contacter_phone = account.base_phone;
       contact.contacter_email = account.base_email;
-      if ((contact.owner_id.id == contact.contacter_id.id)) {
+      if ((contact.owner_id.id == contact.contacter_id.id)) { //判断是否加的是自己
         tag.push(contact.contacter_name);
         proxy.trigger("v1", tag);
         return;
       }
-      Contact.findOne({owner_id : contact.owner_id, contacter_id : contact.contacter_id}, function(err, accounts) {
+      Contact.findOne({owner_id : contact.owner_id, contacter_id : contact.contacter_id}, function(err, accounts) { //判断是否的加的是自己
         if (err) return res.json({success : false, message : '系统错误'});
         if (accounts) {
           tag.push(contact.contacter_name);
@@ -48,9 +48,9 @@ exports.addContacts = function(req, res, next) {
           if (err) return res.json({success : false, message : '系统错误'});
         })
       });
+      if (parseInt(i) == contacts.length - 1) proxy.trigger("v1", tag);
     });
   }
-  proxy.trigger("v1", tag);
   var add = function(v1) {
     if (v1.length) {
       var msg = v1.toString() + "添加失败";
@@ -75,7 +75,7 @@ exports.homelessContacts = function(req, res, next) {
         Account.findById(contacts[i].contacter_id, function(err, account) {
           if (err) return res.json({success : false, message : '系统错误'});
           _accounts.push(account);
-          proxy.trigger("v1", _accounts);
+          if (parseInt(i) == contacts.length - 1) proxy.trigger("v1", _accounts);
         });
       }
       var post_card = function(v1) {
@@ -106,7 +106,7 @@ exports.myContacts = function(req, res, next) {
         Account.findById(contacts[i].contacter_id, function(err, account) {
           if (err) return res.json({success : false, message : '系统错误'});
           _accounts.push(account);
-          proxy.trigger("v1", _accounts);
+          if (parseInt(i) == contacts.length - 1) proxy.trigger("v1", _accounts);
         });
       }
       var post_card = function(v1) {
