@@ -8,7 +8,7 @@ var sessionUtil = require('../../utils/sessionUtil');
 
 exports.login = function(req, res, next) {
 
-  console.log('...');
+  console.log('account.login : ' + new Date().toLocaleTimeString());
 
   var name = sanitize(req.body.name).trim().toLowerCase();
   var password = sanitize(req.body.password).trim();
@@ -31,7 +31,7 @@ exports.login = function(req, res, next) {
 
     // store session cookie
     sessionUtil.gen_session(account, res);
-    return res.json({success : true, message : '登录成功'});
+    return res.json({success : true, message : '登录成功', account : JSON.stringify(account)});
 
   });
 

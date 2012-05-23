@@ -334,11 +334,11 @@ a {
 .contact-box:hover {
     cursor: pointer;
     margin: 4px;
-    background: -moz-linear-gradient(top, #EAEAA8 0, #EAEAA8 120%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FEFEFE), color-stop(120%, #EAEAA8));
-    background: -webkit-linear-gradient(top, #FEFEFE 0, #EAEAA8 120%);
-    background: -o-linear-gradient(top, #FEFEFE 0, #EAEAA8 120%);
-    background: -ms-linear-gradient(top, #FEFEFE 0, #EAEAA8 120%);
+    background: -moz-linear-gradient(top, #FEFEFE 0, #EAE12C 120%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FEFEFE), color-stop(120%, #EAE12C));
+    background: -webkit-linear-gradient(top, #FEFEFE 0, #EAE12C 120%);
+    background: -o-linear-gradient(top, #FEFEFE 0, #EAE12C 120%);
+    background: -ms-linear-gradient(top, #FEFEFE 0, #EAE12C 120%);
     border: solid 3px #EAEAA8;
 }
 
@@ -349,6 +349,10 @@ a {
     background: -webkit-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
     background: -o-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
     background: -ms-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
+    border: solid 3px #000000;
+}
+
+.contact-box-checked:hover {
     border: solid 3px #000000;
 }
 
@@ -446,4 +450,12 @@ a {
 
 .card-phone {
     font: bold 14px sans-serif;
+}
+
+#control-logout {
+    background-position: -264px -585px;
+}
+
+#control-logout:hover {
+    background-position: -264px -649px;
 }

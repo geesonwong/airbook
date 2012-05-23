@@ -18,6 +18,7 @@ exports = module.exports = function(app) {
 
   app.post('/register', account.register);
   app.post('/login', account.login);
+  app.post('/logout',site.logout);
 
   app.post('/changePassword', account.changePassword);
   app.post('/editAccount', account.updateAccount);
@@ -28,7 +29,5 @@ exports = module.exports = function(app) {
   // mobile
   app.post('/m/getContacts', mcontact.getContactsList);
   app.post('/m/login', maccount.login);
-
-//  app.post('/a/getContactsList'.mcontact.getContactsList);
 
 };

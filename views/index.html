@@ -17,6 +17,8 @@
       </div>
       <div id="control-message" class="btn homeImg" title="<%=account.name%>">
       </div>
+      <div id="control-logout" class="btn homeImg" title="退出">
+      </div>
       <div id="control-face" class="btn homeImg" title="<%=account.name%>">
         <img src="<%=account.photo_path%>?size=32"/>
       </div>
@@ -189,8 +191,8 @@
            value="<%=account.first_name || ''%>"/>
     <label style="display: block;">
       Q Q：<input type="text" placeholder="QQ号码" class="form-input account-edit-input" id="qq" name="qq"
-                origin="<%=account.qq || ''%>"
-                value="<%=account.qq || ''%>"/></label>
+                 origin="<%=account.qq || ''%>"
+                 value="<%=account.qq || ''%>"/></label>
     <label style="display: block;">
       地址：<input type="text" placeholder="地址" class="form-input account-edit-input" id="addr" name="addr"
                 origin="<%=account.addr || ''%>"
@@ -219,6 +221,11 @@
 <!-- 对话框：关于空中电话本 -->
 <div id="about-airbook-dialog" title="关于空中电话本" style="display: none">
   <p>空中电话本是一款免费的通讯录同步软件，支持多终端和WEB端管理，同时可以做人脉标签搜索和标记。希望你用的开心。</p>
+</div>
+
+<!-- 对话框：退出空中电话本 -->
+<div id="logout-dialog" title="退出登录" style="display: none">
+  <p>你……你真的……要退出登录吗……</p>
 </div>
 
 <!-- DIV：提示消息 -->
