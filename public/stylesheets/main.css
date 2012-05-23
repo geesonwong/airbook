@@ -319,37 +319,37 @@ a {
     width: 250px;
     height: 100px;
     float: left;
-    margin: 6px;
+    margin: 4px;
     padding: 10px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    background: -moz-linear-gradient(top, #FEFEFE 0, #C2D7D8 200%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FEFEFE), color-stop(200%, #C2D7D8));
+    background: -webkit-linear-gradient(top, #FEFEFE 0, #C2D7D8 200%);
+    background: -o-linear-gradient(top, #FEFEFE 0, #C2D7D8 200%);
+    background: -ms-linear-gradient(top, #FEFEFE 0, #C2D7D8 200%);
+    border: 3px #C2D7D8 solid;
+}
+
+.contact-box:hover {
+    cursor: pointer;
+    margin: 4px;
+    background: -moz-linear-gradient(top, #EAEAA8 0, #EAEAA8 120%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FEFEFE), color-stop(120%, #EAEAA8));
+    background: -webkit-linear-gradient(top, #FEFEFE 0, #EAEAA8 120%);
+    background: -o-linear-gradient(top, #FEFEFE 0, #EAEAA8 120%);
+    background: -ms-linear-gradient(top, #FEFEFE 0, #EAEAA8 120%);
+    border: solid 3px #EAEAA8;
+}
+
+.contact-box-checked {
+    margin: 4px;
     background: -moz-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FEFEFE), color-stop(200%, #aaaaaa));
     background: -webkit-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
     background: -o-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
     background: -ms-linear-gradient(top, #FEFEFE 0, #aaaaaa 200%);
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    border: solid 1px #000000;
-}
-
-.contact-box:hover {
-    border: solid 3px blue;
-    cursor: pointer;
-    margin: 4px;
-    background: -moz-linear-gradient(top, #fff 0, #D3FFFA 120%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(120%, #D3FFFA));
-    background: -webkit-linear-gradient(top, #fff 0, #D3FFFA 120%);
-    background: -o-linear-gradient(top, #fff 0, #D3FFFA 120%);
-    background: -ms-linear-gradient(top, #fff 0, #D3FFFA 120%);
-}
-
-.contact-box-checked {
-    border: 3px green solid;
-    margin: 4px;
-    background: -moz-linear-gradient(top, #fff 0, #D6F9BD 120%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fff), color-stop(120%, #D6F9BD));
-    background: -webkit-linear-gradient(top, #fff 0, #D6F9BD 120%);
-    background: -o-linear-gradient(top, #fff 0, #D6F9BD 120%);
-    background: -ms-linear-gradient(top, #fff 0, #D6F9BD 120%);
+    border: solid 3px #000000;
 }
 
 .form-box {

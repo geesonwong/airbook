@@ -242,17 +242,17 @@ var _md5 = function(str) {
   md5sum.update(str);
   str = md5sum.digest('hex');
   return str;
-}
+};
 var _gen_session = function(account, res) {
   var auth_token = _encrypt(account._id + '\t' + account.name + '\t' + account.password + '\t' + account.base_email, config.session_secret);
   res.cookie(config.auth_cookie_name, auth_token, {path : '/', maxAge : 1000 * 60 * 60 * 24 * 7}); //cookie 有效期1周
-}
+};
 var _encrypt = function(str, secret) {
   var cipher = crypto.createCipher('aes192', secret);
   var enc = cipher.update(str, 'utf8', 'hex');
   enc += cipher.final('hex');
   return enc;
-}
+};
 var _decrypt = function(str, secret) {
   var decipher = crypto.createDecipher('aes192', secret);
   var dec = decipher.update(str, 'hex', 'utf8');

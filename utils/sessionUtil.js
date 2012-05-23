@@ -1,3 +1,6 @@
+var crypto = require('crypto');
+var config = require('../config').config;
+
 exports.md5 = function(str) {
   var md5sum = crypto.createHash('md5');
   md5sum.update(str);
@@ -6,7 +9,7 @@ exports.md5 = function(str) {
 };
 
 exports.gen_session = function(account, res) {
-  var auth_token = _encrypt(account._id + '\t' + account.name + '\t' + account.password + '\t' + account.base_email, config.session_secret);
+  var auth_token = this.encrypt(account._id + '\t' + account.name + '\t' + account.password + '\t' + account.base_email, config.session_secret);
   res.cookie(config.auth_cookie_name, auth_token, {path : '/', maxAge : 1000 * 60 * 60 * 24 * 7}); //cookie 有效期1周
 };
 
