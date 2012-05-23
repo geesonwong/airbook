@@ -459,3 +459,6 @@ a {
 #control-logout:hover {
     background-position: -264px -649px;
 }
+
+/**** Clearfix ****/
+.clearfix:after { content: ""; display: table;clear: both; }

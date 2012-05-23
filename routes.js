@@ -30,4 +30,8 @@ exports = module.exports = function(app) {
   app.post('/m/getContacts', mcontact.getContactsList);
   app.post('/m/login', maccount.login);
 
+//  app.post('/a/getContactsList'.mcontact.getContactsList);
+
+  app.post('/homelessContacts', contact.homelessContacts);
+  app.post('/myContacts', contact.myContacts);
 };
