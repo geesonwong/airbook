@@ -9,7 +9,7 @@ var _state = {
 };
 
 var ContactSchema = new Schema({
-//  owner_id : {type : ObjectId, ref : 'Account'},
+  owner : {type : ObjectId, ref : 'Account'},
   contacter : {type : ObjectId, ref : 'Account'},
   comment : {type : String}, // 备注
   create_time : {type : Date, 'default' : Date.now}, // 创建时间
