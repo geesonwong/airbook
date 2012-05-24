@@ -207,7 +207,7 @@ exports.updateAccount = function(req, res, next) {
 
   Account.findById(req.session.account._id, function(err, account) {
     if (err) return res.json({success : false, message : '发生系统错误'});
-    account.base_email = baseEmail;// TODO 判断是否已经存在
+    account.base_email = baseEmail;
     account.base_phone = basePhone;
     account.last_name = lastName;
     account.first_name = firstName;
