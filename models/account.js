@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-//var ObjectId = Schema.ObjectId;
+var ObjectId = Schema.ObjectId;
 
 var _accountType = {
   user : 0,
@@ -36,7 +36,8 @@ var AccountSchema = new Schema({
   qq : {type : Number},
   homepage : {type : String},
   addr : {type : String},
-  card : {type : String}
+  card : {type : String},
+  members : [ObjectId]
 });
 
 
