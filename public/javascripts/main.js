@@ -143,7 +143,7 @@ $(function() {
   });
 
   //  增删名片
-  var getCard = function(that, url) {
+  var getCard = function(that,url) {
     if (!that.flag) {
       return;
     }
