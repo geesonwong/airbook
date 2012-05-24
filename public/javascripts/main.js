@@ -290,7 +290,7 @@ $(function() {
 //    alert('here');
     var that = this;
     getCard(that, "/homelessContacts");
-  });
+  }).trigger('click');
 
 //我的联系人
   $('#my-contacts').click(function() {
@@ -300,6 +300,6 @@ $(function() {
 
   // 加载后执行
   resizeAllInOne();// 重新布局
-  $('#homeless-contacts').trigger('click');//默认打开第一个未归档联系人
+//  $('#homeless-contacts').trigger('click');//默认打开第一个未归档联系人
 }); //end
 

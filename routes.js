@@ -24,6 +24,8 @@ exports = module.exports = function(app) {
   app.post('/editAccount', account.updateAccount);
   app.post('/randomResults', contact.randomResults);
 
+  app.post('/createCollective', account.createCollective);
+
   app.post('/addContacts', contact.addContacts);
 
   app.post('/homelessContacts', contact.homelessContacts);
