@@ -143,7 +143,7 @@ $(function() {
   });
 
   //  增删名片
-  var getCard = function(that, url) {
+  var getCard = function(that,url) {
     if (!that.flag) {
       return;
     }
@@ -301,6 +301,5 @@ $(function() {
   // 加载后执行
   resizeAllInOne();// 重新布局
   $('#homeless-contacts').trigger('click');//默认打开第一个未归档联系人
-
 }); //end
 
