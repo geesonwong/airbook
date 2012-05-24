@@ -262,8 +262,27 @@ $(function() {
   });
 
   // 图标：添加联系人
-  $('#add-contact').click(function() {
+  $('#remove-contact').click(function() {
   });
+
+  // 图标：退出登录
+  $('#control-logout').click(function() {
+
+    $("#logout-dialog").dialog({resizable : false, height : 140, modal : true, buttons : {
+      "我…我真的……真的要…" : function() {
+        $.post('/logout', function(data) {
+          if (data.success)
+            window.location.href = "/";
+        }, 'json');
+      },
+      '我点错了…' : function() {
+        $(this).dialog("close");
+      }
+    }, show : { effect : 'drop', direction : "up" },
+      hide : {effect : "drop", direction : "up"}
+    });
+  });
+
 
   resizeAllInOne();
 

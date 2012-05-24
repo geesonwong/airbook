@@ -13,8 +13,10 @@ var ContactSchema = new Schema({
   owner_id : {type : ObjectId}, // 用户的ID
   contacter_id : {type : ObjectId}, // 联系人的ID
   contacter_name : {type : String}, //联系人的名字
+  contacter_true_name : {type : String}, //联系人的姓名
   contacter_phone : {type : String}, //联系人的电话
   contacter_email : {type : String}, //联系人的邮件
+  photo_path : {type : String}, //头像路径
   comment : {type : String}, // 备注
   create_time : {type : Date, 'default' : Date.now}, // 创建时间
   state : {type : Number, 'default' : _state.normal}, // 状态

@@ -8,6 +8,8 @@ var Contact = models.Contact;
 //获取联系人列表
 exports.getContactsList = function(req, res, next) {
 
+  console.log('contact.getContactsList : ' + new Date().toLocaleTimeString());
+
   var accountId = sanitize(req.body.accountId).trim().toLowerCase();
 
   Contact.find({owner_id : accountId}, function(err, contacts) {

@@ -26,3 +26,9 @@ exports.index = function(req, res, next) {
   res.local('account', account);
   return res.render('index');
 };
+
+exports.logout = function(req, res, next) {
+  req.session.destroy();
+  res.clearCookie(config.auth_cookie_name, { path : '/' });
+  res.json({success : true})
+};
