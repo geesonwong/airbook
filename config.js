@@ -14,7 +14,7 @@ exports.config = {
     main : '空中电话本'
   },
 
-  db : 'mongodb://192.168.0.144/airbook',
+  db : 'mongodb://127.0.0.1/airbook',
   session_secret : 'airbook',
   auth_cookie_name : 'airbook'
 
