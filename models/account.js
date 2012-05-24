@@ -37,7 +37,10 @@ var AccountSchema = new Schema({
   homepage : {type : String},
   addr : {type : String},
   card : {type : String},
-  members : [ObjectId]
+  creator_id : {type : ObjectId, ref : 'Account'},
+  members : [
+    {type : ObjectId, ref : 'Account'}
+  ]
 });
 
 

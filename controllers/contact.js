@@ -51,29 +51,26 @@ exports.addContacts = function(req, res, next) {
 
     (function(n) {
       // 判断是否已经添加过了
-      Contact.findOne({owner : req.session.account._id})
-        .populate('contacter', null, {_id : accountIds[i]}).run(function(err, contacter) {
+      Contact.find({owner : req.session.account._id})
+        .populate('contacter', null, {_id : {equals : accountIds[i]} }, {limit : 1}).run(function(err, contacter) {
           if (err) return res.json({success : false, message : '系统错误'});
           if (contacter) {
-            failueAccounts.push(contacter.contacter.name);
-//            flag = false;
+            failueAccounts.push(contacter[0].contacter.name);
+            if (parseInt(n) == accountIds.length - 1)
+              proxy.trigger("v1", failueAccounts);
             return;
           }
           // 成功了！
           var contact = new Contact();
           contact.owner = req.session.account._id;
           contact.contacter = accountIds[i];
-//          if (flag) {
           contact.save(function(err) {
             if (err) return res.json({success : false, message : '系统错误'});
+            if (parseInt(n) == accountIds.length - 1) proxy.trigger("v1", failueAccounts);
           })
-//          }
         });
-      if (parseInt(n) == accountIds.length - 1) proxy.trigger("v1", failueAccounts);
     })(i);
   }
-  proxy.trigger("v1", failueAccounts);
-
 };
 
 //未归档联系人
