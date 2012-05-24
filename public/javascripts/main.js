@@ -160,7 +160,7 @@ $(function() {
         }
       } else {
         messageDisplay(data.message);
-        $('#contact-panel').html('<h1>' + data.message + '</h1>');
+        $('#contact-panel').html('<div id="nothing-to-display">' + data.message + '</div>');
       }
     }, "json");
     $('#main>div:first').hide();
@@ -250,12 +250,12 @@ $(function() {
 
   // 图标：添加联系人
   $('#add-contact').click(function() {
-    var contacts = [];
+    var accounts = [];
     $('.contact-box-checked').each(function(index, e) {
-      contacts.push(e.getAttribute('accountid'));
+      accounts.push(e.getAttribute('accountid'));
     });
-    if (contacts.length == 0) return;
-    $.post('/addContacts', {contacts : contacts}, function(data) {
+    if (accounts.length == 0) return;
+    $.post('/addContacts', {accounts : accounts}, function(data) {
       if (data.success) {
         messageDisplay(data.message);
       } else
@@ -286,7 +286,6 @@ $(function() {
   });
 
 //未归档联系人
-//todo
   $('#homeless-contacts').click(function() {
 //    alert('here');
     var that = this;
@@ -294,7 +293,6 @@ $(function() {
   });
 
 //我的联系人
-//todo
   $('#my-contacts').click(function() {
     var that = this;
     getCard(that, "/myContacts");
@@ -305,3 +303,4 @@ $(function() {
   $('#homeless-contacts').trigger('click');//默认打开第一个未归档联系人
 
 }); //end
+

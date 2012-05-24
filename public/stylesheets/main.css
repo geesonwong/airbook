@@ -456,6 +456,13 @@ a {
     background-position: -264px -585px;
 }
 
+#nothing-to-display{
+    text-align: center;
+    margin-top: 20%;
+    color: grey;
+    font: 40px bolder;
+}
+
 #control-logout:hover {
     background-position: -264px -649px;
 }

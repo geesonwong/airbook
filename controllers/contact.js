@@ -15,11 +15,35 @@ var crypto = require('crypto');
 
 var config = require('../config').config;
 
+// 返回全部结果
 exports.randomResults = function(req, res, next) {
   Account.find({}, function(err, accounts) {//TODO 随机推荐
     if (err) return res.json({success : false, message : '系统错误'});
     res.json({success : true, results : JSON.stringify(accounts)});
   });
+};
+
+// 添加联系人
+exports.addContacts = function(req, res, next) {
+
+  var accounts = req.body.accounts;
+  var failueAccounts = [];
+
+  for (var i in accounts) {
+    Account.findById(accounts[i], function(err, account) {
+      if (err) return res.json({success : false, message : '系统错误'});
+      if (req.session.account._id == accounts[i]) {
+        failueAccounts.push(account.name);
+
+      }
+
+
+      var contact = new Contact();
+      contact.owner = req.session.account;
+      contact.contacter = account;
+    })
+  }
+
 };
 
 exports.addContacts = function(req, res, next) {
