@@ -334,11 +334,11 @@ a {
 .contact-box:hover {
     cursor: pointer;
     margin: 4px;
-    background: -moz-linear-gradient(top, #FEFEFE 0, #EAE12C 120%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FEFEFE), color-stop(120%, #EAE12C));
-    background: -webkit-linear-gradient(top, #FEFEFE 0, #EAE12C 120%);
-    background: -o-linear-gradient(top, #FEFEFE 0, #EAE12C 120%);
-    background: -ms-linear-gradient(top, #FEFEFE 0, #EAE12C 120%);
+    background: -moz-linear-gradient(top, #FEFEFE 0, #F1EAA7 200%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FEFEFE), color-stop(200%, #F1EAA7));
+    background: -webkit-linear-gradient(top, #FEFEFE 0, #F1EAA7 200%);
+    background: -o-linear-gradient(top, #FEFEFE 0, #F1EAA7 200%);
+    background: -ms-linear-gradient(top, #FEFEFE 0, #F1EAA7 200%);
     border: solid 3px #EAEAA8;
 }
 

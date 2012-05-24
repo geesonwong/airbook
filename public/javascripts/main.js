@@ -143,7 +143,7 @@ $(function() {
   });
 
   //  增删名片
-  var getCard = function(that,url) {
+  var getCard = function(that, url) {
     if (!that.flag) {
       return;
     }
@@ -158,17 +158,19 @@ $(function() {
           div.attr('accountid', results[i]._id);
           $('#contact-panel')[0].appendChild(div[0]);
         }
-      } else
+      } else {
         messageDisplay(data.message);
+        $('#contact-panel').html('<h1>' + data.message + '</h1>');
+      }
     }, "json");
     $('#main>div:first').hide();
     $("#contact-men").show();
   }
 
   // 条目：随便看看
-  $('#random-results').click(function(){
+  $('#random-results').click(function() {
     var that = this;
-    getCard(that,"/randomResults");
+    getCard(that, "/randomResults");
   });
 
   // 条目：信息编辑
@@ -283,20 +285,22 @@ $(function() {
     });
   });
 
-
-  resizeAllInOne();
-
 //未归档联系人
 //todo
-  $('#homeless-contacts').click(function(){
+  $('#homeless-contacts').click(function() {
+//    alert('here');
     var that = this;
-    getCard(that,"/homelessContacts");
+    getCard(that, "/homelessContacts");
   });
 
 //我的联系人
 //todo
-  $('#my-contacts').click(function(){
+  $('#my-contacts').click(function() {
     var that = this;
-    getCard(that,"/myContacts");
+    getCard(that, "/myContacts");
   });
+
+  // 加载后执行
+  resizeAllInOne();// 重新布局
+  $('#homeless-contacts').trigger('click');//默认打开第一个未归档联系人
 }); //end
