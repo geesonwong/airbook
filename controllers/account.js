@@ -9,6 +9,7 @@ var sanitize = require('validator').sanitize;
 var crypto = require('crypto');
 
 var config = require('../config').config;
+var constant = require('../utils/constant');
 
 // 注册
 exports.register = function(req, res, next) {
@@ -236,10 +237,10 @@ exports.createCollective = function(req, res, next) {
 //  格式化
   var name = sanitize(req.body.name).trim();
   name = sanitize(name).xss();
-  var password = sanitize(req.bosy.passworde).trim();
+  var password = sanitize(req.body.password).trim();
   password = sanitize(password).xss();
-  var repassword = sanitize(req.body.repassword).trim();
-  repassword = sanitize(repassword).xss();
+  var rePassword = sanitize(req.body.repassword).trim();
+  rePassword = sanitize(rePassword).xss();
   var firstName = sanitize(req.body.firstName).trim();
   firstName = sanitize(firstName).xss();
   var baseEmail = sanitize(req.body.baseEmail).trim();
@@ -254,21 +255,21 @@ exports.createCollective = function(req, res, next) {
   homepage = sanitize(homepage).xss();
 
 //  验证表单内容
-  if (name == '' || firstName==''|| password == '' || rePassword == '' || email == '') {
-    return _errorReturn(res, false, '信息不完整', name, email);
+  if (name == '' || firstName == '' || password == '' || rePassword == '' || baseEmail == '') {
+    return _errorReturn(res, false, '信息不完整', name, baseEmail);
   }
   if (name.length < 5) {
     return _errorReturn(res, false, '用户名至少需要5个字符', name, email);
-  }else  if (name.length > 20) {
-    return _errorReturn(res, false, '用户名最多20个字符', name, email);
+  } else if (name.length > 20) {
+    return _errorReturn(res, false, '用户名最多20个字符', name, baseEmail);
   }
   try {
     check(name, '用户名只能使用0-9，a-z，A-Z。').isAlphanumeric();
   } catch (e) {
-    return _errorReturn(res, false, e.message, name, email);
+    return _errorReturn(res, false, e.message, name, baseEmail);
   }
   if (password != rePassword) {
-    return _errorReturn(res, false, '两次密码输入不一致', name, email);
+    return _errorReturn(res, false, '两次密码输入不一致', name, baseEmail);
   }
   try {
     if (baseEmail && baseEmail != '')
@@ -299,37 +300,37 @@ exports.createCollective = function(req, res, next) {
 // 检查是否已被注册
   Account.find({'$or' : [
     {name : name},
-    {email : email}
+    {email : baseEmail}
   ]}, function(err, accounts) {
-    if (err) return next(err);
-    if (accounts) {
-      return  _errorReturn(res, false, '用户名或邮箱已被使用', name, email);
+    if (err)  return res.json({success : false, message : "系统出错"});
+    if (accounts.length) {
+      return res.json({success : false, message : "用户名或邮箱已被使用"});
     }
     // 对密码进行加密
     password = _md5(password);
     // 获取邮箱对应的Gvatar头像地址
-    var gvatar_url = 'http://www.gravatar.com/avatar/' + _md5(email);
+    var gvatar_url = 'http://www.gravatar.com/avatar/' + _md5(baseEmail);
 
     var account = new Account();
     account.name = name;
     account.password = password;
-    account.base_email = email;
+    account.base_email = baseEmail;
     account.photo_path = gvatar_url;
-    account.type = 1;
+    account.type = constant.accountType('group');
     account.creator_id = req.session.account._id;
     account.card = '<img src="' + account.photo_path + '?size=32" alt="">';
-    account.card += "<h2>"  + account.first_name + "</h2>";
+    account.card += "<h2>" + account.first_name + "</h2>";
     account.card += "<h3>邮箱:" + account.base_email + "</h3>";
     account.card += "<h3>电话：" + account.base_phone + "</h3>";
 
     account.save(function(error) {
-      if (error) return next(error);
+      if (error)  return res.json({success : false, message : "系统出错"});
       return res.json({success : true, message : "创建成功"});
     })
 
   });
 
-}
+};
 
 var _errorReturn = function(res, isLogin, errMsg, name, email) {
   console.log(errMsg);
