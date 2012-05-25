@@ -35,6 +35,27 @@ $(function() {
 
   // 事件：卡片的双击事件
   var contactBoxDblclick = function(e) {
+
+    $('#file-contacter-id-hidden').val($(this).attr('contactid'));
+    $('#file-contacter-dialog input')[1].value = $(this).attr('comment');
+    $('#file-contacter-dialog input')[2].value = $(this).attr('tags');
+    $("#file-contacter-dialog").dialog({resizable : false, width : 330, height : 'auto', modal : true, buttons : {
+      "就这样吧" : function() {
+        $.post('/fileContacter', $("#file-contacter-form").serialize(), function(data) {
+          if (data.success) {
+            messageDisplay('归档成功');
+            $('#file-contacter-dialog').dialog('close');
+          } else
+            messageDisplay(data.message);
+        }, "json");
+      },
+      '等下次哟…' : function() {
+        $(this).dialog("close");
+      }
+    }, show : { effect : 'drop', direction : "up" },
+      hide : {effect : "drop", direction : "up"}
+    });
+
   };
 
   // 事件：卡片的单击
@@ -48,7 +69,8 @@ $(function() {
   };
 
   $(".contact-box").live("click", contactBoxClick).live("dblclick", contactBoxDblclick);
-// 窗口的resize事件监听
+
+  // 窗口的resize事件监听
   $(window).resize(function() {
     resizeAllInOne();
   });
@@ -154,7 +176,8 @@ $(function() {
       }
       if (!$('#collectiveBaseEmail').val()) {
         return messageDisplay('邮箱不能为空');
-      } if (!patrnIsEmail.exec($('#collectiveBaseEmail').val())) {
+      }
+      if (!patrnIsEmail.exec($('#collectiveBaseEmail').val())) {
         return messageDisplay('邮箱格式不正确 ');
       }
       if (!$('#collectiveBasePhone').val()) {
@@ -162,14 +185,14 @@ $(function() {
       } else if (!patrnPhone.exec($('#collectiveBasePhone').val())) {
         return messageDisplay('不正确的号码格式');
       }
-      if ($('#collectiveQq').val()&&(!patrnIsQq.exec($('#collectiveQq').val()))){
+      if ($('#collectiveQq').val() && (!patrnIsQq.exec($('#collectiveQq').val()))) {
         return messageDisplay('不正确的QQ号码格式');
       }
 
-      if ($('#collectiveHomepage').val()&&(!patrnIsUrl.exec($('#collectiveHomepage').val()))){
+      if ($('#collectiveHomepage').val() && (!patrnIsUrl.exec($('#collectiveHomepage').val()))) {
         return messageDisplay('不正确的url格式');
       }
-       // 提交
+      // 提交
       $.post('/createCollective', $("#create-collective-form").serialize(), function(data) {
         if (data.success) {
           messageDisplay('创建集体成功');
@@ -209,13 +232,26 @@ $(function() {
     $.post(url, function(data) {
 
       if (data.success) {
-        var results = eval('(' + data.results + ')');
+        var results = JSON.parse(data.results)
         $('#contact-panel').html('');
-        for (var i in results) {
-          var div = $('<div class="contact-box"></div>');
-          div.html(results[i].card);
-          div.attr('accountid', results[i]._id);
-          $('#contact-panel')[0].appendChild(div[0]);
+        var i , div;
+        if (data.type == 'account') {// 随机查看
+          for (i in results) {
+            div = $('<div class="contact-box"></div>');
+            div.html(results[i].card);
+            div.attr('accountid', results[i]._id);
+            $('#contact-panel')[0].appendChild(div[0]);
+          }
+        } else {
+          for (i in results) {
+            div = $('<div class="contact-box"></div>');
+            div.html(results[i]._contacter.card);
+            div.attr('accountid', results[i]._contacter._id);
+            div.attr('contactid', results[i]._id);
+            div.attr('tags', results[i].tags.join(','));
+            div.attr('comment', results[i].comment);
+            $('#contact-panel')[0].appendChild(div[0]);
+          }
         }
       } else {
         messageDisplay(data.message);
@@ -224,7 +260,7 @@ $(function() {
     }, "json");
     $('#main>div:first').hide();
     $("#contact-men").show();
-  }
+  };
 
   // 条目：随便看看
   $('#random-results').click(function() {
@@ -273,9 +309,7 @@ $(function() {
 
   // 条目：修改名片
   $('#password-change').click(function() {
-    for (var input in $('.password-change-input')) {
-      $('.password-change-input')[input].value = '';
-    }
+    $('.password-change-input').val('');
     passwordChangeDialog();
   });
 
@@ -297,23 +331,20 @@ $(function() {
       resizable : false});
   });
 
-  // 图标：联系人卡片
-  $('.contact-box').dblclick(function(e) {
-    contactBoxDblclick(e)
-  });
-
-  // 图标：联系人卡片
-//  $('.contact-box').click(function(e) {
-//    contactBoxClick(e);
-//  });
-
   // 图标：添加联系人
   $('#add-contact').click(function() {
+    if (!$('.contact-box-checked').length) {
+      messageDisplay('没有选择联系人。可以按住ctrl多选哦');
+      return;
+    }
+    if (active[0] == $('#homeless-contacts')[0] || active[0] == $('#my-contacts')[0]) {
+      messageDisplay('已经是联系人');
+      return;
+    }
     var accounts = [];
     $('.contact-box-checked').each(function(index, e) {
       accounts.push(e.getAttribute('accountid'));
     });
-    if (accounts.length == 0) return;
     $.post('/addContacts', {accounts : accounts}, function(data) {
       if (data.success) {
         messageDisplay(data.message);
@@ -322,8 +353,26 @@ $(function() {
     }, "json");
   });
 
-  // 图标：添加联系人
+  // 图标：删除联系人
   $('#remove-contact').click(function() {
+    if (!$('.contact-box-checked').length) {
+      messageDisplay('没有选择联系人。可以按住ctrl多选哦');
+      return;
+    }
+    if (active[0] == $('#random-results')[0]) {
+      messageDisplay('未添加为联系人');
+      return;
+    }
+    var accounts = [];
+    $('.contact-box-checked').each(function(index, e) {
+      accounts.push(e.getAttribute('accountid'));
+    });
+    $.post('/removeContacts', {accounts : accounts}, function(data) {
+      if (data.success) {
+        messageDisplay(data.message);
+      } else
+        messageDisplay(data.message);
+    }, "json");
   });
 
   // 图标：退出登录
@@ -347,7 +396,6 @@ $(function() {
 //未归档联系人
   $('#homeless-contacts').click(
     function() {
-//    alert('here');
       var that = this;
       getCard(that, "/homelessContacts");
     }).trigger('click');
@@ -366,6 +414,6 @@ $(function() {
 
   // 加载后执行
   resizeAllInOne();// 重新布局
-//  $('#homeless-contacts').trigger('click');//默认打开第一个未归档联系人
+
 }); //end
 

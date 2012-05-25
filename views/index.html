@@ -232,15 +232,15 @@
   <form id="create-collective-form" action="/createCollective" method="post">
     <label style="display: block;">
       账户：<input type="text" placeholder="账户" class="form-input" id="collectiveName"
-                name="name" />
+                name="name"/>
     </label>
     <label style="display: block;">
       密码：<input type="password" placeholder="输入密码" class="form-input" id="collectivePassword"
-                  name="password"/>
+                name="password"/>
     </label>
     <label style="display: block;">
       *密码：<input type="password" placeholder="输入多一次密码" class="form-input"
-                     id="collectiveRepassword" name="repassword"/>
+                 id="collectiveRepassword" name="repassword"/>
     </label>
     <label style="display: block;">
       名字：<input type="text" placeholder="名字" class="form-input" id="collectiveFName"
@@ -264,6 +264,20 @@
       主页：<input type="text" placeholder="http://" class="form-input" id="collectiveHomepage"
                 name="homepage"/>
     </label>
+  </form>
+</div>
+
+
+<!-- 对话框：备注&添加标签 -->
+<div id="file-contacter-dialog" title="归档" style="display: none">
+  <form id="file-contacter-form" action="/changePassword" method="post">
+    <input id="file-contacter-id-hidden" type="hidden" name="contactid" value=""/>
+    <label style="display: block;">
+      备注：<input type="text" placeholder="给好友起个好备注吧" class="form-input password-change-input"
+                name="comment"/></label>
+    <label style="display: block;">
+      标签：<input type="text" placeholder="多个标签用“,”分割开" class="form-input password-change-input" id=""
+                name="tag"/></label>
   </form>
 </div>
 

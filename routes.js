@@ -18,7 +18,7 @@ exports = module.exports = function(app) {
 
   app.post('/register', account.register);
   app.post('/login', account.login);
-  app.post('/logout',site.logout);
+  app.post('/logout', site.logout);
 
   app.post('/changePassword', account.changePassword);
   app.post('/editAccount', account.updateAccount);
@@ -30,11 +30,12 @@ exports = module.exports = function(app) {
 
   app.post('/homelessContacts', contact.homelessContacts);
   app.post('/myContacts', contact.myContacts);
+  app.post('/fileContacter', contact.fileContacter);
 
   // mobile
   app.post('/m/getContacts', mcontact.getContactsList);
   app.post('/m/login', maccount.login);
-  app.post('/m/getContactDetail',mcontact.getContactDetail);
+  app.post('/m/getContactDetail', mcontact.getContactDetail);
 
 
 };

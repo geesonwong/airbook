@@ -61,10 +61,11 @@ exports.register = function(req, res, next) {
     account.base_email = email;
     account.photo_path = gvatar_url;
 
-    account.card = '<img src="' + account.photo_path + '?size=32" alt="">';
-    account.card += "<h2>" + account.last_name + ' ' + account.first_name + "</h2>";
-    account.card += "<h3>邮箱:" + account.base_email + "</h3>";
-    account.card += "<h3>电话：" + account.base_phone + "</h3>";
+    account.card = '<img class="card-photo" src="' + account.photo_path + '?size=32" alt="">';
+    account.card += "<div class='card-name'>" + account.last_name + ' ' + account.first_name + "</div>";
+    account.card += "<div class='card-homepage'><a style='font-size: 12px' target='_blank' href='" + account.homepage + "'> 主页地址</a></div>";
+    account.card += "<div class='card-mail'>邮箱：" + account.base_email + "</div>";
+    account.card += "<div class='card-phone'>电话：" + account.base_phone + "</div>";
 
     account.save(function(error) {
       if (error) return next(error);
@@ -254,12 +255,12 @@ exports.createCollective = function(req, res, next) {
   homepage = sanitize(homepage).xss();
 
 //  验证表单内容
-  if (name == '' || firstName==''|| password == '' || rePassword == '' || email == '') {
+  if (name == '' || firstName == '' || password == '' || rePassword == '' || email == '') {
     return _errorReturn(res, false, '信息不完整', name, email);
   }
   if (name.length < 5) {
     return _errorReturn(res, false, '用户名至少需要5个字符', name, email);
-  }else  if (name.length > 20) {
+  } else if (name.length > 20) {
     return _errorReturn(res, false, '用户名最多20个字符', name, email);
   }
   try {
@@ -318,7 +319,7 @@ exports.createCollective = function(req, res, next) {
     account.type = 1;
     account.creator_id = req.session.account._id;
     account.card = '<img src="' + account.photo_path + '?size=32" alt="">';
-    account.card += "<h2>"  + account.first_name + "</h2>";
+    account.card += "<h2>" + account.first_name + "</h2>";
     account.card += "<h3>邮箱:" + account.base_email + "</h3>";
     account.card += "<h3>电话：" + account.base_phone + "</h3>";
 
