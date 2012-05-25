@@ -51,24 +51,45 @@ exports.addContacts = function(req, res, next) {
 
     (function(n) {
       // 判断是否已经添加过了
-      Contact.find({owner : req.session.account._id})
-        .populate('contacter', null, {_id : {equals : accountIds[i]} }, {limit : 1}).run(function(err, contacter) {
-          if (err) return res.json({success : false, message : '系统错误'});
-          if (contacter) {
-            failueAccounts.push(contacter[0].contacter.name);
-            if (parseInt(n) == accountIds.length - 1)
-              proxy.trigger("v1", failueAccounts);
-            return;
+      Contact.find({_owner : req.session.account._id})
+        .populate('_contacter', ['_id', 'name']).run(function(err, contacts) {
+          if (err) console.log(err.message);
+          for (var j in contacts) {
+            if (contacts[j]._contacter.id == accountIds[i]) {
+              failueAccounts.push(contacts[j]._contacter.name);
+              if (parseInt(n) == accountIds.length - 1)
+                proxy.trigger("v1", failueAccounts);
+              return;
+            }
           }
-          // 成功了！
+          // 成功
           var contact = new Contact();
-          contact.owner = req.session.account._id;
-          contact.contacter = accountIds[i];
+          contact._owner = req.session.account._id;
+          contact._contacter = accountIds[i];
           contact.save(function(err) {
             if (err) return res.json({success : false, message : '系统错误'});
             if (parseInt(n) == accountIds.length - 1) proxy.trigger("v1", failueAccounts);
           })
+          Account.findById(req.session.account._id, function(err, account) {
+            account._contacts.push(contact);
+            account.save();
+          })
         });
+
+//      Account.findById(req.session.account._id).
+//        populate('_contacts').run(function(err, account) {
+//          if (err) return res.json({success : false, message : '系统错误'});
+//          if (account && account._contacts && account._contacts.length) {//存在该联系人
+//            for (var j in account._contacts) {
+//              if (account._contacts[j]._id == accountIds[i]) {
+////                failueAccounts.push();
+////                if (parseInt(n) == accountIds.length - 1)
+//                proxy.trigger("v1", failueAccounts);
+//                return;
+//              }
+//            }
+//          }
+//        });
     })(i);
   }
 };
@@ -83,8 +104,8 @@ exports.homelessContacts = function(req, res, next) {
   };
   proxy.assign("v1", post_card);
 
-  Contact.find({owner : req.session.account._id, pigeonhole : false})
-    .populate('contacter').run(function(err, contacts) {
+  Contact.find({_owner : req.session.account._id, pigeonhole : false})
+    .populate('_contacter').run(function(err, contacts) {
       if (err) {
         console.log(err.message);
         return res.json({success : false, message : '系统错误'});
@@ -92,7 +113,7 @@ exports.homelessContacts = function(req, res, next) {
       var accounts = [];
       if (contacts.length) {
         for (var i in contacts) {
-          accounts.push(contacts[i].contacter);
+          accounts.push(contacts[i]._contacter);
         }
         proxy.trigger("v1", accounts);
       } else {
@@ -111,13 +132,13 @@ exports.myContacts = function(req, res, next) {
   };
   proxy.assign("v1", post_card);
 
-  Contact.find({owner : req.session.account._id, pigeonhole : true})
-    .populate('contacter').run(function(err, contacts) {
+  Contact.find({_owner : req.session.account._id, pigeonhole : true})
+    .populate('_contacter').run(function(err, contacts) {
       if (err) return res.json({success : false, message : '系统错误'});
       var accounts = [];
       if (contacts.length) {
         for (var i in contacts) {
-          accounts.push(contacts.contacter);
+          accounts.push(contacts._contacter);
         }
         proxy.trigger("v1", accounts);
       } else {

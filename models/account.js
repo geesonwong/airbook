@@ -37,6 +37,9 @@ var AccountSchema = new Schema({
   homepage : {type : String},
   addr : {type : String},
   card : {type : String},
+  _contacts : [
+    {type : ObjectId, ref : 'Contact'}
+  ],
   creator_id : {type : ObjectId, ref : 'Account'},
   members : [
     {type : ObjectId, ref : 'Account'}
@@ -44,4 +47,4 @@ var AccountSchema = new Schema({
 });
 
 
-mongoose.model('Account', AccountSchema);
+mongoose.model('Account', AccountSchema, 'accounts');

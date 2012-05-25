@@ -12,8 +12,9 @@ exports.getContactsList = function(req, res, next) {
 
   var accountId = sanitize(req.body.accountId).trim().toLowerCase();
 
-  Contact.find({owner : accountId})
-    .populate('contacter', ['_id', 'base_email', 'base_phone', 'last_name', 'first_name', 'photo_path'])
+  Contact.find({_owner : accountId})
+    .populate('_contacter')
+//    .populate('contacter', ['_id', 'base_email', 'base_phone', 'last_name', 'first_name', 'photo_path'])
     .run(function(err, contacts) {
       if (err) return res.json({success : false, message : '系统错误'});
       for (var i in contacts) {
