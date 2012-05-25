@@ -128,6 +128,65 @@ $(function() {
       resizable : false});
   };
 
+//   对话框：创建集体
+  var createCollectiveDialog = function() {
+    var patrnName = /^[a-zA-Z]{1}([a-zA-Z0-9]){4,19}$/;  //检验名字
+    var patrnPhone = /^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/;  //检验电话号码
+    var patrnIsQq = /^\s*[.0-9]{5,10}\s*$/; //检验是否位数字
+    var patrnIsEmail = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/; //检验是否为email
+    var patrnIsUrl = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+
+    $("#create-collective-form *").val("");
+    $('#create-collective-dialog').dialog({width : 'auto', buttons : {'创建' : function() {
+      if (!$('#collectiveName').val()) {
+        return messageDisplay('帐号名不能为空');
+      } else if (!patrnName.exec($('#collectiveName').val())) {
+        return messageDisplay('用户名必须由5-20个以字母开头、可带数字的字串组成 ');
+      }
+      if (!$('#collectivePassword').val()) {
+        return messageDisplay('密码不能为空');
+      }
+      else if ($('#collectivePassword').val() != $('#collectiveRepassword').val()) {
+        return messageDisplay('两次输入密码不一致');
+      }
+      if (!$('#collectiveFName').val()) {
+        return messageDisplay('名字不能为空');
+      }
+      if (!$('#collectiveBaseEmail').val()) {
+        return messageDisplay('邮箱不能为空');
+      } if (!patrnIsEmail.exec($('#collectiveBaseEmail').val())) {
+        return messageDisplay('邮箱格式不正确 ');
+      }
+      if (!$('#collectiveBasePhone').val()) {
+        return messageDisplay('电话也是必须的哦');
+      } else if (!patrnPhone.exec($('#collectiveBasePhone').val())) {
+        return messageDisplay('不正确的号码格式');
+      }
+      if ($('#collectiveQq').val()&&(!patrnIsQq.exec($('#collectiveQq').val()))){
+        return messageDisplay('不正确的QQ号码格式');
+      }
+
+      if ($('#collectiveHomepage').val()&&(!patrnIsUrl.exec($('#collectiveHomepage').val()))){
+        return messageDisplay('不正确的url格式');
+      }
+       // 提交
+      $.post('/createCollective', $("#create-collective-form").serialize(), function(data) {
+        if (data.success) {
+          messageDisplay('创建集体成功');
+          $('#account-edit-dialog').dialog('close');
+        } else
+          messageDisplay(data.message);
+      }, "json");
+
+    }, '取消' : function() {
+      $('#create-collective-dialog').dialog('close');
+    }
+    }, show : { effect : 'drop', direction : "up" },
+      hide : {effect : "drop", direction : "up"}, modal : true,
+      resizable : false
+    });
+  };
+
   // ============导航栏的事件绑定============
 
   //导航背景反黑
@@ -143,7 +202,7 @@ $(function() {
   });
 
   //  增删名片
-  var getCard = function(that,url) {
+  var getCard = function(that, url) {
     if (!that.flag) {
       return;
     }
@@ -286,16 +345,23 @@ $(function() {
   });
 
 //未归档联系人
-  $('#homeless-contacts').click(function() {
+  $('#homeless-contacts').click(
+    function() {
 //    alert('here');
-    var that = this;
-    getCard(that, "/homelessContacts");
-  }).trigger('click');
+      var that = this;
+      getCard(that, "/homelessContacts");
+    }).trigger('click');
 
 //我的联系人
   $('#my-contacts').click(function() {
     var that = this;
     getCard(that, "/myContacts");
+  });
+
+//  创建集体
+
+  $("#create-collective").click(function() {
+    createCollectiveDialog();
   });
 
   // 加载后执行
