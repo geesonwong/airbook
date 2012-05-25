@@ -323,11 +323,9 @@ exports.createCollective = function(req, res, next) {
     account.card += "<h3>邮箱:" + account.base_email + "</h3>";
     account.card += "<h3>电话：" + account.base_phone + "</h3>";
 
-    account.save(function(error) {
-      if (error)  return res.json({success : false, message : "系统出错"});
+    account.save(function(error) {      if (error)  return res.json({success : false, message : "系统出错"});
       return res.json({success : true, message : "创建成功"});
     })
-
   });
 
 };
