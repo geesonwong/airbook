@@ -60,7 +60,7 @@
             <i class="item-icon"></i>
             <span class="">所有集体</span>
           </li>
-          <li class="item" title="我的通讯录中的联系人">
+          <li id="create-collective" class="item" title="我的通讯录中的联系人">
             <i class="item-icon"></i>
             <span class="">创建集体</span>
           </li>
@@ -230,28 +230,41 @@
 <!-- 对话框：创建集体 -->
 <div id="create-collective-dialog" title="<%=account.name%>的集体" style="display: none">
   <form id="create-collective-form" action="/createCollective" method="post">
-名字：<input type="text" placeholder="名字" class="form-input account-edit-input"  id="collectiveName"  name="name"/>
-<label style="display: block;">
-  邮箱：<input type="text" placeholder="邮箱" class="form-input account-edit-input" id="collectiveBaseEmail" name="baseEmail"
-            origin="<%=account.base_email || ''%>"
-            value="<%=account.base_email || ''%>"/></label>
-<label style="display: block;">
-  电话：<input type="text" placeholder="联系电话" class="form-input account-edit-input" id="collectiveBasePhone" name="basePhone"
-            origin="<%=account.base_phone || ''%>"
-            value="<%=account.base_phone || ''%>"/></label>
-<label style="display: block;">
-  Q Q：<input type="text" placeholder="QQ号码" class="form-input account-edit-input" id="collectiveQq" name="qq"
-             origin="<%=account.qq || ''%>"
-             value="<%=account.qq || ''%>"/></label>
-<label style="display: block;">
-  地址：<input type="text" placeholder="地址" class="form-input account-edit-input" id="collectiveAaddr" name="addr"
-            origin="<%=account.addr || ''%>"
-            value="<%=account.addr || ''%>"/></label>
-<label style="display: block;">
-  主页：<input type="text" placeholder="http://" class="form-input account-edit-input" id="collectiveHomepage" name="homepage"
-            origin="<%=account.homepage || ''%>"
-            value="<%=account.homepage || ''%>"/></label>
-</form>
+    <label style="display: block;">
+      账户：<input type="text" placeholder="账户" class="form-input" id="collectiveName"
+                name="name" />
+    </label>
+    <label style="display: block;">
+      密码：<input type="password" placeholder="输入密码" class="form-input" id="collectivePassword"
+                  name="password"/>
+    </label>
+    <label style="display: block;">
+      *密码：<input type="password" placeholder="输入多一次密码" class="form-input"
+                     id="collectiveRepassword" name="repassword"/>
+    </label>
+    <label style="display: block;">
+      名字：<input type="text" placeholder="名字" class="form-input" id="collectiveFName"
+                name="firstName"/>
+    </label>
+    <label style="display: block;">
+      邮箱：<input type="text" placeholder="邮箱" class="form-input" id="collectiveBaseEmail"
+                name="baseEmail"/>
+    </label>
+    <label style="display: block;">
+      电话：<input type="text" placeholder="联系电话" class="form-input" id="collectiveBasePhone"
+                name="basePhone"/>
+    </label>
+    <label style="display: block;">
+      Q Q：<input type="text" placeholder="QQ号码" class="form-input" id="collectiveQq" name="qq"/>
+    </label>
+    <label style="display: block;">
+      地址：<input type="text" placeholder="地址" class="form-input" id="collectiveAaddr" name="addr"/>
+    </label>
+    <label style="display: block;">
+      主页：<input type="text" placeholder="http://" class="form-input" id="collectiveHomepage"
+                name="homepage"/>
+    </label>
+  </form>
 </div>
 
 <!-- wrapper:end -->

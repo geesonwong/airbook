@@ -161,7 +161,6 @@ exports.changePassword = function(req, res, next) {
 
 // 修改个人信息
 exports.updateAccount = function(req, res, next) {
-
   var baseEmail = sanitize(req.body.baseEmail).trim();
   baseEmail = sanitize(baseEmail).xss();
   var basePhone = sanitize(req.body.basePhone).trim();
@@ -207,7 +206,7 @@ exports.updateAccount = function(req, res, next) {
 
   Account.findById(req.session.account._id, function(err, account) {
     if (err) return res.json({success : false, message : '发生系统错误'});
-    account.base_email = baseEmail;// TODO 判断是否已经存在
+    account.base_email = baseEmail;
     account.base_phone = basePhone;
     account.last_name = lastName;
     account.first_name = firstName;
@@ -230,7 +229,107 @@ exports.updateAccount = function(req, res, next) {
   })
 
 }
-;
+
+//创建集体
+exports.createCollective = function(req, res, next) {
+
+//  格式化
+  var name = sanitize(req.body.name).trim();
+  name = sanitize(name).xss();
+  var password = sanitize(req.bosy.passworde).trim();
+  password = sanitize(password).xss();
+  var repassword = sanitize(req.body.repassword).trim();
+  repassword = sanitize(repassword).xss();
+  var firstName = sanitize(req.body.firstName).trim();
+  firstName = sanitize(firstName).xss();
+  var baseEmail = sanitize(req.body.baseEmail).trim();
+  baseEmail = sanitize(baseEmail).xss();
+  var basePhone = sanitize(req.body.basePhone).trim();
+  basePhone = sanitize(basePhone).xss();
+  var qq = sanitize(req.body.qq).trim();
+  qq = sanitize(qq).xss();
+  var addr = sanitize(req.body.addr).trim();
+  addr = sanitize(addr).xss();
+  var homepage = sanitize(req.body.homepage).trim();
+  homepage = sanitize(homepage).xss();
+
+//  验证表单内容
+  if (name == '' || firstName==''|| password == '' || rePassword == '' || email == '') {
+    return _errorReturn(res, false, '信息不完整', name, email);
+  }
+  if (name.length < 5) {
+    return _errorReturn(res, false, '用户名至少需要5个字符', name, email);
+  }else  if (name.length > 20) {
+    return _errorReturn(res, false, '用户名最多20个字符', name, email);
+  }
+  try {
+    check(name, '用户名只能使用0-9，a-z，A-Z。').isAlphanumeric();
+  } catch (e) {
+    return _errorReturn(res, false, e.message, name, email);
+  }
+  if (password != rePassword) {
+    return _errorReturn(res, false, '两次密码输入不一致', name, email);
+  }
+  try {
+    if (baseEmail && baseEmail != '')
+      check(baseEmail, '不正确的电子邮箱').isEmail();
+  } catch (e) {
+    return res.json({success : false, message : e.message});
+  }
+  try {
+    if (basePhone && basePhone != '')
+      check(basePhone, '不正确的电话号码').isNumeric();
+  } catch (e) {
+    return res.json({success : false, message : e.message});
+  }
+
+  try {
+    if (qq && qq != '')
+      check(qq, '不正确的QQ号码').isNumeric();
+  } catch (e) {
+    return res.json({success : false, message : e.message});
+  }
+  try {
+    if (homepage && homepage != '')
+      check(homepage, '不正确的主页访问地址').isUrl();
+  } catch (e) {
+    return res.json({success : false, message : e.message});
+  }
+
+// 检查是否已被注册
+  Account.find({'$or' : [
+    {name : name},
+    {email : email}
+  ]}, function(err, accounts) {
+    if (err) return next(err);
+    if (accounts) {
+      return  _errorReturn(res, false, '用户名或邮箱已被使用', name, email);
+    }
+    // 对密码进行加密
+    password = _md5(password);
+    // 获取邮箱对应的Gvatar头像地址
+    var gvatar_url = 'http://www.gravatar.com/avatar/' + _md5(email);
+
+    var account = new Account();
+    account.name = name;
+    account.password = password;
+    account.base_email = email;
+    account.photo_path = gvatar_url;
+    account.type = 1;
+    account.creator_id = req.session.account._id;
+    account.card = '<img src="' + account.photo_path + '?size=32" alt="">';
+    account.card += "<h2>"  + account.first_name + "</h2>";
+    account.card += "<h3>邮箱:" + account.base_email + "</h3>";
+    account.card += "<h3>电话：" + account.base_phone + "</h3>";
+
+    account.save(function(error) {
+      if (error) return next(error);
+      return res.json({success : true, message : "创建成功"});
+    })
+
+  });
+
+}
 
 var _errorReturn = function(res, isLogin, errMsg, name, email) {
   console.log(errMsg);
@@ -259,3 +358,4 @@ var _decrypt = function(str, secret) {
   dec += decipher.final('utf8');
   return dec;
 };
+
