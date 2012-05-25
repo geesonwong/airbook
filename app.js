@@ -34,6 +34,11 @@ app.configure('development', function() {
   app.use(express.static(static_dir));
   app.use(express.errorHandler({ dumpExceptions : true, showStack : true }));
 });
+app.configure('development_m', function() {
+  app.use(express.static(static_dir));
+  app.use(express.errorHandler({ dumpExceptions : true, showStack : true }));
+  config.port = 4000;
+});
 
 app.configure('production', function() {
   var maxAge = 3600000 * 24 * 30;

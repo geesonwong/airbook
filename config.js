@@ -4,7 +4,7 @@
 
 exports.config = {
 
-  port : 4000,
+  port : 5000,
 
   app : {
     name : '空中电话本'

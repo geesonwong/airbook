@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
 
 var _state = {
   normal : 0, //单向
@@ -9,8 +8,8 @@ var _state = {
 };
 
 var ContactSchema = new Schema({
-  owner : {type : ObjectId, ref : 'Account'},
-  contacter : {type : ObjectId, ref : 'Account'},
+  _owner : {type : Schema.ObjectId, ref : 'Account'},
+  _contacter : {type : Schema.ObjectId, ref : 'Account'},
   comment : {type : String}, // 备注
   create_time : {type : Date, 'default' : Date.now}, // 创建时间
   state : {type : Number, 'default' : _state.normal}, // 状态
@@ -18,4 +17,4 @@ var ContactSchema = new Schema({
   tags : [String]
 });
 
-mongoose.model('Contact', ContactSchema);
+mongoose.model('Contact', ContactSchema, 'contacts');
