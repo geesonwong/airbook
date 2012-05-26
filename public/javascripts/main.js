@@ -204,12 +204,7 @@ $(function() {
       $.post('/createCollective', $("#create-collective-form").serialize(), function(data) {
         if (data.success) {
           messageDisplay('创建集体成功');
-<<<<<<< HEAD
           $('#create-collective-dialog').dialog('close');
-=======
-          $('#account-edit-dialog').dialog('close');
-          window.location.reload();
->>>>>>> airbook/master
         } else
           messageDisplay(data.message);
       }, "json");
@@ -278,17 +273,13 @@ $(function() {
   // 条目：随便看看
   $('#random-results').click(function() {
     var that = this;
-<<<<<<< HEAD
-    getCard(that, "/randomResults","#contact-panel","#contact-men");
-=======
-    getCard(that, "/randomUserResults");
+    getCard(that, "/randomUserResults",'#contact-panel','#contact-men');
   });
 
   // 条目：所有集体
   $('#all-groups').click(function() {
     var that = this;
-    getCard(that, "/randomGroupResults");
->>>>>>> airbook/master
+    getCard(that, "/randomGroupResults",'#contact-panel','#contact-men');
   });
 
   // 条目：信息编辑
@@ -336,33 +327,6 @@ $(function() {
     passwordChangeDialog();
   });
 
-//  我的集体
-  $('#my-collective').click(function() {
-    var that = this;
-    getCard(that, "/myCollective","#collective-panel","#collective-men");
-//    $("#autocomplete").autocomplete({
-//      source:function(request,response){
-//        $.post()
-//      }
-//    });
-  });
-
-  //未归档联系人
-  $('#homeless-contacts').click( function() {
-      var that = this;
-      getCard(that, "/homelessContacts","#contact-panel","#contact-men");
-    }).trigger('click');
-
-//我的联系人
-  $('#my-contacts').click(function() {
-    var that = this;
-    getCard(that, "/myContacts","#contact-panel","#contact-men");
-  });
-
-//  创建集体
-  $("#create-collective").click(function() {
-    createCollectiveDialog();
-  });
   // ============图标的事件绑定============
 
   // 图标：头像
@@ -422,7 +386,6 @@ $(function() {
     $.post('/removeContacts', {accounts : accounts}, function(data) {
       if (data.success) {
         messageDisplay(data.message);
-        window.location.reload();
       } else
         messageDisplay(data.message);
     }, "json");
@@ -460,7 +423,23 @@ $(function() {
     });
   });
 
+//未归档联系人
+  $('#homeless-contacts').click(
+    function() {
+      var that = this;
+      getCard(that, "/homelessContacts",'#contact-panel','#contact-men');
+    }).trigger('click');
 
+//我的联系人
+  $('#my-contacts').click(function() {
+    var that = this;
+    getCard(that, "/myContacts",'#collective-panel','#collective-men');
+  });
+
+//  创建集体
+  $("#create-collective").click(function() {
+    createCollectiveDialog();
+  });
 
   // 加载后执行
   resizeAllInOne();// 重新布局
