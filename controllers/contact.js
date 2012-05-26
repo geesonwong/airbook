@@ -1,4 +1,5 @@
 var models = require('../models');
+var constant = require('../utils/constant');
 var Account = models.Account;
 var Contact = models.Contact;
 var item = models.Item;
@@ -136,6 +137,18 @@ exports.myContacts = function(req, res, next) {
       }
     });
 
+};
+
+//我的集体
+exports.myCollective = function(req, res, next) {
+  Account.find({creator_id : req.session.account._id, type : constant.accountType('group')})
+    .run(function(err, accounts) {
+      if (err) return res.json({success : false, message : '系统错误'});
+      if(!accounts.length){
+        return res.json({success : false,message : '您还没有创建过群哦'});
+      }
+      return res.json({success : true, type : 'account', results : JSON.stringify(accounts)});
+    });
 };
 
 exports.fileContacter = function(req, res, next) {
