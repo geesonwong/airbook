@@ -246,8 +246,12 @@ a {
     margin: 4px 4px 0 4px;
 }
 
-.item-icon {
+#homeless-contacts i {
     background-position: -20px 0;
+}
+
+#homeless-contacts i:hover {
+    background-position: -20px -20px;
 }
 
 .sep {
@@ -356,14 +360,15 @@ a {
     border: solid 3px #000000;
 }
 
-.addMembers{
-    display:inline-block;
-    position:relative;
-    left:90%;
-    top:-10px;
-    font-size:xx-large;
-    font-weight:bold;
+.addMembers {
+    display: inline-block;
+    position: relative;
+    left: 90%;
+    top: -10px;
+    font-size: xx-large;
+    font-weight: bold;
 }
+
 .form-box {
     width: 300px;
     border: 2px solid #C7D3DB;

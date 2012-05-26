@@ -103,7 +103,7 @@ exports.login = function(req, res, next) {
     req.session.account = account;
     res.local('account', req.session.account);
 
-    return next();
+    return res.redirect('/');
 
   });
 
