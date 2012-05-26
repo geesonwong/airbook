@@ -279,10 +279,34 @@ $(function() {
     getCard(that, "/randomUserResults",'#contact-panel','#contact-men');
   });
 
+  //  创建集体
+  $("#create-collective").click(function() {
+    createCollectiveDialog();
+  });
+
+  //  创建集体
+  $("#my-collective").click(function() {
+    var that = this;
+    getCard(that, "/myCollective",'#contact-panel','#contact-men');
+  });
+
   // 条目：所有集体
   $('#all-groups').click(function() {
     var that = this;
     getCard(that, "/randomGroupResults",'#contact-panel','#contact-men');
+  });
+
+  //未归档联系人
+  $('#homeless-contacts').click(
+    function() {
+      var that = this;
+      getCard(that, "/homelessContacts",'#contact-panel','#contact-men');
+    }).trigger('click');
+
+//我的联系人
+  $('#my-contacts').click(function() {
+    var that = this;
+    getCard(that, "/myContacts",'#collective-panel','#collective-men');
   });
 
   // 条目：信息编辑
@@ -424,24 +448,6 @@ $(function() {
     }, show : { effect : 'drop', direction : "up" },
       hide : {effect : "drop", direction : "up"}
     });
-  });
-
-//未归档联系人
-  $('#homeless-contacts').click(
-    function() {
-      var that = this;
-      getCard(that, "/homelessContacts",'#contact-panel','#contact-men');
-    }).trigger('click');
-
-//我的联系人
-  $('#my-contacts').click(function() {
-    var that = this;
-    getCard(that, "/myContacts",'#collective-panel','#collective-men');
-  });
-
-//  创建集体
-  $("#create-collective").click(function() {
-    createCollectiveDialog();
   });
 
   // 加载后执行
