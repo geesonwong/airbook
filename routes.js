@@ -16,15 +16,16 @@ exports = module.exports = function(app) {
   app.get('/register', site.register);
   app.get('/login', site.login, site.index);
 
-  app.post('/register', account.register);
-  app.post('/login', account.login);
+  app.post('/register', account.register, site.login);
+  app.post('/login', account.login, site.index);
   app.post('/logout', site.logout);
 
   app.post('/changePassword', account.changePassword);
   app.post('/editAccount', account.updateAccount);
-  app.post('/randomResults', contact.randomResults);
+  app.post('/randomUserResults', contact.randomUserResults);
 
-  app.post('/createCollective', account.createCollective);
+  app.post('/createCollective', account.createGroup);
+  app.post('/randomGroupResults', contact.randomGroupResults);
 
   app.post('/addContacts', contact.addContacts);
 

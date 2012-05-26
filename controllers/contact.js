@@ -10,15 +10,29 @@ var EventProxy = require('eventproxy').EventProxy;
 
 var check = require('validator').check;
 var sanitize = require('validator').sanitize;
-//var crypto = require('crypto');
 
 var config = require('../config').config;
+var constant = require('../utils/constant');
 
-// 返回全部结果
-exports.randomResults = function(req, res, next) {
-  Account.find({}, function(err, accounts) {
+// 返回全部用户结果
+exports.randomUserResults = function(req, res, next) {
+  Account.find({type : constant.accountType('user')}, function(err, accounts) {
     if (err) return res.json({success : false, message : '系统错误'});
-    res.json({success : true, type : 'account', results : JSON.stringify(accounts)});
+    if (accounts && accounts.length)
+      res.json({success : true, type : 'account', results : JSON.stringify(accounts)});
+    else
+      res.json({success : false, message : '当前系统没有用户'});
+  });
+};
+
+// 返回全部集体结果
+exports.randomGroupResults = function(req, res, next) {
+  Account.find({type : constant.accountType('group')}, function(err, accounts) {
+    if (err) return res.json({success : false, message : '系统错误'});
+    if (accounts && accounts.length)
+      res.json({success : true, type : 'account', results : JSON.stringify(accounts)});
+    else
+      res.json({success : false, message : '当前系统没有集体'});
   });
 };
 
@@ -30,7 +44,6 @@ exports.addContacts = function(req, res, next) {
 
   var accountIds = req.body.accounts;
   var failueAccounts = [];
-//  var flag = true;
 
   var add = function(v1) {
     if (v1.length) {
@@ -57,7 +70,7 @@ exports.addContacts = function(req, res, next) {
         .populate('_contacter', ['_id', 'name']).run(function(err, contacts) {
           if (err) console.log(err.message);
           for (var j in contacts) {
-            if (contacts[j]._contacter.id == accountIds[n]) {
+            if (contacts[j]._contacter._id == accountIds[n]) {
               failueAccounts.push(contacts[j]._contacter.name);
               if (parseInt(n) == accountIds.length - 1)
                 proxy.trigger("v1", failueAccounts);

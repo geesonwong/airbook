@@ -50,6 +50,8 @@ $(function() {
           if (data.success) {
             messageDisplay('归档成功');
             $('#file-contacter-dialog').dialog('close');
+            active[0] = $('#my-contacts');
+            $('#homeless-contacts').trigger('click');
           } else
             messageDisplay(data.message);
         }, "json");
@@ -100,7 +102,7 @@ $(function() {
   // ============对话框的定义============
 
   // 对话框：修改个人信息
-  var accountEditDialog = function() {
+  var accountEditDialog = function(necessary) {
     for (var i = 0 ; i < $('.account-edit-input').size() ; i++) {
       $('.account-edit-input')[i].value = $('.account-edit-input')[i].getAttribute('origin');
     }
@@ -117,6 +119,7 @@ $(function() {
             $('.account-edit-input')[i].setAttribute('origin', $('.account-edit-input')[i].value);
           }
           $('#account-edit-dialog').dialog('close');
+          window.location.reload();
         } else
           messageDisplay(data.message);
       }, "json");
@@ -202,6 +205,7 @@ $(function() {
         if (data.success) {
           messageDisplay('创建集体成功');
           $('#account-edit-dialog').dialog('close');
+          window.location.reload();
         } else
           messageDisplay(data.message);
       }, "json");
@@ -270,7 +274,13 @@ $(function() {
   // 条目：随便看看
   $('#random-results').click(function() {
     var that = this;
-    getCard(that, "/randomResults");
+    getCard(that, "/randomUserResults");
+  });
+
+  // 条目：所有集体
+  $('#all-groups').click(function() {
+    var that = this;
+    getCard(that, "/randomGroupResults");
   });
 
   // 条目：信息编辑
@@ -353,6 +363,8 @@ $(function() {
     $.post('/addContacts', {accounts : accounts}, function(data) {
       if (data.success) {
         messageDisplay(data.message);
+//        active[0] = $('#my-contacts');
+//        $('#random-results').trigger('click');
       } else
         messageDisplay(data.message);
     }, "json");
@@ -375,6 +387,7 @@ $(function() {
     $.post('/removeContacts', {accounts : accounts}, function(data) {
       if (data.success) {
         messageDisplay(data.message);
+        window.location.reload();
       } else
         messageDisplay(data.message);
     }, "json");
@@ -433,6 +446,15 @@ $(function() {
 
   // 加载后执行
   resizeAllInOne();// 重新布局
+
+  if ($('#firstName').val() == '' || $('#lastName').val() == '') {
+    accountEditDialog(true);
+    setTimeout(function() {
+      messageDisplay('你还未填写好你的个人信息，请填写好你的个人信息');
+    }, 1000)
+
+  }
+
 
 }); //end
 
