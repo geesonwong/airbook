@@ -205,6 +205,9 @@ $(function() {
         if (data.success) {
           messageDisplay('创建集体成功');
           $('#create-collective-dialog').dialog('close');
+          if($('#my-collective').hasClass('active')||$('#all-groups').hasClass('active')){
+            window.location.reload();
+          }
         } else
           messageDisplay(data.message);
       }, "json");
