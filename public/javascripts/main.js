@@ -36,15 +36,22 @@ $(function() {
   // 事件：卡片的双击事件
   var contactBoxDblclick = function(e) {
 
+    if (active[0] == $('#random-results')[0]) {
+      messageDisplay('请在联系人面板添加备注和标签');
+      return;
+    }
+
     $('#file-contacter-id-hidden').val($(this).attr('contactid'));
-    $('#file-contacter-dialog input')[1].value = $(this).attr('comment');
-    $('#file-contacter-dialog input')[2].value = $(this).attr('tags');
+    $('#file-contacter-dialog input')[1].value = $(this).attr('comment') || '';
+    $('#file-contacter-dialog input')[2].value = $(this).attr('tags') || '';
     $("#file-contacter-dialog").dialog({resizable : false, width : 330, height : 'auto', modal : true, buttons : {
       "就这样吧" : function() {
         $.post('/fileContacter', $("#file-contacter-form").serialize(), function(data) {
           if (data.success) {
             messageDisplay('归档成功');
             $('#file-contacter-dialog').dialog('close');
+            active[0] = $('#my-contacts');
+            $('#homeless-contacts').trigger('click');
           } else
             messageDisplay(data.message);
         }, "json");
@@ -95,7 +102,7 @@ $(function() {
   // ============对话框的定义============
 
   // 对话框：修改个人信息
-  var accountEditDialog = function() {
+  var accountEditDialog = function(necessary) {
     for (var i = 0 ; i < $('.account-edit-input').size() ; i++) {
       $('.account-edit-input')[i].value = $('.account-edit-input')[i].getAttribute('origin');
     }
@@ -112,6 +119,7 @@ $(function() {
             $('.account-edit-input')[i].setAttribute('origin', $('.account-edit-input')[i].value);
           }
           $('#account-edit-dialog').dialog('close');
+          window.location.reload();
         } else
           messageDisplay(data.message);
       }, "json");
@@ -196,7 +204,12 @@ $(function() {
       $.post('/createCollective', $("#create-collective-form").serialize(), function(data) {
         if (data.success) {
           messageDisplay('创建集体成功');
+<<<<<<< HEAD
           $('#create-collective-dialog').dialog('close');
+=======
+          $('#account-edit-dialog').dialog('close');
+          window.location.reload();
+>>>>>>> airbook/master
         } else
           messageDisplay(data.message);
       }, "json");
@@ -248,7 +261,7 @@ $(function() {
             div.html(results[i]._contacter.card);
             div.attr('accountid', results[i]._contacter._id);
             div.attr('contactid', results[i]._id);
-            div.attr('tags', results[i].tags.join(','));
+            div.attr('tags', results[i].tags.join(' '));
             div.attr('comment', results[i].comment);
             $(container)[0].appendChild(div[0]);
           }
@@ -265,7 +278,17 @@ $(function() {
   // 条目：随便看看
   $('#random-results').click(function() {
     var that = this;
+<<<<<<< HEAD
     getCard(that, "/randomResults","#contact-panel","#contact-men");
+=======
+    getCard(that, "/randomUserResults");
+  });
+
+  // 条目：所有集体
+  $('#all-groups').click(function() {
+    var that = this;
+    getCard(that, "/randomGroupResults");
+>>>>>>> airbook/master
   });
 
   // 条目：信息编辑
@@ -375,6 +398,8 @@ $(function() {
     $.post('/addContacts', {accounts : accounts}, function(data) {
       if (data.success) {
         messageDisplay(data.message);
+//        active[0] = $('#my-contacts');
+//        $('#random-results').trigger('click');
       } else
         messageDisplay(data.message);
     }, "json");
@@ -397,9 +422,24 @@ $(function() {
     $.post('/removeContacts', {accounts : accounts}, function(data) {
       if (data.success) {
         messageDisplay(data.message);
+        window.location.reload();
       } else
         messageDisplay(data.message);
     }, "json");
+  });
+
+  // 图标：归档联系人
+  $('#file-contact').click(function() {
+    if (!$('.contact-box-checked').length) {
+      messageDisplay('没有选择联系人');
+      return;
+    }
+    if (active[0] == $('#random-results')[0]) {
+      messageDisplay('未添加为联系人');
+      return;
+    }
+    $('.contact-box-checked').trigger('dblclick');
+    messageDisplay('只归档第一个选中者');
   });
 
   // 图标：退出登录
@@ -424,6 +464,15 @@ $(function() {
 
   // 加载后执行
   resizeAllInOne();// 重新布局
+
+  if ($('#firstName').val() == '' || $('#lastName').val() == '') {
+    accountEditDialog(true);
+    setTimeout(function() {
+      messageDisplay('你还未填写好你的个人信息，请填写好你的个人信息');
+    }, 1000)
+
+  }
+
 
 }); //end
 
