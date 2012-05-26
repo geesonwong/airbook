@@ -356,6 +356,14 @@ a {
     border: solid 3px #000000;
 }
 
+.addMembers{
+    display:inline-block;
+    position:relative;
+    left:90%;
+    top:-10px;
+    font-size:xx-large;
+    font-weight:bold;
+}
 .form-box {
     width: 300px;
     border: 2px solid #C7D3DB;

@@ -29,6 +29,8 @@ exports = module.exports = function(app) {
 
   app.post('/addContacts', contact.addContacts);
 
+  app.post('/myCollective', contact.myCollective);
+
   app.post('/homelessContacts', contact.homelessContacts);
   app.post('/myContacts', contact.myContacts);
   app.post('/fileContacter', contact.fileContacter);

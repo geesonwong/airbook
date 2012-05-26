@@ -204,8 +204,10 @@ $(function() {
       $.post('/createCollective', $("#create-collective-form").serialize(), function(data) {
         if (data.success) {
           messageDisplay('创建集体成功');
-          $('#account-edit-dialog').dialog('close');
-          window.location.reload();
+          $('#create-collective-dialog').dialog('close');
+          if($('#my-collective').hasClass('active')||$('#all-groups').hasClass('active')){
+            window.location.reload();
+          }
         } else
           messageDisplay(data.message);
       }, "json");
@@ -234,7 +236,7 @@ $(function() {
   });
 
   //  增删名片
-  var getCard = function(that, url) {
+  var getCard = function(that, url,container,outercontainer) {
     if (!that.flag) {
       return;
     }
@@ -242,14 +244,14 @@ $(function() {
 
       if (data.success) {
         var results = JSON.parse(data.results)
-        $('#contact-panel').html('');
+        $(container).html('');
         var i , div;
         if (data.type == 'account') {// 随机查看
           for (i in results) {
             div = $('<div class="contact-box"></div>');
             div.html(results[i].card);
             div.attr('accountid', results[i]._id);
-            $('#contact-panel')[0].appendChild(div[0]);
+            $(container)[0].appendChild(div[0]);
           }
         } else {
           for (i in results) {
@@ -259,28 +261,28 @@ $(function() {
             div.attr('contactid', results[i]._id);
             div.attr('tags', results[i].tags.join(' '));
             div.attr('comment', results[i].comment);
-            $('#contact-panel')[0].appendChild(div[0]);
+            $(container)[0].appendChild(div[0]);
           }
         }
       } else {
         messageDisplay(data.message);
-        $('#contact-panel').html('<div id="nothing-to-display">' + data.message + '</div>');
+        $(container).html('<div id="nothing-to-display">' + data.message + '</div>');
       }
     }, "json");
-    $('#main>div:first').hide();
-    $("#contact-men").show();
+    $('#main>div').hide();
+    $(outercontainer).show();
   };
 
   // 条目：随便看看
   $('#random-results').click(function() {
     var that = this;
-    getCard(that, "/randomUserResults");
+    getCard(that, "/randomUserResults",'#contact-panel','#contact-men');
   });
 
   // 条目：所有集体
   $('#all-groups').click(function() {
     var that = this;
-    getCard(that, "/randomGroupResults");
+    getCard(that, "/randomGroupResults",'#contact-panel','#contact-men');
   });
 
   // 条目：信息编辑
@@ -387,7 +389,6 @@ $(function() {
     $.post('/removeContacts', {accounts : accounts}, function(data) {
       if (data.success) {
         messageDisplay(data.message);
-        window.location.reload();
       } else
         messageDisplay(data.message);
     }, "json");
@@ -429,17 +430,16 @@ $(function() {
   $('#homeless-contacts').click(
     function() {
       var that = this;
-      getCard(that, "/homelessContacts");
+      getCard(that, "/homelessContacts",'#contact-panel','#contact-men');
     }).trigger('click');
 
 //我的联系人
   $('#my-contacts').click(function() {
     var that = this;
-    getCard(that, "/myContacts");
+    getCard(that, "/myContacts",'#collective-panel','#collective-men');
   });
 
 //  创建集体
-
   $("#create-collective").click(function() {
     createCollectiveDialog();
   });
