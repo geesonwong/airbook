@@ -36,9 +36,14 @@ $(function() {
   // 事件：卡片的双击事件
   var contactBoxDblclick = function(e) {
 
+    if (active[0] == $('#random-results')[0]) {
+      messageDisplay('请在联系人面板添加备注和标签');
+      return;
+    }
+
     $('#file-contacter-id-hidden').val($(this).attr('contactid'));
-    $('#file-contacter-dialog input')[1].value = $(this).attr('comment');
-    $('#file-contacter-dialog input')[2].value = $(this).attr('tags');
+    $('#file-contacter-dialog input')[1].value = $(this).attr('comment') || '';
+    $('#file-contacter-dialog input')[2].value = $(this).attr('tags') || '';
     $("#file-contacter-dialog").dialog({resizable : false, width : 330, height : 'auto', modal : true, buttons : {
       "就这样吧" : function() {
         $.post('/fileContacter', $("#file-contacter-form").serialize(), function(data) {
@@ -248,7 +253,7 @@ $(function() {
             div.html(results[i]._contacter.card);
             div.attr('accountid', results[i]._contacter._id);
             div.attr('contactid', results[i]._id);
-            div.attr('tags', results[i].tags.join(','));
+            div.attr('tags', results[i].tags.join(' '));
             div.attr('comment', results[i].comment);
             $('#contact-panel')[0].appendChild(div[0]);
           }
@@ -373,6 +378,20 @@ $(function() {
       } else
         messageDisplay(data.message);
     }, "json");
+  });
+
+  // 图标：归档联系人
+  $('#file-contact').click(function() {
+    if (!$('.contact-box-checked').length) {
+      messageDisplay('没有选择联系人');
+      return;
+    }
+    if (active[0] == $('#random-results')[0]) {
+      messageDisplay('未添加为联系人');
+      return;
+    }
+    $('.contact-box-checked').trigger('dblclick');
+    messageDisplay('只归档第一个选中者');
   });
 
   // 图标：退出登录

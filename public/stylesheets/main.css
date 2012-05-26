@@ -430,6 +430,14 @@ a {
     background-position: -99px -681px;
 }
 
+#file-contact {
+    background-position: -132px -649px;
+}
+
+#file-contact:hover {
+    background-position: -132px -681px;
+}
+
 .display-none {
     display: none;
 }
@@ -456,7 +464,7 @@ a {
     background-position: -264px -585px;
 }
 
-#nothing-to-display{
+#nothing-to-display {
     text-align: center;
     margin-top: 20%;
     color: grey;
@@ -468,4 +476,8 @@ a {
 }
 
 /**** Clearfix ****/
-.clearfix:after { content: ""; display: table;clear: both; }
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}

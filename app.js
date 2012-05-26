@@ -37,7 +37,7 @@ app.configure('development', function() {
 app.configure('development_m', function() {
   app.use(express.static(static_dir));
   app.use(express.errorHandler({ dumpExceptions : true, showStack : true }));
-  config.port = 4000;
+  config.port = 5000;
 });
 
 app.configure('production', function() {

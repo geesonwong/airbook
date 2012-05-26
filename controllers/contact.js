@@ -57,7 +57,7 @@ exports.addContacts = function(req, res, next) {
         .populate('_contacter', ['_id', 'name']).run(function(err, contacts) {
           if (err) console.log(err.message);
           for (var j in contacts) {
-            if (contacts[j]._contacter.id == accountIds[i]) {
+            if (contacts[j]._contacter.id == accountIds[n]) {
               failueAccounts.push(contacts[j]._contacter.name);
               if (parseInt(n) == accountIds.length - 1)
                 proxy.trigger("v1", failueAccounts);
@@ -67,15 +67,15 @@ exports.addContacts = function(req, res, next) {
           // 成功
           var contact = new Contact();
           contact._owner = req.session.account._id;
-          contact._contacter = accountIds[i];
+          contact._contacter = accountIds[n];
           contact.save(function(err) {
             if (err) return res.json({success : false, message : '系统错误'});
             if (parseInt(n) == accountIds.length - 1) proxy.trigger("v1", failueAccounts);
           })
-          Account.findById(req.session.account._id, function(err, account) {
-            account._contacts.push(contact);
-            account.save();
-          })
+//          Account.findById(req.session.account._id, function(err, account) {
+//            account._contacts.push(contact);
+//            account.save();
+//          })
         });
     })(i);
   }
@@ -150,7 +150,7 @@ exports.fileContacter = function(req, res, next) {
   Contact.findById(contactId, function(err, contact) {
     if (err) return res.json({success : false, message : '系统错误'});
 
-    tags = tags.split(',');
+    tags = tags.split(' ');
 
     contact.pigeonhole = true;//归档
     contact.comment = comment;
@@ -162,5 +162,14 @@ exports.fileContacter = function(req, res, next) {
     })
 
   });
+
+};
+
+exports.findByTags = function(req, res, next) {
+
+  var tags = sanitize(req.body.tags).trim();
+  tags = sanitize(tags).xss();
+
+  Contact.find()
 
 };
