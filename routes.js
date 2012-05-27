@@ -37,6 +37,7 @@ exports = module.exports = function(app) {
   app.post('/findByTags', contact.findByTags);
   app.post('/blackList', contact.blackList);
   app.post('/strangerList',contact.strangerList);
+  app.post('/removeContacts',contact.removeContacts);
   // mobile
   app.post('/m/getContacts', mcontact.getContactsList);
   app.post('/m/login', maccount.login);
