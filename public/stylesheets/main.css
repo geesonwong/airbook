@@ -246,12 +246,51 @@ a {
     margin: 4px 4px 0 4px;
 }
 
-#homeless-contacts i {
+#stranger i {
+    background-position: -120px 0;
+}
+
+#blacklist i {
+    background-position: -200px 0;
+}
+
+#my-contacts i {
     background-position: -20px 0;
 }
 
-#homeless-contacts i:hover {
-    background-position: -20px -20px;
+#account-edit i {
+    background-position: -160px 0;
+}
+
+#message-manager i {
+    background-position: -240px 0;
+}
+
+#random-results i {
+    background-position: -100px 0;
+}
+
+#all-groups i {
+    background-position: -100px 0;
+}
+
+#card-edit i {
+    background-position: -220px 0;
+}
+
+#password-change i {
+    background-position: -60px 0;
+}
+
+#my-collective i {
+    background-position: -140px 0;
+}
+
+#backup i {
+    background-position: -180px 0;
+}
+#create-collective i {
+    background-position: -80px 0;
 }
 
 .sep {
@@ -303,20 +342,20 @@ a {
     line-height: 40px;
     padding: 0 0 0 12px;
     white-space: nowrap;
-    border-bottom: 1px solid #C3C3C3;
+    border-bottom: 1px solid #9a9a9a;
     position: relative;
     -moz-box-shadow: 0 1px 0 white;
     -webkit-box-shadow: 0 1px 0 white;
     -o-box-shadow: 0 1px 0 white;
     box-shadow: 0 1px 0 white;
-    background: #FEFEFE;
-    background: -moz-linear-gradient(top, #FEFEFE 0, #F0F3F4 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FEFEFE), color-stop(100%, #F0F3F4));
-    background: -webkit-linear-gradient(top, #FEFEFE 0, #F0F3F4 100%);
-    background: -o-linear-gradient(top, #FEFEFE 0, #F0F3F4 100%);
-    background: -ms-linear-gradient(top, #FEFEFE 0, #F0F3F4 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fefefe', endColorstr = '#f0f3f4', GradientType = 0);
-    background: linear-gradient(top, #FEFEFE 0, #F0F3F4 100%);
+    background: #bcbcbc;
+    background: -moz-linear-gradient(top, #EEEEEE 0, #7B807B 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #EEEEEE), color-stop(100%, #7B807B));
+    background: -webkit-linear-gradient(top, #EEEEEE 0, #7B807B 100%);
+    background: -o-linear-gradient(top, #EEEEEE 0, #7B807B 100%);
+    background: -ms-linear-gradient(top, #EEEEEE 0, #7B807B 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#EEEEEE', endColorstr = '#7B807B', GradientType = 0);
+    background: linear-gradient(top, #EEEEEE 0, #7B807B 100%);
 }
 
 .contact-box {
@@ -428,7 +467,7 @@ a {
 }
 
 #add-contact {
-    background-position: -165px -649px;
+    background-position: -165px -585px;
 }
 
 #add-contact:hover {
@@ -436,7 +475,7 @@ a {
 }
 
 #remove-contact {
-    background-position: -99px -649px;
+    background-position: -99px -585px;
 }
 
 #remove-contact:hover {
@@ -444,7 +483,7 @@ a {
 }
 
 #file-contact {
-    background-position: -132px -649px;
+    background-position: -132px -585px;
 }
 
 #file-contact:hover {
@@ -477,15 +516,15 @@ a {
     background-position: -264px -585px;
 }
 
+#control-logout:hover {
+    background-position: -264px -649px;
+}
+
 #nothing-to-display {
     text-align: center;
     margin-top: 20%;
     color: grey;
     font: 40px bolder;
-}
-
-#control-logout:hover {
-    background-position: -264px -649px;
 }
 
 /**** Clearfix ****/

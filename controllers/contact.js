@@ -138,12 +138,7 @@ exports.myContacts = function(req, res, next) {
   Contact.find({_owner : req.session.account._id, pigeonhole : true})
     .populate('_contacter').run(function(err, contacts) {
       if (err) return res.json({success : false, message : '系统错误'});
-      var accounts = [];
       if (contacts.length) {
-//        for (var i in contacts) {
-//          accounts.push(contacts[i]._contacter);
-//        }
-//        proxy.trigger("v1", accounts);
         proxy.trigger("v1", contacts);
       } else {
         res.json({success : false, message : '您现在联系人为空'});
@@ -157,13 +152,14 @@ exports.myCollective = function(req, res, next) {
   Account.find({creator_id : req.session.account._id, type : constant.accountType('group')})
     .run(function(err, accounts) {
       if (err) return res.json({success : false, message : '系统错误'});
-      if(!accounts.length){
-        return res.json({success : false,message : '您还没有创建过群哦'});
+      if (!accounts.length) {
+        return res.json({success : false, message : '您还没有创建过群哦'});
       }
       return res.json({success : true, type : 'account', results : JSON.stringify(accounts)});
     });
 };
 
+// 归档联系人
 exports.fileContacter = function(req, res, next) {
 
   var contactId = sanitize(req.body.contactid).trim();
@@ -195,7 +191,21 @@ exports.findByTags = function(req, res, next) {
 
   var tags = sanitize(req.body.tags).trim();
   tags = sanitize(tags).xss();
+  tags = tags.split(' ');
 
-  Contact.find()
+  var accountType = sanitize(req.body.accountType).trim();
+  accountType = sanitize(accountType).xss();
+
+  if (accountType == 'user') {
+    Contact.where('_owner', req.session.account._id).where('tags').in(tags)
+      .populate('_contacter').run(function(err, contacts) {
+        if (err) return res.json({success : false, message : '系统错误'});
+        if (contacts.length) {
+          res.json({success : true, results : JSON.stringify(contacts)});
+        } else {
+          res.json({success : false, message : '搜索不到结果'});
+        }
+      });
+  }
 
 };

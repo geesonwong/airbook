@@ -33,6 +33,20 @@ $(function() {
 
   // ============事件============
 
+  $('#control-search input').keypress(function(e) {
+    if(e.keyCode == 13){
+      var data = {};
+      data.tags = $('#control-search input').val();
+      data.accountType = 'user';
+      $.post('/findByTags', data, function(data) {
+        if (data.success) {
+          console.log('dddddd');
+        } else
+          messageDisplay(data.message);
+      }, "json");
+    }
+  });
+
   // 事件：卡片的双击事件
   var contactBoxDblclick = function(e) {
 
@@ -205,7 +219,7 @@ $(function() {
         if (data.success) {
           messageDisplay('创建集体成功');
           $('#create-collective-dialog').dialog('close');
-          if($('#my-collective').hasClass('active')||$('#all-groups').hasClass('active')){
+          if ($('#my-collective').hasClass('active') || $('#all-groups').hasClass('active')) {
             window.location.reload();
           }
         } else
@@ -229,14 +243,25 @@ $(function() {
       this.flag = 0;
       return;
     }
+    active.find('i').css('backgroundPositionY', '0px');
     active.removeClass('active');
     $(this).addClass("active");
     this.flag = 1;
     active = $(this);
+    active.find('i').css('backgroundPositionY', '-20px');
   });
 
+  // 图标的切换监听
+//  $('#siderbar-in .item').mouseover(function() {
+//    $(this).find('i').css('backgroundPositionY', '-20px');
+//  });
+//
+//  $('#siderbar-in .item').mouseout(function() {
+//    $(this).find('i').css('backgroundPositionY', '0px');
+//  });
+
   //  增删名片
-  var getCard = function(that, url,container,outercontainer) {
+  var getCard = function(that, url, container, outercontainer) {
     if (!that.flag) {
       return;
     }
@@ -276,7 +301,7 @@ $(function() {
   // 条目：随便看看
   $('#random-results').click(function() {
     var that = this;
-    getCard(that, "/randomUserResults",'#contact-panel','#contact-men');
+    getCard(that, "/randomUserResults", '#contact-panel', '#contact-men');
   });
 
   //  创建集体
@@ -287,26 +312,26 @@ $(function() {
   //  创建集体
   $("#my-collective").click(function() {
     var that = this;
-    getCard(that, "/myCollective",'#contact-panel','#contact-men');
+    getCard(that, "/myCollective", '#contact-panel', '#contact-men');
   });
 
   // 条目：所有集体
   $('#all-groups').click(function() {
     var that = this;
-    getCard(that, "/randomGroupResults",'#contact-panel','#contact-men');
+    getCard(that, "/randomGroupResults", '#contact-panel', '#contact-men');
   });
 
   //未归档联系人
   $('#homeless-contacts').click(
     function() {
       var that = this;
-      getCard(that, "/homelessContacts",'#contact-panel','#contact-men');
+      getCard(that, "/homelessContacts", '#contact-panel', '#contact-men');
     }).trigger('click');
 
 //我的联系人
   $('#my-contacts').click(function() {
     var that = this;
-    getCard(that, "/myContacts",'#collective-panel','#collective-men');
+    getCard(that, "/myContacts", '#collective-panel', '#collective-men');
   });
 
   // 条目：信息编辑
@@ -364,7 +389,7 @@ $(function() {
   // 图标：LOGO，关于空中电话本
   $('#header-left').click(function(e) {
     $('#about-airbook-dialog').dialog({ buttons : {
-      '好的' : function() {
+      '很开心了啦～' : function() {
         $('#about-airbook-dialog').dialog('close');
       }
     }, show : { effect : 'drop', direction : "up" },
