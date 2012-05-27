@@ -75,6 +75,24 @@ exports.addContacts = function(req, res, next) {
               return;
             }
           }
+        //判断对方是否已将我加为好友
+
+//          Contact.findOne({_contacter : req.session.account._id, _owner : constant.stateType("normal")},function(err,contacter){
+//    if(contacter.length){
+//      for(var i in contacter){
+//        Contact.findOne({_owner : req.session.account._id, _contacter:_owner,state : constant.stateType("normal")},function(err,contacter){
+//          if(contacter.length){
+//            contact.update({_owner : req.session.account._id, _contacter:_owner},{state : constant.stateType("friend")},function(err) {
+//              if (err) return res.json({success : false, message : '系统错误'});
+//              contact.update({_owner : _contacter, _contacter:req.session.account._id},{state : constant.stateType("friend")},function(){
+//              });
+//            }
+//            })
+//          }
+//        });
+//      }
+//    }
+//  });
           // 成功
           var contact = new Contact();
           contact._owner = req.session.account._id;
@@ -105,7 +123,7 @@ exports.homelessContacts = function(req, res, next) {
   proxy.assign("v1", post_card);
 
   Contact.find({_owner : req.session.account._id, pigeonhole : false})
-    .where('state').in([constant.stateType('normal'),constant.stateType('friend')])
+    .where('state').in([constant.stateType('normal'), constant.stateType('friend')])
     .populate('_contacter').run(function(err, contacts) {
       if (err) return res.json({success : false, message : '系统错误'});
       var accounts = [];
@@ -134,7 +152,7 @@ exports.myContacts = function(req, res, next) {
   proxy.assign("v1", post_card);
 
   Contact.find({_owner : req.session.account._id, pigeonhole : true})
-    .where('state').in([constant.stateType('normal'),constant.stateType('friend')])
+    .where('state').in([constant.stateType('normal'), constant.stateType('friend')])
     .populate('_contacter').run(function(err, contacts) {
       if (err) return res.json({success : false, message : '系统错误'});
       if (contacts.length) {
@@ -167,8 +185,7 @@ exports.fileContacter = function(req, res, next) {
   comment = sanitize(comment).xss();
   var tags = sanitize(req.body.tag).trim();
   tags = sanitize(tags).xss();
-  var blacklist = sanitize(req.body.forbid).trim();
-  blacklist = sanitize(blacklist).xss();
+  var blacklist = sanitize(req.body.forbid);
 
   Contact.findById(contactId, function(err, contact) {
     if (err) return res.json({success : false, message : '系统错误'});
@@ -178,8 +195,11 @@ exports.fileContacter = function(req, res, next) {
     contact.pigeonhole = true;//归档
     contact.comment = comment;
     contact.tags = tags;
-    if(blacklist=="on"){
+    if (blacklist.str == "on") {
       contact.state = constant.stateType('forbid');
+    }
+    else {
+      contact.state = constant.stateType('normal');   //TODO
     }
 
     contact.save(function(err) {
@@ -205,7 +225,7 @@ exports.findByTags = function(req, res, next) {
       .populate('_contacter').run(function(err, contacts) {
         if (err) return res.json({success : false, message : '系统错误'});
         if (contacts.length) {
-          res.json({success : true, results : JSON.stringify(contacts)});
+          res.json({success : true, type : 'contact', results : JSON.stringify(contacts)});
         } else {
           res.json({success : false, message : '搜索不到结果'});
         }
@@ -215,14 +235,27 @@ exports.findByTags = function(req, res, next) {
 };
 
 //黑名单
-exports.blackList = function(req,res,next){
-  Contact.find({state:constant.stateType("forbid")})
-  .populate('_contacter', ['_id','card']).run(function(err, contacts) {
+exports.blackList = function(req, res, next) {
+  Contact.find({_owner : req.session.account._id, state : constant.stateType("forbid")})
+    .populate('_contacter').run(function(err, contacts) {
       if (err) return res.json({success : false, message : '系统错误'});
       if (contacts.length) {
-        res.json({success : true, results : JSON.stringify(contacts)});
+        res.json({success : true, type : 'contact', results : JSON.stringify(contacts)});
       } else {
         res.json({success : false, message : '你的黑名单为空'});
+      }
+    });
+}
+
+//陌生人
+exports.strangerList = function(req, res, next){
+  Contact.find({_contacter : req.session.account._id, state : constant.stateType("normal")})
+    .populate('_owner').run(function(err, contacts) {
+      if (err) return res.json({success : false, message : '系统错误'});
+      if (contacts.length) {
+        res.json({success : true,results : JSON.stringify(contacts)});
+      } else {
+        res.json({success : false, message : '你的陌生人名单为空'});
       }
     });
 }

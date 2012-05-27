@@ -34,30 +34,43 @@ $(function() {
   // ============事件============
 
   $('#control-search input').keypress(function(e) {
-    if(e.keyCode == 13){
+    if (e.keyCode == 13) {
       var data = {};
       data.tags = $('#control-search input').val();
       data.accountType = 'user';
       $.post('/findByTags', data, function(data) {
         if (data.success) {
-          console.log('dddddd');
-        } else
+          var results = JSON.parse(data.results);
+          var i , div;
+          $('#main .tab:visible').children().get(1).innerHTML = '';
+          for (i in results) {
+            div = $('<div class="contact-box"></div>');
+            div.html(results[i]._contacter.card);
+            div.attr('accountid', results[i]._contacter._id);
+            div.attr('contactid', results[i]._id);
+            div.attr('tags', results[i].tags.join(' '));
+            div.attr('comment', results[i].comment);
+            $('#main .tab:visible').children().get(1).appendChild(div[0]);
+          }
+        } else {
           messageDisplay(data.message);
+          $('#main .tab:visible').children().get(1).innerHTML = '<div id="nothing-to-display">' + data.message + '</div>';
+        }
       }, "json");
     }
   });
 
   // 事件：卡片的双击事件
   var contactBoxDblclick = function(e) {
-    if (active[0] == $('#random-results')[0]) {
-      $('#forbid').attr('checked',true) ;
+    if ($(this).attr('state') == '2') {
+      $('#forbid').attr('checked', true);
     }
-    else{
-      $('#forbid').attr('checked',false) ;
+    else {
+      $('#forbid').attr('checked', false);
     }
     $('#file-contacter-id-hidden').val($(this).attr('contactid'));
     $('#file-contacter-dialog input')[1].value = $(this).attr('comment') || '';
-    $('#file-contacter-dialog label')[2].value = $(this).attr('tags') || '';
+    $('#file-contacter-dialog input')[2].value = $(this).attr('tags') || '';
 //    if (active[0] == $('#black-list')[0]) {
 //      messageDisplay('请在联系人面板添加备注和标签');
 //      return;
@@ -67,10 +80,16 @@ $(function() {
       "就这样吧" : function() {
         $.post('/fileContacter', $("#file-contacter-form").serialize(), function(data) {
           if (data.success) {
-            messageDisplay('归档成功');
             $('#file-contacter-dialog').dialog('close');
-            active[0] = $('#my-contacts');
-            $('#homeless-contacts').trigger('click');
+            if (active[0] == $('#my-contacts')[0]) {
+              messageDisplay('修改成功');
+              active = $('#homeless-contacts');
+              $('#my-contacts').trigger('click');
+            } else {
+              messageDisplay('归档成功');
+              active = $('#my-contacts');
+              $('#homeless-contacts').trigger('click');
+            }
           } else
             messageDisplay(data.message);
         }, "json");
@@ -291,6 +310,7 @@ $(function() {
             div.attr('contactid', results[i]._id);
             div.attr('tags', results[i].tags.join(' '));
             div.attr('comment', results[i].comment);
+            div.attr('state', results[i].state);
             $(container)[0].appendChild(div[0]);
           }
         }
@@ -303,23 +323,9 @@ $(function() {
     $(outercontainer).show();
   };
 
-//未归档联系人
-  $('#homeless-contacts').click(
-    function() {
-      var that = this;
-      getCard(that, "/homelessContacts", '#contact-panel', '#contact-men');
-    }).trigger('click');
-
-//已归档联系人
-  $('#my-contacts').click(function() {
-    var that = this;
-    getCard(that, "/myContacts",'#contact-panel','#contact-men');
-  });
-
   // 条目：随便看看
   $('#random-results').click(function() {
-    var that = this;
-    getCard(that, "/randomUserResults", '#contact-panel', '#contact-men');
+    getCard(this, "/randomUserResults", '#contact-panel', '#contact-men');
   });
 
   //  创建集体
@@ -329,21 +335,53 @@ $(function() {
 
   //  我的集体
   $("#my-collective").click(function() {
-    var that = this;
-    getCard(that, "/myCollective",'#collective-panel','#collective-men');
+    getCard(this, "/myCollective", '#collective-panel', '#collective-men');
   });
 
   // 条目：所有集体
   $('#all-groups').click(function() {
-    var that = this;
-    getCard(that, "/randomGroupResults", '#collective-panel', '#collective-men');
+    getCard(this, "/randomGroupResults", '#contact-panel', '#contact-men');
   });
 
-//  陌生人
+  //未归档联系人
+  $('#homeless-contacts').click(
+    function() {
+      getCard(this, "/homelessContacts", '#contact-panel', '#contact-men');
+    }).trigger('click');
 
-//  黑名单
+//已归档联系人
+  $('#my-contacts').click(function() {
+    getCard(this, "/myContacts", '#contact-panel', '#contact-men');
+  });
+
+//  条目：陌生人
+  $("#stranger").click(function() {
+    $.post('/strangerList', function(data) {
+
+      if (data.success) {
+        var results = JSON.parse(data.results)
+        $('#contact-panel').html('');
+        var i , div;
+        for (i in results) {
+          div = $('<div class="contact-box"></div>');
+          div.html(results[i]._owner.card);
+          div.attr('accountid', results[i]._owner._id);
+          div.attr('contactid', results[i]._id);
+          div.attr('tags', results[i].tags.join(' '));
+          div.attr('comment', results[i].comment);
+          div.attr('state', results[i].state);
+          $('#contact-panel')[0].appendChild(div[0]);
+        }
+      } else {
+        messageDisplay(data.message);
+        $('#contact-panel').html('<div id="nothing-to-display">' + data.message + '</div>');
+      }
+    }, "json");
+  });
+
+// 条目： 黑名单
   $('#black-list').click(function() {
-    getCard(this, "/blackList",'#contact-panel','#contact-men');
+    getCard(this, "/blackList", '#contact-panel', '#contact-men');
   });
 
   // 条目：信息编辑
@@ -390,7 +428,6 @@ $(function() {
     $('.password-change-input').val('');
     passwordChangeDialog();
   });
-
 
   // ============图标的事件绑定============
 
