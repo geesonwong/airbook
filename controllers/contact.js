@@ -201,7 +201,7 @@ exports.findByTags = function(req, res, next) {
       .populate('_contacter').run(function(err, contacts) {
         if (err) return res.json({success : false, message : '系统错误'});
         if (contacts.length) {
-          res.json({success : true, results : JSON.stringify(contacts)});
+          res.json({success : true, type : 'contact', results : JSON.stringify(contacts)});
         } else {
           res.json({success : false, message : '搜索不到结果'});
         }
