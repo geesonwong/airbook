@@ -354,36 +354,6 @@ $(function() {
     getCard(this, "/myContacts", '#contact-panel', '#contact-men');
   });
 
-//  条目：陌生人
-  $("#stranger").click(function() {
-    $.post('/strangerList', function(data) {
-
-      if (data.success) {
-        var results = JSON.parse(data.results)
-        $('#contact-panel').html('');
-        var i , div;
-        for (i in results) {
-          div = $('<div class="contact-box"></div>');
-          div.html(results[i]._owner.card);
-          div.attr('accountid', results[i]._owner._id);
-          div.attr('contactid', results[i]._id);
-          div.attr('tags', results[i].tags.join(' '));
-          div.attr('comment', results[i].comment);
-          div.attr('state', results[i].state);
-          $('#contact-panel')[0].appendChild(div[0]);
-        }
-      } else {
-        messageDisplay(data.message);
-        $('#contact-panel').html('<div id="nothing-to-display">' + data.message + '</div>');
-      }
-    }, "json");
-  });
-
-// 条目： 黑名单
-  $('#black-list').click(function() {
-    getCard(this, "/blackList", '#contact-panel', '#contact-men');
-  });
-
   // 条目：信息编辑
   $('#account-edit').click(function() {
     accountEditDialog()
@@ -464,7 +434,7 @@ $(function() {
     $.post('/addContacts', {accounts : accounts}, function(data) {
       if (data.success) {
         messageDisplay(data.message);
-//        active[0] = $('#my-contacts');
+//        active = $('#my-contacts');
 //        $('#random-results').trigger('click');
       } else
         messageDisplay(data.message);
