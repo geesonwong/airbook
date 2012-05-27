@@ -75,28 +75,22 @@ exports.addContacts = function(req, res, next) {
               return;
             }
           }
-        //判断对方是否已将我加为好友
 
-//          Contact.findOne({_contacter : req.session.account._id, _owner : constant.stateType("normal")},function(err,contacter){
-//    if(contacter.length){
-//      for(var i in contacter){
-//        Contact.findOne({_owner : req.session.account._id, _contacter:_owner,state : constant.stateType("normal")},function(err,contacter){
-//          if(contacter.length){
-//            contact.update({_owner : req.session.account._id, _contacter:_owner},{state : constant.stateType("friend")},function(err) {
-//              if (err) return res.json({success : false, message : '系统错误'});
-//              contact.update({_owner : _contacter, _contacter:req.session.account._id},{state : constant.stateType("friend")},function(){
-//              });
-//            }
-//            })
-//          }
-//        });
-//      }
-//    }
-//  });
           // 成功
           var contact = new Contact();
           contact._owner = req.session.account._id;
           contact._contacter = accountIds[n];
+
+          //判断对方是否为陌生人
+          Contact.findOne({_contacter : req.session.account._id, _owner : accountIds[n], state : constant.stateType("normal") }, function(err, contacter) {
+            if (err) return res.json({success : false, message : '系统错误'});
+            if (contacter) {
+              Contact.update({_owner : accountIds[n], _contacter : req.session.account._id}, {state : constant.stateType("friend")}, function(err) {
+                if (err) return res.json({success : false, message : '系统错误'});
+              });
+              contact.state = constant.stateType("friend");
+            }
+          });
           contact.save(function(err) {
             if (err) return res.json({success : false, message : '系统错误'});
             if (parseInt(n) == accountIds.length - 1) proxy.trigger("v1", failueAccounts);
@@ -152,6 +146,7 @@ exports.myContacts = function(req, res, next) {
   proxy.assign("v1", post_card);
 
   Contact.find({_owner : req.session.account._id, pigeonhole : true})
+//    .where('state').in([ constant.stateType('friend')])
     .where('state').in([constant.stateType('normal'), constant.stateType('friend')])
     .populate('_contacter').run(function(err, contacts) {
       if (err) return res.json({success : false, message : '系统错误'});
@@ -204,9 +199,14 @@ exports.fileContacter = function(req, res, next) {
 
     contact.save(function(err) {
       if (err) return res.json({success : false, message : '系统错误'});
+      Contact.findOne({_owner : contactId, _contacter : req.session.account._id})
+        .where('state').in([constant.stateType('normal'), constant.stateType('friend')])
+        .run(function(err, contacts) {
+          if (err) return res.json({success : false, message : '系统错误'});
+          Contact.remove({ _owner :contactId , _contacter :req.session.account._id});
+        });
       return res.json({success : true, message : '执行成功'});
     })
-
   });
 
 };
@@ -248,14 +248,51 @@ exports.blackList = function(req, res, next) {
 }
 
 //陌生人
-exports.strangerList = function(req, res, next){
-  Contact.find({_contacter : req.session.account._id, state : constant.stateType("normal")})
+exports.strangerList = function(req, res, next) {
+  Contact.find({_contacter : req.session.account._id})
+    .where('state').in([ constant.stateType('normal')])
     .populate('_owner').run(function(err, contacts) {
       if (err) return res.json({success : false, message : '系统错误'});
       if (contacts.length) {
-        res.json({success : true,results : JSON.stringify(contacts)});
+        res.json({success : true, results : JSON.stringify(contacts)});
       } else {
         res.json({success : false, message : '你的陌生人名单为空'});
       }
     });
 }
+
+//删除联系人
+
+exports.removeContacts = function(req, res, next) {
+  var accountIds = req.body.accounts;
+
+  for (var i in accountIds) {
+    // 判断是否删除的是自己
+    if (req.session.account._id == accountIds[i]) {
+      failueAccounts.push(req.session.account.name);
+      continue;
+    }
+
+    (function(n) {
+      //判断对方是否是我的联系人
+      Contact.findOne({ _owner : req.session.account._id, _contacter : accountIds[n], state : constant.stateType("normal") }, function(err, contacter) {
+        if (err) return res.json({success : false, message : '系统错误'});
+        if (contacter) {
+          Contact.remove({ _owner : req.session.account._id, _contacter : accountIds[n]}, function(err) {
+            if (err) return res.json({success : false, message : '系统错误'});
+            //判断我与对方是否互为好友
+            Contact.findOne({ _owner : accountIds[n], _contacter : req.session.account._id, state : constant.stateType("friend") }, function(err, contacter) {
+              if (err) return res.json({success : false, message : '系统错误'});
+              Contact.update({_owner : accountIds[n], _contacter : req.session.account._id}, {state : constant.stateType("normal")}, function(err) {
+                if (err) return res.json({success : false, message : '系统错误'});
+              });
+            })
+            res.json({success : false, message : "删除成功" });
+          });
+        }else{
+          res.json({success : false, message : "对方不是你的联系人" });
+        }
+      });
+    })(i);
+  }
+};
