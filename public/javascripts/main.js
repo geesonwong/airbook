@@ -284,10 +284,10 @@ $(function() {
     createCollectiveDialog();
   });
 
-  //  创建集体
+  //  我的集体
   $("#my-collective").click(function() {
     var that = this;
-    getCard(that, "/myCollective",'#contact-panel','#contact-men');
+    getCard(that, "/myCollective",'#collective-panel','#collective-men');
   });
 
   // 条目：所有集体
@@ -303,10 +303,10 @@ $(function() {
       getCard(that, "/homelessContacts",'#contact-panel','#contact-men');
     }).trigger('click');
 
-//我的联系人
+//已归档联系人
   $('#my-contacts').click(function() {
     var that = this;
-    getCard(that, "/myContacts",'#collective-panel','#collective-men');
+    getCard(that, "/myContacts",'#contact-panel','#contact-men');
   });
 
   // 条目：信息编辑
