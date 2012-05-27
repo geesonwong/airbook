@@ -318,7 +318,7 @@ exports.createGroup = function(req, res, next) {
     account.password = password;
     account.base_email = baseEmail;
     account.photo_path = gvatar_url;
-    account.type = constant.accountType('group');
+    account.type = constant.stateType('forbid');
     account.creator_id = req.session.account._id;
     account.card = '<img class="card-photo" src="' + account.photo_path + '?size=32" alt="">';
     account.card += "<div class='card-name'>" + account.first_name + "</div>";

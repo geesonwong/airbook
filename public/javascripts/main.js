@@ -49,15 +49,20 @@ $(function() {
 
   // 事件：卡片的双击事件
   var contactBoxDblclick = function(e) {
-
     if (active[0] == $('#random-results')[0]) {
-      messageDisplay('请在联系人面板添加备注和标签');
-      return;
+      $('#forbid').attr('checked',true) ;
     }
-
+    else{
+      $('#forbid').attr('checked',false) ;
+    }
     $('#file-contacter-id-hidden').val($(this).attr('contactid'));
     $('#file-contacter-dialog input')[1].value = $(this).attr('comment') || '';
-    $('#file-contacter-dialog input')[2].value = $(this).attr('tags') || '';
+    $('#file-contacter-dialog label')[2].value = $(this).attr('tags') || '';
+//    if (active[0] == $('#black-list')[0]) {
+//      messageDisplay('请在联系人面板添加备注和标签');
+//      return;
+//    }
+
     $("#file-contacter-dialog").dialog({resizable : false, width : 330, height : 'auto', modal : true, buttons : {
       "就这样吧" : function() {
         $.post('/fileContacter', $("#file-contacter-form").serialize(), function(data) {
@@ -298,6 +303,19 @@ $(function() {
     $(outercontainer).show();
   };
 
+//未归档联系人
+  $('#homeless-contacts').click(
+    function() {
+      var that = this;
+      getCard(that, "/homelessContacts", '#contact-panel', '#contact-men');
+    }).trigger('click');
+
+//已归档联系人
+  $('#my-contacts').click(function() {
+    var that = this;
+    getCard(that, "/myContacts",'#contact-panel','#contact-men');
+  });
+
   // 条目：随便看看
   $('#random-results').click(function() {
     var that = this;
@@ -318,20 +336,14 @@ $(function() {
   // 条目：所有集体
   $('#all-groups').click(function() {
     var that = this;
-    getCard(that, "/randomGroupResults", '#contact-panel', '#contact-men');
+    getCard(that, "/randomGroupResults", '#collective-panel', '#collective-men');
   });
 
-  //未归档联系人
-  $('#homeless-contacts').click(
-    function() {
-      var that = this;
-      getCard(that, "/homelessContacts", '#contact-panel', '#contact-men');
-    }).trigger('click');
+//  陌生人
 
-//已归档联系人
-  $('#my-contacts').click(function() {
-    var that = this;
-    getCard(that, "/myContacts",'#contact-panel','#contact-men');
+//  黑名单
+  $('#black-list').click(function() {
+    getCard(this, "/blackList",'#contact-panel','#contact-men');
   });
 
   // 条目：信息编辑
@@ -378,6 +390,7 @@ $(function() {
     $('.password-change-input').val('');
     passwordChangeDialog();
   });
+
 
   // ============图标的事件绑定============
 

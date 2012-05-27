@@ -39,10 +39,7 @@ exports.randomGroupResults = function(req, res, next) {
 
 // 添加联系人
 exports.addContacts = function(req, res, next) {
-
-
   var proxy = new EventProxy();
-
   var accountIds = req.body.accounts;
   var failueAccounts = [];
 
@@ -108,6 +105,7 @@ exports.homelessContacts = function(req, res, next) {
   proxy.assign("v1", post_card);
 
   Contact.find({_owner : req.session.account._id, pigeonhole : false})
+    .where('state').in([constant.stateType('normal'),constant.stateType('friend')])
     .populate('_contacter').run(function(err, contacts) {
       if (err) return res.json({success : false, message : '系统错误'});
       var accounts = [];
@@ -136,6 +134,7 @@ exports.myContacts = function(req, res, next) {
   proxy.assign("v1", post_card);
 
   Contact.find({_owner : req.session.account._id, pigeonhole : true})
+    .where('state').in([constant.stateType('normal'),constant.stateType('friend')])
     .populate('_contacter').run(function(err, contacts) {
       if (err) return res.json({success : false, message : '系统错误'});
       if (contacts.length) {
@@ -168,6 +167,8 @@ exports.fileContacter = function(req, res, next) {
   comment = sanitize(comment).xss();
   var tags = sanitize(req.body.tag).trim();
   tags = sanitize(tags).xss();
+  var blacklist = sanitize(req.body.forbid).trim();
+  blacklist = sanitize(blacklist).xss();
 
   Contact.findById(contactId, function(err, contact) {
     if (err) return res.json({success : false, message : '系统错误'});
@@ -177,6 +178,9 @@ exports.fileContacter = function(req, res, next) {
     contact.pigeonhole = true;//归档
     contact.comment = comment;
     contact.tags = tags;
+    if(blacklist=="on"){
+      contact.state = constant.stateType('forbid');
+    }
 
     contact.save(function(err) {
       if (err) return res.json({success : false, message : '系统错误'});
@@ -209,3 +213,16 @@ exports.findByTags = function(req, res, next) {
   }
 
 };
+
+//黑名单
+exports.blackList = function(req,res,next){
+  Contact.find({state:constant.stateType("forbid")})
+  .populate('_contacter', ['_id','card']).run(function(err, contacts) {
+      if (err) return res.json({success : false, message : '系统错误'});
+      if (contacts.length) {
+        res.json({success : true, results : JSON.stringify(contacts)});
+      } else {
+        res.json({success : false, message : '你的黑名单为空'});
+      }
+    });
+}
